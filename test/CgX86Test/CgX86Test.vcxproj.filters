@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="support">
+      <UniqueIdentifier>{ce8b1136-744c-4f93-ab78-27b9957a10a7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Targets\x86\Cg\precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Targets\x86\Cg\precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="X86FunctorTest.cpp" />
+    <ClCompile Include="cgx86_test_main.cpp" />
+    <ClCompile Include="..\..\src\Targets\x86\Cg\Instructions\X86Description.cpp" />
+    <ClCompile Include="X86DisasmTest.cpp" />
+  </ItemGroup>
+</Project>

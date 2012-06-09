@@ -1,0 +1,15 @@
+// @(#)$Id$
+// TestThrow.ev
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+  public void TestThrow(int a) {
+    if (a == 0) {
+      throw new Exception("Foo");
+    }
+  }
+}
+} // Sample

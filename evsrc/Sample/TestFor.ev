@@ -1,0 +1,15 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public void testFor() {
+        for (var i = 0; i < 10; i++) {
+            Common.Console.WriteLine("{0}", i);
+        } // for i
+    } // testFor
+} // SampleClass
+
+} // Sample

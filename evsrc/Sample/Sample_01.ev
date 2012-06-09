@@ -1,0 +1,16 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public static void Main(String[] argv) {
+        var a = 1;
+        var b = 2;
+        var c = 3;
+        Common.Console.WriteLine("Hello World! {0}==7", a + b * c, argv);
+    } // Main
+} // SampleClass
+
+} // Sample

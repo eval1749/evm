@@ -1,0 +1,39 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public void testDo() {
+        var a = false;
+        do {
+            a = foo(1, 2, 3);
+        } while (a);
+    } // testDo
+
+    public void testWhile() {
+        while (foo(1, 2, 3)) {
+            if (bar(1, 2, 3) != null) {
+                break;
+            } // if
+        } // while
+    } // testWhile
+
+    public Object bar(Object a, Object b, Object c) {
+        var d = a;
+        d = d ?? b;
+        return d;
+    } // bar
+
+    public bool foo(int x, int y, int z) {
+        var a = x > y ? "gt" : "le";
+        if (x == y && y == z) {
+            Common.Console.WriteLine("then");
+        } else {
+            Common.Console.WriteLine("else");
+        } // if
+    } // foo
+} // SampleClass
+
+} // Sample

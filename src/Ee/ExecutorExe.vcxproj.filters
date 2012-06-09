@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="support">
+      <UniqueIdentifier>{127e0f16-f6ff-446d-a19c-eaa5223a394b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{a32f246b-3e74-42a1-be38-6f628dcb55fb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutorMain.cpp" />
+    <ClCompile Include="..\Targets\x86\Cg\Instructions\X86Description.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands\CommandContext.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands\CommandManager.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands\CommandManager.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands\Command.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands\CommandContext.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

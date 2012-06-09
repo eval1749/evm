@@ -1,0 +1,41 @@
+// @(#)$Id$
+// TestProperty.ev
+
+namespace Sample {
+
+using Common;
+
+class Foo {
+  private int x;
+  private static int16 marker;
+
+  public static int16 Marker {
+    get {
+      return marker;
+    }
+
+    set {
+      marker = value;
+    }
+  }
+
+  // Automatic property requires both "get" and "set", otherwise
+  // Parse_Property_BadAutomatic.
+  public char State {
+    get;
+    set;
+  }
+
+  public int X {
+    get {
+      return this.x;
+      //return; // Parse_Stmt_Return_NoValue
+    }
+
+    set {
+      this.x = value;
+    }
+  }
+}
+
+}

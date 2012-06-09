@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Collections">
+      <UniqueIdentifier>{24f1e063-490f-4762-9954-5c273455a290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Io">
+      <UniqueIdentifier>{c9431d04-82d1-46cd-a724-030cd514cec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Numerics">
+      <UniqueIdentifier>{d64197fd-67bc-45e6-8689-1c251f47e26b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="support">
+      <UniqueIdentifier>{1c69016a-09ee-4a54-a659-eedacf25c44b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CharTest.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="StringTest.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilTest.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="common_test_main.cpp" />
+    <ClCompile Include="StringBuilderTest.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\ArrayTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\ArrayListTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\HashMapTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\QueueTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\StackTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\HashSetTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\MemoryStreamTest.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\CollectionTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="FormatterTest.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\StringWriterTest.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonTest.cpp" />
+    <ClCompile Include="Collections\BinaryTreeTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\Decimal128Test.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\Decimal128MoreTest.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\Decimal128ImplTest.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="Collections\VectorTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\BigIntegerTest.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\BigIntegerImplTest.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\Decimal64ImplTest.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CommonTest.h" />
+    <ClInclude Include="AbstractCommonTest.h" />
+    <ClInclude Include="AbstractDecimal128Test.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Numerics\AbstractDecimal128Test.h">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

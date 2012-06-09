@@ -1,0 +1,13 @@
+// Array construction
+namespace ArrayTest {
+using Common;
+class ArrayTestApp {
+  public static void Main() {
+    char[] chars = new char[10];
+    for (var i = 0; i < chars.Length; ++i) {
+      chars[i] = 'x';
+    }
+    Console.WriteLine("%s", chars);
+  }
+}
+} // ArrayTest

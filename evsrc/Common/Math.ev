@@ -1,0 +1,34 @@
+// @(#)$Id$
+//
+// Evita Basic Library - Common Math
+// Copyright (C) 2010-2011 by Project Vogue.
+
+namespace Common {
+
+static class Math {
+  public Float32 Max(Float32 a, Float32 b) {
+    if (a.IsNaN())
+      return a;
+    if (b.IsNan())
+      return b;
+    return a >= b ? a : b;
+  }
+
+  public Float64 Max(Float64 a, Float64 b) {
+    if (a.IsNaN())
+      return a;
+    if (b.IsNan())
+      return b;
+    return a >= b ? a : b;
+  }
+
+  public T Max<T>(T a, T b) where T : Comparable<T> {
+    return a.CompareTo(b) >= 0 ? a : b;
+  }
+
+  public T Min<T>(T a, T b) where T : Comparable<T> {
+    return a.CompareTo(b) <= 0 ? a : b;
+  }
+}
+
+} // Common

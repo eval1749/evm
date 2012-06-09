@@ -1,0 +1,32 @@
+// @(#)$Id$
+// TestUsing.ev
+
+namespace CompilerTest {
+
+using Common;
+
+class TestUsing : Disposable {
+ public void Foo() {
+   using (var x = new TestUsing()) {
+     Console.WriteLine("%s", x);
+   }
+
+   using (TestUsing x = new TestUsing()) {
+     Console.WriteLine("%s", x);
+   }
+
+   using ((new TestUsing())) {
+     Console.WriteLine("No variable declaration");
+   }
+
+   using (new TestUsing()) {
+     Console.WriteLine("No variable declaration");
+   }
+ }
+
+  void Dispose() {
+    Console.WriteLine("Dispose");
+  }
+}
+
+} // CompilerTest

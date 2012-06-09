@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{118DFF72-858D-4EF3-8C7C-AFF91F983992}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>CompilerTest</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalIncludeDirectories>..\..\src;d:\proj\gtest-1.6.0\include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>gtestd.lib;kernel32.lib;user32.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalIncludeDirectories>..\..\src;d:\proj\gtest-1.6.0\include</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>gtest.lib;kernel32.lib;user32.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Compiler\precomp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Il\Ir\Instructions\Description.cpp" />
+    <ClCompile Include="..\Il\IlTest.cpp" />
+    <ClCompile Include="AbstractCompilerTest.cpp" />
+    <ClCompile Include="Compiler\SourceBufferTest.cpp" />
+    <ClCompile Include="compiler_test_main.cpp" />
+    <ClCompile Include="DomBuilder.cpp" />
+    <ClCompile Include="DomNode.cpp" />
+    <ClCompile Include="ErrorItem.cpp" />
+    <ClCompile Include="Passes\AbstractPassTest.cpp" />
+    <ClCompile Include="Passes\FinalizeClassPassTest.cpp" />
+    <ClCompile Include="Passes\FinalizeEnumPassTest.cpp" />
+    <ClCompile Include="Passes\ResolveClassPassTest.cpp" />
+    <ClCompile Include="Passes\ResolveMethodPassTest.cpp" />
+    <ClCompile Include="Syntax\AbstractLexerTest.cpp" />
+    <ClCompile Include="Syntax\AbstractParserTest.cpp" />
+    <ClCompile Include="Syntax\LexerTest.cpp" />
+    <ClCompile Include="Syntax\NameLexerTest.cpp" />
+    <ClCompile Include="Syntax\ParserErrorTest.cpp" />
+    <ClCompile Include="Syntax\ParserTest.cpp" />
+    <ClCompile Include="Syntax\TokenBox.cpp" />
+    <ClCompile Include="Syntax\TokenTest.cpp" />
+    <ClCompile Include="Tasks\AbstractTaskTest.cpp" />
+    <ClCompile Include="Tasks\NameRefResolverTest.cpp" />
+    <ClCompile Include="Tasks\TypeUnifierTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Compiler\precomp.h" />
+    <ClInclude Include="..\Il\IlTest.h" />
+    <ClInclude Include="AbstractCompilerTest.h" />
+    <ClInclude Include="DomBuilder.h" />
+    <ClInclude Include="DomNode.h" />
+    <ClInclude Include="ErrorItem.h" />
+    <ClInclude Include="Passes\AbstractPassTest.h" />
+    <ClInclude Include="Syntax\AbstractLexerTest.h" />
+    <ClInclude Include="Syntax\AbstractParserTest.h" />
+    <ClInclude Include="Syntax\TokenBox.h" />
+    <ClInclude Include="Tasks\AbstractTaskTest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Common\Common.vcxproj">
+      <Project>{8cee7ecb-a659-4c81-b6a4-4e30611876ce}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Compiler\Compiler.vcxproj">
+      <Project>{2ba2f012-8e08-48e8-b525-a6557a40640d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Il\Il.vcxproj">
+      <Project>{6a9b20ad-9c6f-43dc-a0e7-a72b13b60913}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

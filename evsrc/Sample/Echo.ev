@@ -1,0 +1,14 @@
+namespace Sample {
+using Common;
+class EchoApp {
+  public static void Main(String[] params) {
+    var space = "";
+    for (var param : params) {
+      Console.Write(space);
+      space = " ";
+      Console.Write(param);
+    }
+    Console.WriteLine();
+  }
+}
+} // Sample

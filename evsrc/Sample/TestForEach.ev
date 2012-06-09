@@ -1,0 +1,12 @@
+// @(#)$Id$
+// TestForEach.ev
+
+using Common;
+
+class TestForEach {
+  public static void Main(String[] argv) {
+    for (var arg : argv) {
+      Common.Console.WriteLine("{0}", arg);
+    }
+  }
+}

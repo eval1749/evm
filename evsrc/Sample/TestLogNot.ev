@@ -1,0 +1,13 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public int testLogNot(int a) {
+        return ~a;
+    } // testLogNot
+} // SampleClass
+
+} // Sample

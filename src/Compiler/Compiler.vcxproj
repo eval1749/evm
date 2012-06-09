@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CompilationUnit.cpp" />
+    <ClCompile Include="CompileErrorInfo.cpp" />
+    <ClCompile Include="CompilePass.cpp" />
+    <ClCompile Include="CompilerGlobal.cpp" />
+    <ClCompile Include="CompileSession.cpp" />
+    <ClCompile Include="FileCompiler.cpp" />
+    <ClCompile Include="Functor.cpp" />
+    <ClCompile Include="Ir\AliasDef.cpp" />
+    <ClCompile Include="Ir\ClassDef.cpp" />
+    <ClCompile Include="Ir\ClassOrNamespaceDef.cpp" />
+    <ClCompile Include="Ir\EnumFieldDef.cpp" />
+    <ClCompile Include="Ir\FieldDef.cpp" />
+    <ClCompile Include="Ir\LabelDef.cpp" />
+    <ClCompile Include="Ir\LocalVarDef.cpp" />
+    <ClCompile Include="Ir\MethodDef.cpp" />
+    <ClCompile Include="Ir\MethodGroupDef.cpp" />
+    <ClCompile Include="Ir\MethodParamDef.cpp" />
+    <ClCompile Include="Ir\NameDef.cpp" />
+    <ClCompile Include="Ir\NamespaceBody.cpp" />
+    <ClCompile Include="Ir\NamespaceDef.cpp" />
+    <ClCompile Include="Ir\NamespaceMember.cpp" />
+    <ClCompile Include="Ir\PropertyDef.cpp" />
+    <ClCompile Include="Ir\TypeDef.cpp" />
+    <ClCompile Include="Ir\TypeParamDef.cpp" />
+    <ClCompile Include="Ir\UsingNamespace.cpp" />
+    <ClCompile Include="Ir\VarDef.cpp" />
+    <ClCompile Include="Ir\VariableOwner.cpp" />
+    <ClCompile Include="Logging\Dumper.cpp" />
+    <ClCompile Include="Passes\AbstractResolvePass.cpp" />
+    <ClCompile Include="Passes\FinalizeClassPass.cpp" />
+    <ClCompile Include="Passes\FinalizeEnumPass.cpp" />
+    <ClCompile Include="Passes\FinalizeMethodPass.cpp" />
+    <ClCompile Include="Passes\FinalizeUsingNamespacePass.cpp" />
+    <ClCompile Include="Passes\ResolveClassPass.cpp" />
+    <ClCompile Include="Passes\ResolveMethodPass.cpp" />
+    <ClCompile Include="precomp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SourceBuffer.cpp" />
+    <ClCompile Include="Syntax\Builder.cpp" />
+    <ClCompile Include="Syntax\Keyword.cpp" />
+    <ClCompile Include="Syntax\Lexer.cpp" />
+    <ClCompile Include="Syntax\NameLexer.cpp" />
+    <ClCompile Include="Syntax\NameScope.cpp" />
+    <ClCompile Include="Syntax\Operator.cpp" />
+    <ClCompile Include="Syntax\Parser.cpp" />
+    <ClCompile Include="Syntax\Token.cpp" />
+    <ClCompile Include="Tasks\MethodResolver.cpp" />
+    <ClCompile Include="Tasks\NameRefResolver.cpp" />
+    <ClCompile Include="Tasks\PredefinedMethod.cpp" />
+    <ClCompile Include="Tasks\TypeUnifier.cpp" />
+    <ClCompile Include="Tasks\TypeVarResolver.cpp" />
+    <ClCompile Include="Tasks\TypeVarRewriter.cpp" />
+    <ClCompile Include="VisitFunctor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CompilationUnit.h" />
+    <ClInclude Include="CompileError.h" />
+    <ClInclude Include="CompileErrorInfo.h" />
+    <ClInclude Include="CompilePass.h" />
+    <ClInclude Include="Compiler.h" />
+    <ClInclude Include="CompilerDefs.h" />
+    <ClInclude Include="CompilerGlobal.h" />
+    <ClInclude Include="CompileSession.h" />
+    <ClInclude Include="FileCompiler.h" />
+    <ClInclude Include="Functor.h" />
+    <ClInclude Include="Ir.h" />
+    <ClInclude Include="IrDefs.h" />
+    <ClInclude Include="Ir\AliasDef.h" />
+    <ClInclude Include="Ir\Attribute.h" />
+    <ClInclude Include="Ir\ClassDef.h" />
+    <ClInclude Include="Ir\ClassOrNamespaceDef.h" />
+    <ClInclude Include="Ir\Entity.h" />
+    <ClInclude Include="Ir\EnumFieldDef.h" />
+    <ClInclude Include="Ir\FieldDef.h" />
+    <ClInclude Include="Ir\IrObject.h" />
+    <ClInclude Include="Ir\LabelDef.h" />
+    <ClInclude Include="Ir\LocalVarDef.h" />
+    <ClInclude Include="Ir\MethodDef.h" />
+    <ClInclude Include="Ir\MethodGroupDef.h" />
+    <ClInclude Include="Ir\MethodParamDef.h" />
+    <ClInclude Include="Ir\NameDef.h" />
+    <ClInclude Include="Ir\NameRef.h" />
+    <ClInclude Include="Ir\NamespaceBody.h" />
+    <ClInclude Include="Ir\NamespaceDef.h" />
+    <ClInclude Include="Ir\NamespaceMember.h" />
+    <ClInclude Include="Ir\PropertyDef.h" />
+    <ClInclude Include="Ir\TypeDef.h" />
+    <ClInclude Include="Ir\TypeParamDef.h" />
+    <ClInclude Include="Ir\UsingNamespace.h" />
+    <ClInclude Include="Ir\VarDef.h" />
+    <ClInclude Include="Ir\VariableOwner.h" />
+    <ClInclude Include="Ir\Visitor.h" />
+    <ClInclude Include="Logging\Dumper.h" />
+    <ClInclude Include="Passes\AbstractResolvePass.h" />
+    <ClInclude Include="Passes\FinalizeClassPass.h" />
+    <ClInclude Include="Passes\FinalizeEnumPass.h" />
+    <ClInclude Include="Passes\FinalizeMethodPass.h" />
+    <ClInclude Include="Passes\FinalizeUsingNamespacePass.h" />
+    <ClInclude Include="Passes\ResolveClassPass.h" />
+    <ClInclude Include="Passes\ResolveMethodPass.h" />
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="SourceBuffer.h" />
+    <ClInclude Include="Syntax\Builder.h" />
+    <ClInclude Include="Syntax\CastLexer.h" />
+    <ClInclude Include="Syntax\CastOperator.h" />
+    <ClInclude Include="Syntax\Keyword.h" />
+    <ClInclude Include="Syntax\Lexer.h" />
+    <ClInclude Include="Syntax\NameLexer.h" />
+    <ClInclude Include="Syntax\NameScope.h" />
+    <ClInclude Include="Syntax\Operator.h" />
+    <ClInclude Include="Syntax\Parser.h" />
+    <ClInclude Include="Syntax\Token.h" />
+    <ClInclude Include="Syntax\TokenHandler.h" />
+    <ClInclude Include="Syntax\TokenProcessor.h" />
+    <ClInclude Include="Tasks\MethodResolver.h" />
+    <ClInclude Include="Tasks\NameRefResolver.h" />
+    <ClInclude Include="Tasks\PredefinedMethod.h" />
+    <ClInclude Include="Tasks\TypeUnifier.h" />
+    <ClInclude Include="Tasks\TypeVarResolver.h" />
+    <ClInclude Include="Tasks\TypeVarRewriter.h" />
+    <ClInclude Include="VisitFunctor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Syntax\keywords.inc">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Syntax\operators.inc">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Syntax\Parser_Class.inc">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Syntax\Parser_Expr.inc">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Syntax\Parser_Indexer.inc" />
+    <None Include="Syntax\Parser_Method.inc">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Syntax\Parser_Property.inc">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Syntax\Parser_State.inc">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Syntax\Parser_Statement.inc">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="Syntax\Parser_Type.inc" />
+    <None Include="Syntax\Parser_Using.inc" />
+    <None Include="Syntax\symbols.inc">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2BA2F012-8E08-48E8-B525-A6557A40640D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Compiler</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>false</ExceptionHandling>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <CallingConvention>FastCall</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>false</ExceptionHandling>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <CallingConvention>FastCall</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

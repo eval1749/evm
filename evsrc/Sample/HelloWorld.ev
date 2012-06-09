@@ -1,0 +1,11 @@
+using Common;
+
+namespace Sample {
+
+class HelloWorldApp {
+  public static void Main() {
+    Console.WriteLine("Hello World!");
+  }
+}
+
+} // Sample

@@ -1,0 +1,42 @@
+// -*- Mode: C++; -*-
+
+defregset(FprAll, Fpr, 8)
+    regentry(XMM0)
+    regentry(XMM1)
+    regentry(XMM2)
+    regentry(XMM3)
+    regentry(XMM4)
+    regentry(XMM5)
+    regentry(XMM6)
+    regentry(XMM7)
+endregset(FprAll, Fpr, 8)
+
+
+defregset(GprAll, Gpr, 8)
+    regentry(EAX)
+    regentry(ECX)
+    regentry(EDX)
+    regentry(EBX)
+    regentry(ESP)
+    regentry(EBP)
+    regentry(ESI)
+    regentry(EDI)
+endregset(GprAll, Gpr, 8)
+
+defregset(GprAllocable, Gpr, 6)
+    regentry(r0)
+    regentry(r1)
+    regentry(r2)
+    regentry(r3)
+    regentry(r4)
+    regentry(rn)
+endregset(GprAllocable, Gpr, 6)
+
+defregset(GprArgs, Gpr, 5)
+    regentry(r0)
+    regentry(r1)
+    regentry(r2)
+    regentry(r3)
+    regentry(r4)
+endregset(GprArgs, Gpr, 5)
+

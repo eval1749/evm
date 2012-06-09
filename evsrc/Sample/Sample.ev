@@ -1,0 +1,15 @@
+// @(#)$Id$
+//
+// Type unification on variable "foo".
+
+using Common;
+
+class Foo {
+  void Test(bool x) {
+    var foo = null;
+    if (x) {
+      foo = new Foo();
+    } // if
+    Common.Console.WriteLine("foo {0}", foo);
+  } // Test
+} // Foo

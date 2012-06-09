@@ -1,0 +1,13 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public String foo(int a) {
+        return a < 10 ? "lt" : "ge";
+    } // Main
+} // SampleClass
+
+} // Sample

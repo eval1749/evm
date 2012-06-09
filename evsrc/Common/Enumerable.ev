@@ -1,0 +1,8 @@
+// @(#)$Id$
+namespace Common {
+
+public interface Enumerable<T> {
+  Enumerator<T> GetEnumerator();
+}
+
+} // Common

@@ -1,0 +1,16 @@
+// @(#)$Id$
+// TestVar.ev
+
+using Common;
+
+class Foo {
+
+void Test(bool x) {
+  var foo = null;
+  if (x) {
+    foo = new Foo();
+  }
+  Common.Console.WriteLine("foo {0}", foo);
+}
+
+}

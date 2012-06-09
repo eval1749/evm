@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8CEE7ECB-A659-4C81-B6A4-4E30611876CE}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Common</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <CallingConvention>FastCall</CallingConvention>
+      <CompileAsManaged>false</CompileAsManaged>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <SmallerTypeCheck>true</SmallerTypeCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <CreateHotpatchableImage>false</CreateHotpatchableImage>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <CallingConvention>FastCall</CallingConvention>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <CompileAsManaged>false</CompileAsManaged>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <CreateHotpatchableImage>false</CreateHotpatchableImage>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\util\vcsupport.h" />
+    <ClInclude Include="..\util\z_debug.h" />
+    <ClInclude Include="..\util\z_defs.h" />
+    <ClInclude Include="..\util\z_util.h" />
+    <ClInclude Include="Allocable.h" />
+    <ClInclude Include="Boolean.h" />
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="Char.h" />
+    <ClInclude Include="CharSequence.h" />
+    <ClInclude Include="Collections\ArrayList_.h" />
+    <ClInclude Include="Collections\Array_.h" />
+    <ClInclude Include="Collections\BinaryTree_.h" />
+    <ClInclude Include="Collections\Collection_.h" />
+    <ClInclude Include="Collections\HashKey_.h" />
+    <ClInclude Include="Collections\HashMap_.h" />
+    <ClInclude Include="Collections\HashSet_.h" />
+    <ClInclude Include="Collections\Hashtable_.h" />
+    <ClInclude Include="Collections\PtrKey_.h" />
+    <ClInclude Include="Collections\Queue_.h" />
+    <ClInclude Include="Collections\Stack_.h" />
+    <ClInclude Include="Collections\Vector_.h" />
+    <ClInclude Include="CommonDefs.h" />
+    <ClInclude Include="DebugHelper.h" />
+    <ClInclude Include="FileHandle.h" />
+    <ClInclude Include="Float32.h" />
+    <ClInclude Include="Float64.h" />
+    <ClInclude Include="Formatter.h" />
+    <ClInclude Include="GlobalMemoryZone.h" />
+    <ClInclude Include="Int16.h" />
+    <ClInclude Include="Int32.h" />
+    <ClInclude Include="Int64.h" />
+    <ClInclude Include="Int8.h" />
+    <ClInclude Include="IntPtr.h" />
+    <ClInclude Include="Io\FileStream.h" />
+    <ClInclude Include="Io\HandleStream.h" />
+    <ClInclude Include="Io\MemoryStream.h" />
+    <ClInclude Include="Io\Stream.h" />
+    <ClInclude Include="Io\StreamReader.h" />
+    <ClInclude Include="Io\StreamWriter.h" />
+    <ClInclude Include="Io\StringWriter.h" />
+    <ClInclude Include="Io\TextReader.h" />
+    <ClInclude Include="Io\TextWriter.h" />
+    <ClInclude Include="LocalMemoryZone.h" />
+    <ClInclude Include="MemoryZone.h" />
+    <ClInclude Include="Numerics\BigInteger.h" />
+    <ClInclude Include="Numerics\BigIntegerImpl.h" />
+    <ClInclude Include="Numerics\Decimal128.h" />
+    <ClInclude Include="Numerics\Decimal128Impl.h" />
+    <ClInclude Include="Numerics\Decimal64Impl.h" />
+    <ClInclude Include="Numerics\DecimalTables.h" />
+    <ClInclude Include="Numerics\Float64Impl.h" />
+    <ClInclude Include="Numerics\IeeeClass.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="String.h" />
+    <ClInclude Include="StringBuilder.h" />
+    <ClInclude Include="Uint16.h" />
+    <ClInclude Include="Uint32.h" />
+    <ClInclude Include="Uint64.h" />
+    <ClInclude Include="Uint8.h" />
+    <ClInclude Include="UnicodeCategory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\util\vcsupport.cpp" />
+    <ClCompile Include="..\util\z_debug.cpp" />
+    <ClCompile Include="..\util\z_util.cpp" />
+    <ClCompile Include="Allocable.cpp" />
+    <ClCompile Include="Boolean.cpp" />
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Char.cpp" />
+    <ClCompile Include="CommonDefs.cpp" />
+    <ClCompile Include="DebugHelper.cpp" />
+    <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="GlobalMemoryZone.cpp" />
+    <ClCompile Include="Int32.cpp" />
+    <ClCompile Include="IntPtr.cpp" />
+    <ClCompile Include="Io\FileStream.cpp" />
+    <ClCompile Include="Io\MemoryStream.cpp" />
+    <ClCompile Include="Io\StreamReader.cpp" />
+    <ClCompile Include="Io\StreamWriter.cpp" />
+    <ClCompile Include="Io\StringWriter.cpp" />
+    <ClCompile Include="Io\TextWriter.cpp" />
+    <ClCompile Include="LocalMemoryZone.cpp" />
+    <ClCompile Include="Numerics\BigInteger.cpp" />
+    <ClCompile Include="Numerics\BigIntegerImpl.cpp" />
+    <ClCompile Include="Numerics\Decimal128.cpp" />
+    <ClCompile Include="Numerics\Decimal128Impl.cpp" />
+    <ClCompile Include="Numerics\Decimal64Impl.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="precomp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="String.cpp" />
+    <ClCompile Include="StringBuilder.cpp" />
+    <ClCompile Include="Uint32.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

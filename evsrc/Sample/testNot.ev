@@ -1,0 +1,13 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public String testNot(bool a) {
+        return !!!a ? "false" : "true";
+    } // testNot
+} // SampleClass
+
+} // Sample

@@ -1,0 +1,10 @@
+// @(#)$Id$
+namespace Common {
+
+public interface Enumerator<T> {
+  T Current() { get; }
+  bool HasMore();
+  void MoveNext();
+}
+
+} // Common

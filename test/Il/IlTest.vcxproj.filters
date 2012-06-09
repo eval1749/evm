@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Ir">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Operands">
+      <UniqueIdentifier>{cb58e7e5-4f41-4297-bec8-a7c9bc642966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{19f6cca2-84f6-4a39-bded-37d71ff7262d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fasl">
+      <UniqueIdentifier>{2c4db7b7-e322-4614-8364-acba2ca78537}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tasks">
+      <UniqueIdentifier>{e4b6015b-b8d6-48f2-ae24-488ebc2fd4b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Analysis">
+      <UniqueIdentifier>{24116478-dbc3-4163-ae50-5e11548fd203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Io">
+      <UniqueIdentifier>{5613519e-fa6f-4c0f-97b3-bae980dbf712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="support">
+      <UniqueIdentifier>{f6d95de7-b26d-441b-af64-5e75d2d51a3d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="il_test_main.cpp" />
+    <ClCompile Include="Ir\NameTest.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\NamespaceTest.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\PointerTypeTest.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\ClassTest.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\UnresolvedConstructedTypeTest.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\BitWriterTest.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\BitReaderTest.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\TypeSorterTest.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="IlTest.cpp" />
+    <ClCompile Include="Fasl\FastWriterTest.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\FastReaderTest.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\FastLoaderTest.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\AbstractFaslTest.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Analysis\BitVecTest.cpp">
+      <Filter>Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Analysis\DominanceTest.cpp">
+      <Filter>Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Analysis\DataFlowAnalysisTest.cpp">
+      <Filter>Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\OperandEvaluatorTest.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractIlTest.cpp" />
+    <ClCompile Include="..\..\src\Il\Ir\Instructions\Description.cpp" />
+    <ClCompile Include="Ir\Operands\ConstructedClassTest.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\GenericClassTest.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\TypeParamTest.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\TypeVarTest.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\LiteralTest.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\ModuleTest.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\ArrayTypeTest.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\NormalizeTaskletTest.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IlTest.h" />
+    <ClInclude Include="Tasks\MockSession.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\AbstractFaslTest.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractIlTest.h" />
+    <ClInclude Include="Tasks\AbstractIlTaskTest.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Printers.inc" />
+  </ItemGroup>
+</Project>

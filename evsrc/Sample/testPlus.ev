@@ -1,0 +1,13 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public int testPlusMinus(int a) {
+        return -a * +a;
+    } // testPlusMinus
+} // SampleClass
+
+} // Sample

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="precomp.cpp" />
+    <ClCompile Include="CodeManager.cpp" />
+    <ClCompile Include="ExecuteSession.cpp" />
+    <ClCompile Include="ExecuteErrorInfo.cpp" />
+    <ClCompile Include="GenCodeDesc.cpp" />
+    <ClCompile Include="Io\EeHtmlDumper.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\EeTextDumper.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="EeDefs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="CodeManager.h" />
+    <ClInclude Include="EeObject.h" />
+    <ClInclude Include="CodeDesc.h" />
+    <ClInclude Include="..\Ee.h" />
+    <ClInclude Include="ExecuteSession.h" />
+    <ClInclude Include="ExecuteErrorInfo.h" />
+    <ClInclude Include="GenCodeDesc.h" />
+    <ClInclude Include="Io\EeTextDumper.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Io\EeHtmlDumper.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="EeDefs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Io">
+      <UniqueIdentifier>{c9cb7fbd-0007-48b9-b5ba-bee339779c94}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

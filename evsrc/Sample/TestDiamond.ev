@@ -1,0 +1,19 @@
+// Diamond.ev
+// Optimization pass should expand PHI to IF.
+using Common;
+
+class Foo {
+  public static void Diamond(bool a) {
+    var x = 1;
+    var y = 2;
+    if (a) {
+      x = 3;
+      y = 4;
+    }
+    Common.Console.WriteLine("x=%s y=%s", x, y);
+  }
+
+  public static void Main(String[] params) {
+    Diamond(true);
+  }
+}

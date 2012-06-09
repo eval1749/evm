@@ -1,0 +1,16 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+  public void Test(int a) {
+    do {
+      Console.WriteLine("{0}", a);
+      --a;
+    } while (a > 0);
+  }
+}
+
+} // Sample

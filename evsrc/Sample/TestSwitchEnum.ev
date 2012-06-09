@@ -1,0 +1,28 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+enum Color { Red, Green, Blue }
+
+// Note: Java doesn't require qualified name in case label. But, C# requires
+// it.
+class SampleClass {
+  public void TestSwitch(Color color) {
+    switch (color) {
+      case Color.Red:
+        Common.Console.WriteLine("Red");
+        break;
+      case Color.Green:
+        Common.Console.WriteLine("Green");
+        break;
+      case Color.Blue:
+        Common.Console.WriteLine("Blue");
+        break;
+      default:
+        goto case Color.Red;
+    }
+  }
+}
+} // Sample

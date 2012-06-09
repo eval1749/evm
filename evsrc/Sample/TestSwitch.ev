@@ -1,0 +1,25 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+  public void testSwitch(int a) {
+    switch (a) {
+      case 1:
+        Common.Console.WriteLine("one");
+        goto case 3;
+      case 2:
+      case 3:
+        Common.Console.WriteLine("more than one");
+        break;
+      case 4:
+      default:
+        Common.Console.WriteLine("default");
+        break;
+    }
+  }
+}
+
+} // Sample

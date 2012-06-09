@@ -1,0 +1,13 @@
+namespace Sample {
+  using Common;
+  class Foo : Comparable<Foo> {
+    private int value_;
+
+    public Foo(int value) { value_ = value; }
+
+    int Comparable<Foo>.CompareTo(Foo another) {
+      return value_ - another.value_;
+    }
+  }
+} // Sample
+

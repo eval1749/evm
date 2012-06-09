@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="support">
+      <UniqueIdentifier>{86b1b65c-73fd-4305-97b9-89491a39a8bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tasks">
+      <UniqueIdentifier>{a6663962-fc00-49dd-a5a8-c9a2598ab769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mocks">
+      <UniqueIdentifier>{d713fb51-111e-48f4-814c-7a48d8c71dd7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Cg\precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="CgFunctorTest.cpp" />
+    <ClCompile Include="cg_test_main.cpp" />
+    <ClCompile Include="AbstractCgTest.cpp" />
+    <ClCompile Include="Tasks\RegAllocPassTest.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Il\AbstractIlTest.cpp" />
+    <ClCompile Include="..\..\src\Cg\Instructions\CgDescription.cpp" />
+    <ClCompile Include="CgTestOperands.cpp" />
+    <ClCompile Include="Tasks\MockCgTarget.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Cg\precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="CgTest.h" />
+    <ClInclude Include="AbstractCgTest.h" />
+    <ClInclude Include="..\Il\Tasks\MockSession.h">
+      <Filter>Mocks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Il\AbstractIlTest.h" />
+    <ClInclude Include="Tasks\MockCgTarget.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\MockCgSession.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

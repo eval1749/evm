@@ -1,0 +1,17 @@
+using Common;
+
+class Foo {
+/*
+  public T Max<T>(T x, T y) where T : Comparable<T> {
+    return x > y ? x : y;
+  }
+*/
+  public int Max(int x, int y) {
+    return x > y ? x : y;
+  }
+
+  public void Bar() {
+    //Console.WriteLine("%s %s", Max(10, 20), Max('a', 'b'));
+    Console.WriteLine("%s %s", Max(10, 20));
+  }
+} // Foo

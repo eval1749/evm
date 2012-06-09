@@ -1,0 +1,17 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public static void Main(String[] argv) {
+        var i = 0;
+        while (i < 10) {
+            Common.Console.WriteLine("i={0}", i);
+            i = i + 1;
+        } // while
+    } // Main
+} // SampleClass
+
+} // Sample

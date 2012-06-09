@@ -1,0 +1,18 @@
+// @(#)$Id$
+// TestCtor.ev
+
+using Common;
+
+class Foo {
+  static void Main() {
+    var bar = new Bar(1);
+    for (var i = 0; i < 10; i = i + 1) {
+      Common.Console.WriteLine("%s %s", i, bar);
+    }
+  }
+}
+
+class Bar {
+  int x;
+  public Bar(int x) { this.x = x; }
+}

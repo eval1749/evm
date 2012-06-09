@@ -1,0 +1,16 @@
+// @(#)$Id$
+// TestStruct.ev
+
+struct Foo {
+  private int x_;
+  private int y_;
+
+  public Foo(int x, int y) {
+    x_ = x;
+    this.y_ = y;
+  }
+
+  public Foo New() { return new Foo(1, 1); }
+  public int X { get { return x_; } }
+  public int Y { get { return this.y_; } }
+}

@@ -1,0 +1,11 @@
+namespace Sample {
+
+using Common;
+
+class Foo : Comparable<Foo> {
+  private int x_;
+  public Foo(int x) { x_ = x; }
+  public int CompareTo(Foo another) { return x_ - another.x_; }
+}
+
+} // Sample

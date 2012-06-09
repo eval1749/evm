@@ -1,0 +1,11 @@
+class B {
+  int Length { get; set; }
+  static int Value { get; set; }
+}
+
+class Sample {
+  void Method() {
+    B b = new B();
+    b.Length = B.Value;
+  }
+}

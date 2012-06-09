@@ -1,0 +1,18 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+  public void TestTry() {
+    try {
+      Common.Console.WriteLine("try");
+
+    } finally {
+      Common.Console.WriteLine("finally");
+    }
+  }
+}
+
+} // Sample

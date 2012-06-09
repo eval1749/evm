@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="String.h" />
+    <ClInclude Include="StringBuilder.h" />
+    <ClInclude Include="Uint8.h" />
+    <ClInclude Include="Uint16.h" />
+    <ClInclude Include="Uint32.h" />
+    <ClInclude Include="Uint64.h" />
+    <ClInclude Include="UnicodeCategory.h" />
+    <ClInclude Include="Allocable.h" />
+    <ClInclude Include="Boolean.h" />
+    <ClInclude Include="Char.h" />
+    <ClInclude Include="CharSequence.h" />
+    <ClInclude Include="CommonDefs.h" />
+    <ClInclude Include="FileHandle.h" />
+    <ClInclude Include="Float32.h" />
+    <ClInclude Include="Float64.h" />
+    <ClInclude Include="GlobalMemoryZone.h" />
+    <ClInclude Include="Int8.h" />
+    <ClInclude Include="Int16.h" />
+    <ClInclude Include="Int32.h" />
+    <ClInclude Include="Int64.h" />
+    <ClInclude Include="IntPtr.h" />
+    <ClInclude Include="LocalMemoryZone.h" />
+    <ClInclude Include="MemoryZone.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Io\TextWriter.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Io\FileStream.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Io\HandleStream.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Io\Stream.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Io\StreamReader.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Io\StreamWriter.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Io\StringWriter.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Io\TextReader.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\util\z_util.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\util\vcsupport.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\util\z_debug.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\util\z_defs.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\HashMap_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\ArrayList_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Array_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Hashtable_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Stack_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Collection_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Queue_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\PtrKey_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\HashKey_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\HashSet_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Io\MemoryStream.h">
+      <Filter>Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Formatter.h" />
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="Collections\BinaryTree_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Numerics\Decimal128.h">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugHelper.h" />
+    <ClInclude Include="Numerics\Decimal128Impl.h">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="Numerics\IeeeClass.h">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="Numerics\DecimalTables.h">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="Collections\Vector_.h">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Numerics\BigInteger.h">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="Numerics\BigIntegerImpl.h">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="Numerics\Float64Impl.h">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="Numerics\Decimal64Impl.h">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Allocable.cpp" />
+    <ClCompile Include="Boolean.cpp" />
+    <ClCompile Include="Char.cpp" />
+    <ClCompile Include="CommonDefs.cpp" />
+    <ClCompile Include="GlobalMemoryZone.cpp" />
+    <ClCompile Include="Int32.cpp" />
+    <ClCompile Include="IntPtr.cpp" />
+    <ClCompile Include="LocalMemoryZone.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="String.cpp" />
+    <ClCompile Include="StringBuilder.cpp" />
+    <ClCompile Include="Uint32.cpp" />
+    <ClCompile Include="Io\FileStream.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\StreamReader.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\StreamWriter.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\StringWriter.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\TextWriter.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\vcsupport.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\z_debug.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\util\z_util.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="Io\MemoryStream.cpp">
+      <Filter>Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Numerics\Decimal128.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugHelper.cpp" />
+    <ClCompile Include="Numerics\Decimal128Impl.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\BigInteger.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\BigIntegerImpl.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="Numerics\Decimal64Impl.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Collections">
+      <UniqueIdentifier>{d35722be-01e8-4586-880b-89faa43ed2fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Io">
+      <UniqueIdentifier>{45ee1fa8-269e-4bb5-88ae-4a4bfb2ad861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="support">
+      <UniqueIdentifier>{cd873d11-2494-49d7-a67f-6e813bccf133}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Numerics">
+      <UniqueIdentifier>{e729092f-11c1-4101-9072-3b3eed38dd2a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

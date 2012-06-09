@@ -1,0 +1,13 @@
+// @(#)$Id$
+// TestInterface.ev
+
+using Common;
+
+interface Task {
+    void Run();
+} // Task
+
+class Foo : Task {
+    void Run() { Common.Console.WriteLine("Foo.Run"); }
+    void Task.Run() { Common.Console.WriteLine("Task.Run"); }
+} // Foo

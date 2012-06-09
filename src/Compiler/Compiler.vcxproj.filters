@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Ir">
+      <UniqueIdentifier>{553df90d-8cdc-441d-8bfb-df8122726ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{4b8cfdae-68bb-452f-8d8b-8a36a88c6d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Passes">
+      <UniqueIdentifier>{422c6864-d660-44bc-a30c-7289bd73b6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Syntax">
+      <UniqueIdentifier>{95a479a6-6378-449c-b473-d07014695926}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tasks">
+      <UniqueIdentifier>{11cfa921-1d86-470d-985b-26df3b7c346d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="Ir\AliasDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Attribute.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\ClassDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Entity.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\FieldDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\IrObject.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\LabelDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\LocalVarDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\MethodDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\MethodGroupDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\MethodParamDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\NameDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\NameRef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\NamespaceBody.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\NamespaceDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\PropertyDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\TypeDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\TypeParamDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\VarDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Visitor.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging\Dumper.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\AbstractResolvePass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\FinalizeClassPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\FinalizeEnumPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\FinalizeMethodPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\ResolveClassPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\ResolveMethodPass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\Builder.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\CastLexer.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\CastOperator.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\Keyword.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\Lexer.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\NameLexer.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\NameScope.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\Operator.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\Parser.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\TokenHandler.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\TokenProcessor.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\MethodResolver.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="CompilerGlobal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompilationUnit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompileError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompileErrorInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompilePass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompilerDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompileSession.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileCompiler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Functor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IrDefs.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VisitFunctor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\NamespaceMember.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\UsingNamespace.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\FinalizeUsingNamespacePass.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceBuffer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\EnumFieldDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\TypeUnifier.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\Token.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\PredefinedMethod.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\VariableOwner.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\ClassOrNamespaceDef.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\TypeVarRewriter.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\NameRefResolver.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\TypeVarResolver.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="precomp.cpp" />
+    <ClCompile Include="Ir\AliasDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\ClassDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\FieldDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\LabelDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\LocalVarDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\MethodDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\MethodGroupDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\MethodParamDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\NameDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\NamespaceBody.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\NamespaceDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\PropertyDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\TypeDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\TypeParamDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\VarDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Logging\Dumper.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\AbstractResolvePass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\FinalizeClassPass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\FinalizeEnumPass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\FinalizeMethodPass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\ResolveClassPass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\ResolveMethodPass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\Builder.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\Keyword.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\Lexer.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\NameScope.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\Operator.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\Parser.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\MethodResolver.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="CompilationUnit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompileErrorInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompilePass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompilerGlobal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompileSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileCompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Functor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VisitFunctor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\NamespaceMember.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\UsingNamespace.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\FinalizeUsingNamespacePass.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\EnumFieldDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\TypeUnifier.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\Token.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\NameLexer.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\PredefinedMethod.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\VariableOwner.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\ClassOrNamespaceDef.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\TypeVarRewriter.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\NameRefResolver.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\TypeVarResolver.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Syntax\keywords.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\operators.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\Parser_Class.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\Parser_Expr.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\Parser_Method.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\Parser_Property.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\Parser_State.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\Parser_Statement.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\symbols.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\Parser_Type.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\Parser_Using.inc">
+      <Filter>Syntax</Filter>
+    </None>
+    <None Include="Syntax\Parser_Indexer.inc">
+      <Filter>Syntax</Filter>
+    </None>
+  </ItemGroup>
+</Project>

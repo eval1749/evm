@@ -1,0 +1,15 @@
+// @(#)$Id$
+// TestEnum.ev
+
+enum Foo {
+    Red,
+    Green,
+    Blue,
+    Max = Blue,
+} // Foo
+
+enum Bar {
+    Red = Blue,
+    Green,
+    Blue = 3,
+} // Foo

@@ -1,0 +1,364 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<title>evsrc\Common\String.ev</title>
+<style type='text/css'>body { font-size: 10pt; }h1 { font-size: 140%; }h2 { font-size: 120%; }h3 { font-size: 110%; }h4 { font-size: 100%; }a.io { color: #800080; }a.il { color: #800000; }a.ix { color: #800080 }a.i {   font-family: Consolas;}div.is {   color: #008000;   margin-left: 10pt;}i.m { color: #808080; font-style: normal; }i.p { color: #808080; font-style: normal; }i.t { color: #808080; }</style>
+</head>
+<body>
+<h1>evsrc\Common\String.ev</h1>
+<h2>Classes</h2>
+<ol>
+<li><a href='#c0070066C'>Common.String</a></li>
+</ol>
+<h2 id='c0070066C'>class Common.String</h2>
+<h3>Method Groups</h3>
+<ol>
+<li>.ctor
+<ol>
+<li><i class='m'>extern public specialName </i> <i class='t'>Common.Void</i> <a href='#m008F7584'>.ctor</a>(<i class='t'>Common.Char[]</i> <i class='p'>charv</i>, <i class='t'>Common.Int32</i> <i class='p'>startIndex</i>, <i class='t'>Common.Int32</i> <i class='p'>count</i>)</li>
+</ol>
+</li>
+<li>Compare
+<ol>
+<li><i class='m'>public static </i> <i class='t'>Common.Int32</i> <a href='#m008FF70C'>Compare</a>(<i class='t'>Common.String</i> <i class='p'>a</i>, <i class='t'>Common.String</i> <i class='p'>b</i>)</li>
+<li><i class='m'>public static </i> <i class='t'>Common.Int32</i> <a href='#m00901C44'>Compare</a>(<i class='t'>Common.String</i> <i class='p'>string1</i>, <i class='t'>Common.Int32</i> <i class='p'>start1</i>, <i class='t'>Common.String</i> <i class='p'>string2</i>, <i class='t'>Common.Int32</i> <i class='p'>start2</i>, <i class='t'>Common.Int32</i> <i class='p'>length</i>)</li>
+</ol>
+</li>
+<li>?Comparable.CompareTo
+<ol>
+<li><i class='m'>public </i> <i class='t'>Common.Int32</i> <a href='#m00910424'>?Comparable.CompareTo</a>(<i class='t'>Common.String</i> <i class='p'>another</i>)</li>
+</ol>
+</li>
+<li>ComputeHashCode
+<ol>
+<li><i class='m'>extern public </i> <i class='t'>Common.Int32</i> <a href='#m009117BC'>ComputeHashCode</a>()</li>
+</ol>
+</li>
+<li>Equals
+<ol>
+<li><i class='m'>public </i> <i class='t'>Common.Boolean</i> <a href='#m00911FFC'>Equals</a>(<i class='t'>Common.String</i> <i class='p'>another</i>)</li>
+</ol>
+</li>
+<li>ToString
+<ol>
+<li><i class='m'>extern override public </i> <i class='t'>Common.String</i> <a href='#m009134E4'>ToString</a>()</li>
+</ol>
+</li>
+</ol>
+<h2 id='m008FF70C'>method Common.Int32 Compare(Common.String a, Common.String b)</h2>
+<h4 id='f00500584'>Common.Int32 Compare(Common.String, Common.String)</h4>
+<a id='b00500674'>BB1</a>:<br>
+<div class=is>// 17:   public static int Compare(String a, String b) {</div>
+L0000: <a class=i>Entry</a>
+<br>L0001: <a class=i>Jump <a href='#b005007B4'>BB3</a></a>
+<br><br>
+<a id='b005007B4'>BB3</a>:<br>
+<div class=is>// 17:   public static int Compare(String a, String b) {</div>
+L0002: <a class=i>Prologue (Common.String, Common.String) <a class=io id='o00500974'>%v1</a> =</a>
+<br>L0003: <a class=i>Select Common.String <a class=io id='o00500A14'>%r2</a> = <a href='#o00500974'>%v1</a> <a class=il>0</a></a>
+<br>L0004: <a class=i>VarDef Common.ClosedCell&lt;Common.String> <a class=io id='o00500ACC'>%r3</a> = <a class=ix>a</a> <a href='#o00500A14'>%r2</a></a>
+<br>L0005: <a class=i>Select Common.String <a class=io id='o00500B84'>%r4</a> = <a href='#o00500974'>%v1</a> <a class=il>1</a></a>
+<br>L0006: <a class=i>VarDef Common.ClosedCell&lt;Common.String> <a class=io id='o00500C3C'>%r5</a> = <a class=ix>b</a> <a href='#o00500B84'>%r4</a></a>
+<br><div class=is>// 18:     return Compare(a, 0, b, 0, a.Length);</div>
+L0007: <a class=i>NameRef *$T.1([Common.Object]) <a class=io id='o00500CF4'>%r6</a> = <a href='#o008F4824'>%void</a> <a class=ix>Compare</a></a>
+<br>L0008: <a class=i>Load $T.1([Common.Object]) <a class=io id='o00500DAC'>%r7</a> = <a href='#o00500CF4'>%r6</a></a>
+<br>L0009: <a class=i>FieldPtr *Common.String <a class=io id='o00500EBC'>%r9</a> = <a href='#o00500ACC'>%r3</a> <a class=ix>Common.ClosedCell&lt;Common.String>.value</a></a>
+<br>L0010: <a class=i>Load Common.String <a class=io id='o00500F14'>%r10</a> = <a href='#o00500EBC'>%r9</a></a>
+<br>L0011: <a class=i>StaticCast $T.3([Common.Object]) <a class=io id='o00500FCC'>%r11</a> = <a href='#o00500F14'>%r10</a></a>
+<br>L0012: <a class=i>FieldPtr *Common.String <a class=io id='o00501024'>%r12</a> = <a href='#o00500C3C'>%r5</a> <a class=ix>Common.ClosedCell&lt;Common.String>.value</a></a>
+<br>L0013: <a class=i>Load Common.String <a class=io id='o0050107C'>%r13</a> = <a href='#o00501024'>%r12</a></a>
+<br>L0014: <a class=i>FieldPtr *Common.String <a class=io id='o00501134'>%r14</a> = <a href='#o00500ACC'>%r3</a> <a class=ix>Common.ClosedCell&lt;Common.String>.value</a></a>
+<br>L0015: <a class=i>Load Common.String <a class=io id='o0050118C'>%r15</a> = <a href='#o00501134'>%r14</a></a>
+<br>L0016: <a class=i>NameRef *$T.4([Common.Object]) <a class=io id='o00501244'>%r16</a> = <a href='#o0050118C'>%r15</a> <a class=ix>Length</a></a>
+<br>L0017: <a class=i>Load $T.4([Common.Object]) <a class=io id='o005012FC'>%r17</a> = <a href='#o00501244'>%r16</a></a>
+<br>L0018: <a class=i>Values ($T.3([Common.Object]), Common.Int32, Common.String, Common.Int32, $T.4([Common.Object])) <a class=io id='o009005C4'>%v0</a> = <a href='#o00500FCC'>%r11</a> <a class=il>0</a> <a href='#o0050107C'>%r13</a> <a class=il>0</a> <a href='#o005012FC'>%r17</a></a>
+<br>L0019: <a class=i>Call $T.2([Common.Object]) <a class=io id='o00500E64'>%r8</a> = <a href='#o00500DAC'>%r7</a> <a href='#o009005C4'>%v0</a></a>
+<br>L0020: <a class=i>StaticCast Common.Int32 <a class=io id='o005013B4'>%r18</a> = <a href='#o00500E64'>%r8</a></a>
+<br>L0021: <a class=i>Ret <a href='#o005013B4'>%r18</a></a>
+<br><br>
+<a id='b00500714'>BB2</a>:<br>
+<div class=is>// 19:   }</div>
+L0022: <a class=i>Exit</a>
+<br><br>
+<h2 id='m00901C44'>method Common.Int32 Compare(Common.String string1, Common.Int32 start1, Common.String string2, Common.Int32 start2, Common.Int32 length)</h2>
+<h4 id='f02330584'>Common.Int32 Compare(Common.String, Common.Int32, Common.String, Common.Int32, Common.Int32)</h4>
+<a id='b02330674'>BB1</a>:<br>
+<div class=is>// 26:       int length) {</div>
+L0000: <a class=i>Entry</a>
+<br>L0001: <a class=i>Jump <a href='#b023307B4'>BB3</a></a>
+<br><br>
+<a id='b023307B4'>BB3</a>:<br>
+<div class=is>// 26:       int length) {</div>
+L0002: <a class=i>Prologue (Common.String, Common.Int32, Common.String, Common.Int32, Common.Int32) <a class=io id='o02330974'>%v1</a> =</a>
+<br>L0003: <a class=i>Select Common.String <a class=io id='o02330A14'>%r2</a> = <a href='#o02330974'>%v1</a> <a class=il>0</a></a>
+<br>L0004: <a class=i>VarDef Common.ClosedCell&lt;Common.String> <a class=io id='o02330ACC'>%r3</a> = <a class=ix>string1</a> <a href='#o02330A14'>%r2</a></a>
+<br>L0005: <a class=i>Select Common.Int32 <a class=io id='o02330B84'>%r4</a> = <a href='#o02330974'>%v1</a> <a class=il>1</a></a>
+<br>L0006: <a class=i>VarDef Common.ClosedCell&lt;Common.Int32> <a class=io id='o02330C3C'>%r5</a> = <a class=ix>start1</a> <a href='#o02330B84'>%r4</a></a>
+<br>L0007: <a class=i>Select Common.String <a class=io id='o02330CF4'>%r6</a> = <a href='#o02330974'>%v1</a> <a class=il>2</a></a>
+<br>L0008: <a class=i>VarDef Common.ClosedCell&lt;Common.String> <a class=io id='o02330DAC'>%r7</a> = <a class=ix>string2</a> <a href='#o02330CF4'>%r6</a></a>
+<br>L0009: <a class=i>Select Common.Int32 <a class=io id='o02330E64'>%r8</a> = <a href='#o02330974'>%v1</a> <a class=il>3</a></a>
+<br>L0010: <a class=i>VarDef Common.ClosedCell&lt;Common.Int32> <a class=io id='o02330F1C'>%r9</a> = <a class=ix>start2</a> <a href='#o02330E64'>%r8</a></a>
+<br>L0011: <a class=i>Select Common.Int32 <a class=io id='o02330FD4'>%r10</a> = <a href='#o02330974'>%v1</a> <a class=il>4</a></a>
+<br>L0012: <a class=i>VarDef Common.ClosedCell&lt;Common.Int32> <a class=io id='o0233108C'>%r11</a> = <a class=ix>length</a> <a href='#o02330FD4'>%r10</a></a>
+<br><div class=is>// 27:     if (length &lt; 0) {</div>
+L0013: <a class=i>FieldPtr *Common.Int32 <a class=io id='o02331144'>%r12</a> = <a href='#o0233108C'>%r11</a> <a class=ix>Common.ClosedCell&lt;Common.Int32>.value</a></a>
+<br>L0014: <a class=i>Load Common.Int32 <a class=io id='o0233119C'>%r13</a> = <a href='#o02331144'>%r12</a></a>
+<br>L0015: <a class=i>Lt BoolType <a class=io id='o02331254'>%b14</a> = <a href='#o0233119C'>%r13</a> <a class=il>0</a></a>
+<br>L0016: <a class=i>If Common.Boolean <a class=io id='o02331294'>%r15</a> = <a href='#o02331254'>%b14</a> <a class=il>true</a> <a class=il>false</a></a>
+<br>L0017: <a class=i>Eq BoolType <a class=io id='o0233133C'>%b16</a> = <a href='#o02331294'>%r15</a> <a class=il>true</a></a>
+<br>L0018: <a class=i>Branch <a href='#o0233133C'>%b16</a> <a href='#b0233137C'>BB4</a> <a href='#b0233141C'>BB5</a></a>
+<br><br>
+<a id='b0233137C'>BB4</a>:<br>
+<div class=is>// 28:       throw new ArgumentOutOfRangeException(</div>
+L0019: <a class=i>NameRef *$T.6([Common.Object]) <a class=io id='o0233165C'>%r18</a> = <a href='#o008F4824'>%void</a> <a class=ix>String.Format</a></a>
+<br>L0020: <a class=i>Load $T.6([Common.Object]) <a class=io id='o02331714'>%r19</a> = <a href='#o0233165C'>%r18</a></a>
+<br>L0021: <a class=i>StaticCast $T.8([Common.Object]) <a class=io id='o02331824'>%r21</a> = <a class=il>"Length({0}) must be non-negative integer."</a></a>
+<br>L0022: <a class=i>FieldPtr *Common.Int32 <a class=io id='o0233187C'>%r22</a> = <a href='#o0233108C'>%r11</a> <a class=ix>Common.ClosedCell&lt;Common.Int32>.value</a></a>
+<br>L0023: <a class=i>Load Common.Int32 <a class=io id='o023318D4'>%r23</a> = <a href='#o0233187C'>%r22</a></a>
+<br>L0024: <a class=i>Values ($T.8([Common.Object]), Common.Int32) <a class=io id='o009042BC'>%v0</a> = <a href='#o02331824'>%r21</a> <a href='#o023318D4'>%r23</a></a>
+<br>L0025: <a class=i>Call $T.7([Common.Object]) <a class=io id='o023317CC'>%r20</a> = <a href='#o02331714'>%r19</a> <a href='#o009042BC'>%v0</a></a>
+<br>L0026: <a class=i>StaticCast $T.5([Common.Object]) <a class=io id='o0233198C'>%r24</a> = <a href='#o023317CC'>%r20</a></a>
+<br>L0027: <a class=i>New ?ArgumentOutOfRangeException <a class=io id='o023319E4'>%r25</a> =</a>
+<br>L0028: <a class=i>Values ($T.5([Common.Object])) <a class=io id='o0233161C'>%v17</a> = <a href='#o0233198C'>%r24</a></a>
+<br>L0029: <a class=i>NameRef **Common.Void <a class=io id='o02331A9C'>%r26</a> = <a href='#o023319E4'>%r25</a> <a class=ix>.ctor</a></a>
+<br>L0030: <a class=i>Load *Common.Void <a class=io id='o02331B54'>%r27</a> = <a href='#o02331A9C'>%r26</a></a>
+<br>L0031: <a class=i>Call <a href='#o02331B54'>%r27</a> <a href='#o0233161C'>%v17</a></a>
+<br>L0032: <a class=i>StaticCast Common.Exception <a class=io id='o02331C6C'>%r28</a> = <a href='#o023319E4'>%r25</a></a>
+<br>L0033: <a class=i>Throw <a href='#o02331C6C'>%r28</a></a>
+<br><br>
+<a id='b0233141C'>BB5</a>:<br>
+<div class=is>// 33:     var index1 = start1;</div>
+L0034: <a class=i>Jump <a href='#b023314BC'>BB6</a></a>
+<br><br>
+<a id='b023314BC'>BB6</a>:<br>
+<div class=is>// 33:     var index1 = start1;</div>
+L0035: <a class=i>FieldPtr *Common.Int32 <a class=io id='o02331D24'>%r29</a> = <a href='#o02330C3C'>%r5</a> <a class=ix>Common.ClosedCell&lt;Common.Int32>.value</a></a>
+<br>L0036: <a class=i>Load Common.Int32 <a class=io id='o02331D7C'>%r30</a> = <a href='#o02331D24'>%r29</a></a>
+<br>L0037: <a class=i>StaticCast $T.9([Common.Object]) <a class=io id='o02331E34'>%r31</a> = <a href='#o02331D7C'>%r30</a></a>
+<br>L0038: <a class=i>VarDef Common.ClosedCell&lt;$T.9([Common.Object])> <a class=io id='o02331EEC'>%r32</a> = <a class=ix>index1</a> <a href='#o02331E34'>%r31</a></a>
+<br><div class=is>// 34:     var index2 = start2;</div>
+L0039: <a class=i>FieldPtr *Common.Int32 <a class=io id='o02331F44'>%r33</a> = <a href='#o02330F1C'>%r9</a> <a class=ix>Common.ClosedCell&lt;Common.Int32>.value</a></a>
+<br>L0040: <a class=i>Load Common.Int32 <a class=io id='o02331F9C'>%r34</a> = <a href='#o02331F44'>%r33</a></a>
+<br>L0041: <a class=i>StaticCast $T.10([Common.Object]) <a class=io id='o02332054'>%r35</a> = <a href='#o02331F9C'>%r34</a></a>
+<br>L0042: <a class=i>VarDef Common.ClosedCell&lt;$T.10([Common.Object])> <a class=io id='o0233210C'>%r36</a> = <a class=ix>index2</a> <a href='#o02332054'>%r35</a></a>
+<br><div class=is>// 36:     var end1 = Math.Min(string1.Length, start1 + length);</div>
+L0043: <a class=i>NameRef *$T.12([Common.Object]) <a class=io id='o02332164'>%r37</a> = <a href='#o008F4824'>%void</a> <a class=ix>Math.Min</a></a>
+<br>L0044: <a class=i>Load $T.12([Common.Object]) <a class=io id='o0233221C'>%r38</a> = <a href='#o02332164'>%r37</a></a>
+<br>L0045: <a class=i>FieldPtr *Common.String <a class=io id='o0233232C'>%r40</a> = <a href='#o02330ACC'>%r3</a> <a class=ix>Common.ClosedCell&lt;Common.String>.value</a></a>
+<br>L0046: <a class=i>Load Common.String <a class=io id='o02332384'>%r41</a> = <a href='#o0233232C'>%r40</a></a>
+<br>L0047: <a class=i>NameRef *$T.15([Common.Object]) <a class=io id='o0233243C'>%r42</a> = <a href='#o02332384'>%r41</a> <a class=ix>Length</a></a>
+<br>L0048: <a class=i>Load $T.15([Common.Object]) <a class=io id='o023324F4'>%r43</a> = <a href='#o0233243C'>%r42</a></a>
+<br>L0049: <a class=i>StaticCast $T.14([Common.Object]) <a class=io id='o023325AC'>%r44</a> = <a href='#o023324F4'>%r43</a></a>
+<br>L0050: <a class=i>FieldPtr *Common.Int32 <a class=io id='o02332604'>%r45</a> = <a href='#o02330C3C'>%r5</a> <a class=ix>Common.ClosedCell&lt;Common.Int32>.value</a></a>
+<br>L0051: <a class=i>Load Common.Int32 <a class=io id='o0233265C'>%r46</a> = <a href='#o02332604'>%r45</a></a>
+<br>L0052: <a class=i>FieldPtr *Common.Int32 <a class=io id='o0233276C'>%r48</a> = <a href='#o0233108C'>%r11</a> <a class=ix>Common.ClosedCell&lt;Common.Int32>.value</a></a>
+<br>L0053: <a class=i>Load Common.Int32 <a class=io id='o023327C4'>%r49</a> = <a href='#o0233276C'>%r48</a></a>
+<br>L0054: <a class=i>Add Common.Int32 <a class=io id='o02332714'>%r47</a> = <a href='#o0233265C'>%r46</a> <a href='#o023327C4'>%r49</a></a>
+<br>L0055: <a class=i>Values ($T.14([Common.Object]), Common.Int32) <a class=io id='o008F7944'>%v0</a> = <a href='#o023325AC'>%r44</a> <a href='#o02332714'>%r47</a></a>
+<br>L0056: <a class=i>Call $T.13([Common.Object]) <a class=io id='o023322D4'>%r39</a> = <a href='#o0233221C'>%r38</a> <a href='#o008F7944'>%v0</a></a>
+<br>L0057: <a class=i>StaticCast $T.11([Common.Object]) <a class=io id='o0233287C'>%r50</a> = <a href='#o023322D4'>%r39</a></a>
+<br>L0058: <a class=i>VarDef Common.ClosedCell&lt;$T.11([Common.Object])> <a class=io id='o02332934'>%r51</a> = <a class=ix>end1</a> <a href='#o0233287C'>%r50</a></a>
+<br><div class=is>// 37:     var end2 = Math.Min(string2.Length, start2 + length);</div>
+L0059: <a class=i>NameRef *$T.17([Common.Object]) <a class=io id='o0233298C'>%r52</a> = <a href='#o008F4824'>%void</a> <a class=ix>Math.Min</a></a>
+<br>L0060: <a class=i>Load $T.17([Common.Object]) <a class=io id='o02332A44'>%r53</a> = <a href='#o0233298C'>%r52</a></a>
+<br>L0061: <a class=i>FieldPtr *Common.String <a class=io id='o02332B54'>%r55</a> = <a href='#o02330DAC'>%r7</a> <a class=ix>Common.ClosedCell&lt;Common.String>.value</a></a>
+<br>L0062: <a class=i>Load Common.String <a class=io id='o02332BAC'>%r56</a> = <a href='#o02332B54'>%r55</a></a>
+<br>L0063: <a class=i>NameRef *$T.20([Common.Object]) <a class=io id='o02332C64'>%r57</a> = <a href='#o02332BAC'>%r56</a> <a class=ix>Length</a></a>
+<br>L0064: <a class=i>Load $T.20([Common.Object]) <a class=io id='o02332D1C'>%r58</a> = <a href='#o02332C64'>%r57</a></a>
+<br>L0065: <a class=i>StaticCast $T.19([Common.Object]) <a class=io id='o02332DD4'>%r59</a> = <a href='#o02332D1C'>%r58</a></a>
+<br>L0066: <a class=i>FieldPtr *Common.Int32 <a class=io id='o02332E2C'>%r60</a> = <a href='#o02330F1C'>%r9</a> <a class=ix>Common.ClosedCell&lt;Common.Int32>.value</a></a>
+<br>L0067: <a class=i>Load Common.Int32 <a class=io id='o02332E84'>%r61</a> = <a href='#o02332E2C'>%r60</a></a>
+<br>L0068: <a class=i>FieldPtr *Common.Int32 <a class=io id='o02332F94'>%r63</a> = <a href='#o0233108C'>%r11</a> <a class=ix>Common.ClosedCell&lt;Common.Int32>.value</a></a>
+<br>L0069: <a class=i>Load Common.Int32 <a class=io id='o02332FF4'>%r64</a> = <a href='#o02332F94'>%r63</a></a>
+<br>L0070: <a class=i>Add Common.Int32 <a class=io id='o02332F3C'>%r62</a> = <a href='#o02332E84'>%r61</a> <a href='#o02332FF4'>%r64</a></a>
+<br>L0071: <a class=i>Values ($T.19([Common.Object]), Common.Int32) <a class=io id='o008F8FFC'>%v0</a> = <a href='#o02332DD4'>%r59</a> <a href='#o02332F3C'>%r62</a></a>
+<br>L0072: <a class=i>Call $T.18([Common.Object]) <a class=io id='o02332AFC'>%r54</a> = <a href='#o02332A44'>%r53</a> <a href='#o008F8FFC'>%v0</a></a>
+<br>L0073: <a class=i>StaticCast $T.16([Common.Object]) <a class=io id='o023330AC'>%r65</a> = <a href='#o02332AFC'>%r54</a></a>
+<br>L0074: <a class=i>VarDef Common.ClosedCell&lt;$T.16([Common.Object])> <a class=io id='o02333164'>%r66</a> = <a class=ix>end2</a> <a href='#o023330AC'>%r65</a></a>
+<br><div class=is>// 39:     for (;;) {</div>
+L0075: <a class=i>Jump <a href='#b023331BC'>BB7</a></a>
+<br><br>
+<a id='b023331BC'>BB7</a>:<br>
+<div class=is>// 39:     for (;;) {</div>
+L0076: <a class=i>Jump <a href='#b0233325C'>BB8</a></a>
+<br><br>
+<a id='b0233325C'>BB8</a>:<br>
+<div class=is>// 40:       if (index1 >= end1) {</div>
+L0077: <a class=i>FieldPtr *$T.9([Common.Object]) <a class=io id='o0233355C'>%r67</a> = <a href='#o02331EEC'>%r32</a> <a class=ix>Common.ClosedCell&lt;$T.9([Common.Object])>.value</a></a>
+<br>L0078: <a class=i>Load $T.9([Common.Object]) <a class=io id='o023335B4'>%r68</a> = <a href='#o0233355C'>%r67</a></a>
+<br>L0079: <a class=i>FieldPtr *$T.11([Common.Object]) <a class=io id='o023336AC'>%r70</a> = <a href='#o02332934'>%r51</a> <a class=ix>Common.ClosedCell&lt;$T.11([Common.Object])>.value</a></a>
+<br>L0080: <a class=i>Load $T.11([Common.Object]) <a class=io id='o02333704'>%r71</a> = <a href='#o023336AC'>%r70</a></a>
+<br>L0081: <a class=i>Ge BoolType <a class=io id='o0233366C'>%b69</a> = <a href='#o023335B4'>%r68</a> <a href='#o02333704'>%r71</a></a>
+<br>L0082: <a class=i>If Common.Boolean <a class=io id='o023337BC'>%r72</a> = <a href='#o0233366C'>%b69</a> <a class=il>true</a> <a class=il>false</a></a>
+<br>L0083: <a class=i>Eq BoolType <a class=io id='o02333814'>%b73</a> = <a href='#o023337BC'>%r72</a> <a class=il>true</a></a>
+<br>L0084: <a class=i>Branch <a href='#o02333814'>%b73</a> <a href='#b02333854'>BB11</a> <a href='#b023338F4'>BB12</a></a>
+<br><br>
+<a id='b023332FC'>BB9</a>:<br>
+<div class=is>// 39:     for (;;) {</div>
+L0085: <a class=i>Jump <a href='#b023331BC'>BB7</a></a>
+<br><div class=is>// 41:         return index2 >= end2 ? 0 : -1;</div>
+L0086: <a class=i>Phi Common.Int32 <a class=io id='o02333FCC'>%r82</a> = (BB13 <a class=il>0</a>) (BB14 <a href='#o02333F14'>%r81</a>)</a>
+<br>L0087: <a class=i>Ret <a href='#o02333FCC'>%r82</a></a>
+<br><div class=is>// 44:       if (index2 >= end2) {</div>
+L0088: <a class=i>FieldPtr *$T.10([Common.Object]) <a class=io id='o023340E4'>%r83</a> = <a href='#o0233210C'>%r36</a> <a class=ix>Common.ClosedCell&lt;$T.10([Common.Object])>.value</a></a>
+<br>L0089: <a class=i>Load $T.10([Common.Object]) <a class=io id='o0233413C'>%r84</a> = <a href='#o023340E4'>%r83</a></a>
+<br>L0090: <a class=i>FieldPtr *$T.16([Common.Object]) <a class=io id='o02334234'>%r86</a> = <a href='#o02333164'>%r66</a> <a class=ix>Common.ClosedCell&lt;$T.16([Common.Object])>.value</a></a>
+<br>L0091: <a class=i>Load $T.16([Common.Object]) <a class=io id='o0233428C'>%r87</a> = <a href='#o02334234'>%r86</a></a>
+<br>L0092: <a class=i>Ge BoolType <a class=io id='o023341F4'>%b85</a> = <a href='#o0233413C'>%r84</a> <a href='#o0233428C'>%r87</a></a>
+<br>L0093: <a class=i>If Common.Boolean <a class=io id='o02334344'>%r88</a> = <a href='#o023341F4'>%b85</a> <a class=il>true</a> <a class=il>false</a></a>
+<br>L0094: <a class=i>Eq BoolType <a class=io id='o0233439C'>%b89</a> = <a href='#o02334344'>%r88</a> <a class=il>true</a></a>
+<br>L0095: <a class=i>Branch <a href='#o0233439C'>%b89</a> <a href='#b023343DC'>BB15</a> <a href='#b0233447C'>BB16</a></a>
+<br><br>
+<a id='b0233339C'>BB10</a>:<br>
+<br>
+<a id='b02333854'>BB11</a>:<br>
+<div class=is>// 41:         return index2 >= end2 ? 0 : -1;</div>
+L0096: <a class=i>FieldPtr *$T.10([Common.Object]) <a class=io id='o023339F4'>%r74</a> = <a href='#o0233210C'>%r36</a> <a class=ix>Common.ClosedCell&lt;$T.10([Common.Object])>.value</a></a>
+<br>L0097: <a class=i>Load $T.10([Common.Object]) <a class=io id='o02333A4C'>%r75</a> = <a href='#o023339F4'>%r74</a></a>
+<br>L0098: <a class=i>FieldPtr *$T.16([Common.Object]) <a class=io id='o02333B44'>%r77</a> = <a href='#o02333164'>%r66</a> <a class=ix>Common.ClosedCell&lt;$T.16([Common.Object])>.value</a></a>
+<br>L0099: <a class=i>Load $T.16([Common.Object]) <a class=io id='o02333B9C'>%r78</a> = <a href='#o02333B44'>%r77</a></a>
+<br>L0100: <a class=i>Ge BoolType <a class=io id='o02333B04'>%b76</a> = <a href='#o02333A4C'>%r75</a> <a href='#o02333B9C'>%r78</a></a>
+<br>L0101: <a class=i>If Common.Boolean <a class=io id='o02333C54'>%r79</a> = <a href='#o02333B04'>%b76</a> <a class=il>true</a> <a class=il>false</a></a>
+<br>L0102: <a class=i>Eq BoolType <a class=io id='o02333CAC'>%b80</a> = <a href='#o02333C54'>%r79</a> <a class=il>true</a></a>
+<br>L0103: <a class=i>Branch <a href='#o02333CAC'>%b80</a> <a href='#b02333CEC'>BB13</a> <a href='#b02333D8C'>BB14</a></a>
+<br><br>
+<a id='b023338F4'>BB12</a>:<br>
+<div class=is>// 44:       if (index2 >= end2) {</div>
+L0104: <a class=i>Jump <a href='#b023332FC'>BB9</a></a>
+<br><br>
+<a id='b02333CEC'>BB13</a>:<br>
+<div class=is>// 41:         return index2 >= end2 ? 0 : -1;</div>
+L0105: <a class=i>Jump <a href='#b023332FC'>BB9</a></a>
+<br><br>
+<a id='b02333D8C'>BB14</a>:<br>
+<div class=is>// 41:         return index2 >= end2 ? 0 : -1;</div>
+L0106: <a class=i>Sub Common.Int32 <a class=io id='o02333F14'>%r81</a> = <a class=il>0</a> <a class=il>1</a></a>
+<br>L0107: <a class=i>Jump <a href='#b023332FC'>BB9</a></a>
+<br><br>
+<a id='b023343DC'>BB15</a>:<br>
+<div class=is>// 45:         return 1;</div>
+L0108: <a class=i>Ret <a class=il>1</a></a>
+<br><br>
+<a id='b0233447C'>BB16</a>:<br>
+<div class=is>// 48:       var diff = string1[index1] - string2[index];</div>
+L0109: <a class=i>Jump <a href='#b0233451C'>BB17</a></a>
+<br><br>
+<a id='b0233451C'>BB17</a>:<br>
+<div class=is>// 48:       var diff = string1[index1] - string2[index];</div>
+L0110: <a class=i>FieldPtr *Common.String <a class=io id='o023346DC'>%r90</a> = <a href='#o02330ACC'>%r3</a> <a class=ix>Common.ClosedCell&lt;Common.String>.value</a></a>
+<br>L0111: <a class=i>Load Common.String <a class=io id='o02334734'>%r91</a> = <a href='#o023346DC'>%r90</a></a>
+<br>L0112: <a class=i>FieldPtr *$T.9([Common.Object]) <a class=io id='o0233484C'>%r92</a> = <a href='#o02331EEC'>%r32</a> <a class=ix>Common.ClosedCell&lt;$T.9([Common.Object])>.value</a></a>
+<br>L0113: <a class=i>Load $T.9([Common.Object]) <a class=io id='o023348A4'>%r93</a> = <a href='#o0233484C'>%r92</a></a>
+<br>L0114: <a class=i>StaticCast $T.22([Common.Object]) <a class=io id='o0233495C'>%r94</a> = <a href='#o023348A4'>%r93</a></a>
+<br>L0115: <a class=i>NameRef **Common.Void <a class=io id='o023349B4'>%r95</a> = <a href='#o02334734'>%r91</a> <a class=ix>get_Item</a></a>
+<br>L0116: <a class=i>Load *Common.Void <a class=io id='o02334A6C'>%r96</a> = <a href='#o023349B4'>%r95</a></a>
+<br>L0117: <a class=i>Values ($T.22([Common.Object])) <a class=io id='o02334B24'>%v97</a> = <a href='#o0233495C'>%r94</a></a>
+<br>L0118: <a class=i>Call $T.23([Common.Object]) <a class=io id='o02334B64'>%r98</a> = <a href='#o02334A6C'>%r96</a> <a href='#o02334B24'>%v97</a></a>
+<br>L0119: <a class=i>FieldPtr *Common.String <a class=io id='o02334C74'>%r100</a> = <a href='#o02330DAC'>%r7</a> <a class=ix>Common.ClosedCell&lt;Common.String>.value</a></a>
+<br>L0120: <a class=i>Load Common.String <a class=io id='o02334CCC'>%r101</a> = <a href='#o02334C74'>%r100</a></a>
+<br>L0121: <a class=i>NameRef *$T.25([Common.Object]) <a class=io id='o02334DE4'>%r102</a> = <a href='#o008F4824'>%void</a> <a class=ix>index</a></a>
+<br>L0122: <a class=i>Load $T.25([Common.Object]) <a class=io id='o02334E9C'>%r103</a> = <a href='#o02334DE4'>%r102</a></a>
+<br>L0123: <a class=i>StaticCast $T.24([Common.Object]) <a class=io id='o02334F54'>%r104</a> = <a href='#o02334E9C'>%r103</a></a>
+<br>L0124: <a class=i>NameRef **Common.Void <a class=io id='o02334FAC'>%r105</a> = <a href='#o02334CCC'>%r101</a> <a class=ix>get_Item</a></a>
+<br>L0125: <a class=i>Load *Common.Void <a class=io id='o02335064'>%r106</a> = <a href='#o02334FAC'>%r105</a></a>
+<br>L0126: <a class=i>Values ($T.24([Common.Object])) <a class=io id='o0233511C'>%v107</a> = <a href='#o02334F54'>%r104</a></a>
+<br>L0127: <a class=i>Call $T.26([Common.Object]) <a class=io id='o0233515C'>%r108</a> = <a href='#o02335064'>%r106</a> <a href='#o0233511C'>%v107</a></a>
+<br>L0128: <a class=i>Sub $T.23([Common.Object]) <a class=io id='o02334C1C'>%r99</a> = <a href='#o02334B64'>%r98</a> <a href='#o0233515C'>%r108</a></a>
+<br>L0129: <a class=i>StaticCast $T.21([Common.Object]) <a class=io id='o02335214'>%r109</a> = <a href='#o02334C1C'>%r99</a></a>
+<br>L0130: <a class=i>VarDef Common.ClosedCell&lt;$T.21([Common.Object])> <a class=io id='o023352CC'>%r110</a> = <a class=ix>diff</a> <a href='#o02335214'>%r109</a></a>
+<br><div class=is>// 49:       if (diff != 0) {</div>
+L0131: <a class=i>FieldPtr *$T.21([Common.Object]) <a class=io id='o02335324'>%r111</a> = <a href='#o023352CC'>%r110</a> <a class=ix>Common.ClosedCell&lt;$T.21([Common.Object])>.value</a></a>
+<br>L0132: <a class=i>Load $T.21([Common.Object]) <a class=io id='o0233537C'>%r112</a> = <a href='#o02335324'>%r111</a></a>
+<br>L0133: <a class=i>Ne BoolType <a class=io id='o02335434'>%b113</a> = <a href='#o0233537C'>%r112</a> <a class=il>0</a></a>
+<br>L0134: <a class=i>If Common.Boolean <a class=io id='o02335474'>%r114</a> = <a href='#o02335434'>%b113</a> <a class=il>true</a> <a class=il>false</a></a>
+<br>L0135: <a class=i>Eq BoolType <a class=io id='o023354CC'>%b115</a> = <a href='#o02335474'>%r114</a> <a class=il>true</a></a>
+<br>L0136: <a class=i>Branch <a href='#o023354CC'>%b115</a> <a href='#b0233550C'>BB18</a> <a href='#b023355AC'>BB19</a></a>
+<br><br>
+<a id='b0233550C'>BB18</a>:<br>
+<div class=is>// 50:         return diff;</div>
+L0137: <a class=i>FieldPtr *$T.21([Common.Object]) <a class=io id='o0233574C'>%r116</a> = <a href='#o023352CC'>%r110</a> <a class=ix>Common.ClosedCell&lt;$T.21([Common.Object])>.value</a></a>
+<br>L0138: <a class=i>Load $T.21([Common.Object]) <a class=io id='o023357A4'>%r117</a> = <a href='#o0233574C'>%r116</a></a>
+<br>L0139: <a class=i>StaticCast Common.Int32 <a class=io id='o0233585C'>%r118</a> = <a href='#o023357A4'>%r117</a></a>
+<br>L0140: <a class=i>Ret <a href='#o0233585C'>%r118</a></a>
+<br><br>
+<a id='b023355AC'>BB19</a>:<br>
+<div class=is>// 53:       ++index1;</div>
+L0141: <a class=i>Jump <a href='#b0233564C'>BB20</a></a>
+<br><br>
+<a id='b0233564C'>BB20</a>:<br>
+<div class=is>// 53:       ++index1;</div>
+L0142: <a class=i>FieldPtr *$T.9([Common.Object]) <a class=io id='o02335974'>%r119</a> = <a href='#o02331EEC'>%r32</a> <a class=ix>Common.ClosedCell&lt;$T.9([Common.Object])>.value</a></a>
+<br>L0143: <a class=i>Load $T.9([Common.Object]) <a class=io id='o023359CC'>%r120</a> = <a href='#o02335974'>%r119</a></a>
+<br>L0144: <a class=i>Values ($T.9([Common.Object])) <a class=io id='o02335A84'>%v121</a> = <a href='#o023359CC'>%r120</a></a>
+<br>L0145: <a class=i>Call <a class=ix>operator ++</a> <a href='#o02335A84'>%v121</a></a>
+<br><div class=is>// 54:       ++index2;</div>
+L0146: <a class=i>FieldPtr *$T.10([Common.Object]) <a class=io id='o02335BDC'>%r123</a> = <a href='#o0233210C'>%r36</a> <a class=ix>Common.ClosedCell&lt;$T.10([Common.Object])>.value</a></a>
+<br>L0147: <a class=i>Load $T.10([Common.Object]) <a class=io id='o02335C34'>%r124</a> = <a href='#o02335BDC'>%r123</a></a>
+<br>L0148: <a class=i>Values ($T.10([Common.Object])) <a class=io id='o02335CEC'>%v125</a> = <a href='#o02335C34'>%r124</a></a>
+<br>L0149: <a class=i>Call <a class=ix>operator ++</a> <a href='#o02335CEC'>%v125</a></a>
+<br><div class=is>// 55:     }</div>
+L0150: <a class=i>Jump <a href='#b023332FC'>BB9</a></a>
+<br><br>
+<a id='b02330714'>BB2</a>:<br>
+<div class=is>// 56:   }</div>
+L0151: <a class=i>Exit</a>
+<br><br>
+<h2 id='m00910424'>method Common.Int32 ?Comparable.CompareTo(Common.String another)</h2>
+<h4 id='f008605DC'>Common.Int32 ?Comparable.CompareTo(Common.String, Common.String)</h4>
+<a id='b008606CC'>BB1</a>:<br>
+<div class=is>// 58:   public int Comparable&lt;String>.CompareTo(String another) {</div>
+L0000: <a class=i>Entry</a>
+<br>L0001: <a class=i>Jump <a href='#b0086080C'>BB3</a></a>
+<br><br>
+<a id='b0086080C'>BB3</a>:<br>
+<div class=is>// 58:   public int Comparable&lt;String>.CompareTo(String another) {</div>
+L0002: <a class=i>Prologue (Common.String, Common.String) <a class=io id='o008609CC'>%v2</a> =</a>
+<br>L0003: <a class=i>Select Common.String <a class=io id='o00860ACC'>%r3</a> = <a href='#o008609CC'>%v2</a> <a class=il>1</a></a>
+<br>L0004: <a class=i>VarDef Common.ClosedCell&lt;Common.String> <a class=io id='o00860B84'>%r4</a> = <a class=ix>another</a> <a href='#o00860ACC'>%r3</a></a>
+<br>L0005: <a class=i>Select Common.String <a class=io id='o00860584'>%r1</a> = <a href='#o008609CC'>%v2</a> <a class=il>0</a></a>
+<br><div class=is>// 59:     return Compare(this, that);</div>
+L0006: <a class=i>NameRef *$T.27([Common.Object]) <a class=io id='o00860C3C'>%r5</a> = <a href='#o008F4824'>%void</a> <a class=ix>Compare</a></a>
+<br>L0007: <a class=i>Load $T.27([Common.Object]) <a class=io id='o00860CF4'>%r6</a> = <a href='#o00860C3C'>%r5</a></a>
+<br>L0008: <a class=i>StaticCast $T.29([Common.Object]) <a class=io id='o00860E04'>%r8</a> = <a href='#o00860584'>%r1</a></a>
+<br>L0009: <a class=i>NameRef *$T.30([Common.Object]) <a class=io id='o00860E5C'>%r9</a> = <a href='#o008F4824'>%void</a> <a class=ix>that</a></a>
+<br>L0010: <a class=i>Load $T.30([Common.Object]) <a class=io id='o00860F14'>%r10</a> = <a href='#o00860E5C'>%r9</a></a>
+<br>L0011: <a class=i>Values ($T.29([Common.Object]), $T.30([Common.Object])) <a class=io id='o00911144'>%v0</a> = <a href='#o00860E04'>%r8</a> <a href='#o00860F14'>%r10</a></a>
+<br>L0012: <a class=i>Call $T.28([Common.Object]) <a class=io id='o00860DAC'>%r7</a> = <a href='#o00860CF4'>%r6</a> <a href='#o00911144'>%v0</a></a>
+<br>L0013: <a class=i>StaticCast Common.Int32 <a class=io id='o00860FCC'>%r11</a> = <a href='#o00860DAC'>%r7</a></a>
+<br>L0014: <a class=i>Ret <a href='#o00860FCC'>%r11</a></a>
+<br><br>
+<a id='b0086076C'>BB2</a>:<br>
+<div class=is>// 60:   }</div>
+L0015: <a class=i>Exit</a>
+<br><br>
+<h2 id='m00911FFC'>method Common.Boolean Equals(Common.String another)</h2>
+<h4 id='f027A05DC'>Common.Boolean Equals(Common.String, Common.String)</h4>
+<a id='b027A06CC'>BB1</a>:<br>
+<div class=is>// 65:   public bool Equals(String another) {</div>
+L0000: <a class=i>Entry</a>
+<br>L0001: <a class=i>Jump <a href='#b027A080C'>BB3</a></a>
+<br><br>
+<a id='b027A080C'>BB3</a>:<br>
+<div class=is>// 65:   public bool Equals(String another) {</div>
+L0002: <a class=i>Prologue (Common.String, Common.String) <a class=io id='o027A09CC'>%v2</a> =</a>
+<br>L0003: <a class=i>Select Common.String <a class=io id='o027A0ACC'>%r3</a> = <a href='#o027A09CC'>%v2</a> <a class=il>1</a></a>
+<br>L0004: <a class=i>VarDef Common.ClosedCell&lt;Common.String> <a class=io id='o027A0B84'>%r4</a> = <a class=ix>another</a> <a href='#o027A0ACC'>%r3</a></a>
+<br>L0005: <a class=i>Select Common.String <a class=io id='o027A0584'>%r1</a> = <a href='#o027A09CC'>%v2</a> <a class=il>0</a></a>
+<br><div class=is>// 66:     return CompareTo(another) == 0;</div>
+L0006: <a class=i>NameRef *$T.31([Common.Object]) <a class=io id='o027A0C3C'>%r5</a> = <a href='#o008F4824'>%void</a> <a class=ix>CompareTo</a></a>
+<br>L0007: <a class=i>Load $T.31([Common.Object]) <a class=io id='o027A0CF4'>%r6</a> = <a href='#o027A0C3C'>%r5</a></a>
+<br>L0008: <a class=i>FieldPtr *Common.String <a class=io id='o027A0E04'>%r8</a> = <a href='#o027A0B84'>%r4</a> <a class=ix>Common.ClosedCell&lt;Common.String>.value</a></a>
+<br>L0009: <a class=i>Load Common.String <a class=io id='o027A0E5C'>%r9</a> = <a href='#o027A0E04'>%r8</a></a>
+<br>L0010: <a class=i>StaticCast $T.33([Common.Object]) <a class=io id='o027A0F14'>%r10</a> = <a href='#o027A0E5C'>%r9</a></a>
+<br>L0011: <a class=i>Values ($T.33([Common.Object])) <a class=io id='o00912D74'>%v0</a> = <a href='#o027A0F14'>%r10</a></a>
+<br>L0012: <a class=i>Call $T.32([Common.Object]) <a class=io id='o027A0DAC'>%r7</a> = <a href='#o027A0CF4'>%r6</a> <a href='#o00912D74'>%v0</a></a>
+<br>L0013: <a class=i>Eq BoolType <a class=io id='o027A0F6C'>%b11</a> = <a href='#o027A0DAC'>%r7</a> <a class=il>0</a></a>
+<br>L0014: <a class=i>If Common.Boolean <a class=io id='o027A0FAC'>%r12</a> = <a href='#o027A0F6C'>%b11</a> <a class=il>true</a> <a class=il>false</a></a>
+<br>L0015: <a class=i>Ret <a href='#o027A0FAC'>%r12</a></a>
+<br><br>
+<a id='b027A076C'>BB2</a>:<br>
+<div class=is>// 67:   }</div>
+L0016: <a class=i>Exit</a>
+<br><br>
+</body>
+</html>

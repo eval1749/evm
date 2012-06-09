@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="support">
+      <UniqueIdentifier>{8a637c77-abf0-4419-b4bb-f007eb644ab7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="X86CodeDesc.cpp" />
+    <ClCompile Include="X86CodeManager.cpp" />
+    <ClCompile Include="X86RuntimeWin32.cpp" />
+    <ClCompile Include="X86Commands.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="X86CodeDesc.h" />
+    <ClInclude Include="X86CodeManager.h" />
+  </ItemGroup>
+</Project>

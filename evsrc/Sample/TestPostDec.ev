@@ -1,0 +1,13 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public int testPostInc(int a) {
+        return a-- + 2;
+    } // testPostInc
+} // SampleClass
+
+} // Sample

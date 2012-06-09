@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="support">
+      <UniqueIdentifier>{a42af62d-d2b1-4a58-a1f1-d92c33dfcc56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tasks">
+      <UniqueIdentifier>{5b1979b4-84b1-4795-aa06-cdcbfec5dd4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Operands">
+      <UniqueIdentifier>{3427c6dc-857b-4e2a-9689-959b7786ab5d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="X86Target.cpp" />
+    <ClCompile Include="X86AsmTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="X86EnsureTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="X86LowerTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="X86Functor.cpp" />
+    <ClCompile Include="X86Init.cpp" />
+    <ClCompile Include="Operands\X86Register.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="X86Disasm.cpp" />
+    <ClCompile Include="X86OptimizeTasklet.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Operands\X86Operands.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="X86Defs.h" />
+    <ClInclude Include="X86AsmTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="X86EnsureTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="X86LowerTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="X86Functor.h" />
+    <ClInclude Include="X86Operands.h" />
+    <ClInclude Include="Operands\X86Operand.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Operands\TttnLit.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Operands\X86Register.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="X86Disasm.h" />
+    <ClInclude Include="X86OptimizeTasklet.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="X86Isa.inc" />
+    <None Include="X86OpCode.inc" />
+    <None Include="X86FunctorMethods.inc" />
+  </ItemGroup>
+</Project>

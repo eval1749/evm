@@ -1,0 +1,61 @@
+// @(#)$Id$
+//
+// Evita Basic Library - Common StringBuilder
+// Copyright (C) 2010-2011 by Project Vogue.
+
+namespace Common {
+
+public class StringBuilder {
+  private const int MinCapacity = 10;
+
+  private char[] buffer_;
+  private int length_;
+
+  // ctor
+  public StringBuilder(int capacity) {
+    if (capacity_ < 0) {
+      throw new ArgumentOutOfRangeException(
+          String.Format("Capcity({0}) must be positive integer."));
+    }
+
+    buffer_ = new char[Math.Max(capacity, MinCapacity)];
+    length_ = 0;
+  }
+
+  // [A]
+  /// <summary>
+  ///     Append character to buffer.
+  /// </summary>
+  /// <param name="ch">Character to append</param>
+  public void Append(char ch) {
+    EnsureCapacity(length + 1);
+    buffer_[length_] = ch;
+    ++length_;
+  }
+
+  public void Append(String str) {
+    EnsureCapacity(length_ + str.Length);
+    str.CopyTo(0, buffer_, length_, str.Length);
+  }
+
+  // [E]
+  public void EnsureCapacity(int new_capacity) {
+    if (new_capacity >= buffer_.Length) {
+      return;
+    }
+
+    var capacity = Math.Max(
+        new_capacity,
+        (new_capacity + MinCapacity - 1) / MinCapacity * MinCapacity);
+    var old_buffer = buffer_;
+    buffer_ = new char[capacity];
+    old_buffer.CopyTo(buffer_);
+  }
+
+  // [T]
+  public override String ToString() {
+    return new String(buffer_, 0, length_);
+  }
+}
+
+} // Common

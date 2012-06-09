@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6A9B20AD-9C6F-43DC-A0E7-A72B13B60913}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Il</RootNamespace>
+    <ProjectName>Il</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <CallingConvention>FastCall</CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAsManaged>false</CompileAsManaged>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <SmallerTypeCheck>true</SmallerTypeCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <CreateHotpatchableImage>false</CreateHotpatchableImage>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <ExceptionHandling>false</ExceptionHandling>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <CallingConvention>FastCall</CallingConvention>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAsManaged>false</CompileAsManaged>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <CreateHotpatchableImage>false</CreateHotpatchableImage>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Analysis\BitVec.h" />
+    <ClInclude Include="Analysis\DataFlowAnalysis.h" />
+    <ClInclude Include="Analysis\DominanceAnalyzer.h" />
+    <ClInclude Include="Cg\CgDefs.h" />
+    <ClInclude Include="Cg\Operands.h" />
+    <ClInclude Include="Fasl\BitReader.h" />
+    <ClInclude Include="Fasl\BitWriter.h" />
+    <ClInclude Include="Fasl\FaslError.h" />
+    <ClInclude Include="Fasl\FaslErrorInfo.h" />
+    <ClInclude Include="Fasl\FaslOp.h" />
+    <ClInclude Include="Fasl\FastReader.h" />
+    <ClInclude Include="Fasl\FastWriter.h" />
+    <ClInclude Include="Fasl\FastLoader.h" />
+    <ClInclude Include="Fasl\Name64.h" />
+    <ClInclude Include="Fasl\TypeSorter.h" />
+    <ClInclude Include="Functor.h" />
+    <ClInclude Include="Ir\BBlock.h" />
+    <ClInclude Include="Ir\CfgEdge.h" />
+    <ClInclude Include="Ir\CgEdge.h" />
+    <ClInclude Include="Ir\DomInfo.h" />
+    <ClInclude Include="Ir\Edge.h" />
+    <ClInclude Include="Ir\ErrorInfo.h" />
+    <ClInclude Include="Ir\Graph.h" />
+    <ClInclude Include="Ir\GraphNode.h" />
+    <ClInclude Include="Ir\Instructions.h" />
+    <ClInclude Include="Ir\Instructions\AddI.h" />
+    <ClInclude Include="Ir\Instructions\ArithmeticInstruction.h" />
+    <ClInclude Include="Ir\Instructions\BoxI.h" />
+    <ClInclude Include="Ir\Instructions\BranchI.h" />
+    <ClInclude Include="Ir\Instructions\CallI.h" />
+    <ClInclude Include="Ir\Instructions\CastInstruction.h" />
+    <ClInclude Include="Ir\Instructions\CatchI.h" />
+    <ClInclude Include="Ir\Instructions\CloseI.h" />
+    <ClInclude Include="Ir\Instructions\ClosureI.h" />
+    <ClInclude Include="Ir\Instructions\DivI.h" />
+    <ClInclude Include="Ir\Instructions\EltRefI.h" />
+    <ClInclude Include="Ir\Instructions\EntryI.h" />
+    <ClInclude Include="Ir\Instructions\EqI.h" />
+    <ClInclude Include="Ir\Instructions\ExitI.h" />
+    <ClInclude Include="Ir\Instructions\FieldPtrI.h" />
+    <ClInclude Include="Ir\Instructions\FunctionOperandBox.h" />
+    <ClInclude Include="Ir\Instructions\GeI.h" />
+    <ClInclude Include="Ir\Instructions\GtI.h" />
+    <ClInclude Include="Ir\Instructions\IfI.h" />
+    <ClInclude Include="Ir\Instructions\Instruction.h" />
+    <ClInclude Include="Ir\Instructions\JumpI.h" />
+    <ClInclude Include="Ir\Instructions\LastInstruction.h" />
+    <ClInclude Include="Ir\Instructions\LeI.h" />
+    <ClInclude Include="Ir\Instructions\LoadI.h" />
+    <ClInclude Include="Ir\Instructions\LogAndI.h" />
+    <ClInclude Include="Ir\Instructions\LogEqvI.h" />
+    <ClInclude Include="Ir\Instructions\LogIorI.h" />
+    <ClInclude Include="Ir\Instructions\LogXorI.h" />
+    <ClInclude Include="Ir\Instructions\LtI.h" />
+    <ClInclude Include="Ir\Instructions\MulI.h" />
+    <ClInclude Include="Ir\Instructions\MvRestoreI.h" />
+    <ClInclude Include="Ir\Instructions\MvSaveI.h" />
+    <ClInclude Include="Ir\Instructions\NameRefI.h" />
+    <ClInclude Include="Ir\Instructions\NeI.h" />
+    <ClInclude Include="Ir\Instructions\NewArrayI.h" />
+    <ClInclude Include="Ir\Instructions\NewI.h" />
+    <ClInclude Include="Ir\Instructions\NonLocalI.h" />
+    <ClInclude Include="Ir\Instructions\NullI.h" />
+    <ClInclude Include="Ir\Instructions\OpenExitPointInstruction.h" />
+    <ClInclude Include="Ir\Instructions\OpenFinallyI.h" />
+    <ClInclude Include="Ir\Instructions\OpenInstruction.h" />
+    <ClInclude Include="Ir\Instructions\OpenCatchI.h" />
+    <ClInclude Include="Ir\Instructions\OperandBox.h" />
+    <ClInclude Include="Ir\Instructions\PhiI.h" />
+    <ClInclude Include="Ir\Instructions\PhiOperandBox.h" />
+    <ClInclude Include="Ir\Instructions\PrologueI.h" />
+    <ClInclude Include="Ir\Instructions\RemI.h" />
+    <ClInclude Include="Ir\Instructions\RetI.h" />
+    <ClInclude Include="Ir\Instructions\RuntimeCastI.h" />
+    <ClInclude Include="Ir\Instructions\SelectI.h" />
+    <ClInclude Include="Ir\Instructions\ShlI.h" />
+    <ClInclude Include="Ir\Instructions\ShrI.h" />
+    <ClInclude Include="Ir\Instructions\StaticCastI.h" />
+    <ClInclude Include="Ir\Instructions\StoreI.h" />
+    <ClInclude Include="Ir\Instructions\SubI.h" />
+    <ClInclude Include="Ir\Instructions\SwitchI.h" />
+    <ClInclude Include="Ir\Instructions\SwitchOperandBox.h" />
+    <ClInclude Include="Ir\Instructions\TerminateInstruction.h" />
+    <ClInclude Include="Ir\Instructions\ThrowI.h" />
+    <ClInclude Include="Ir\Instructions\UnBoxI.h" />
+    <ClInclude Include="Ir\Instructions\UpVarBaseI.h" />
+    <ClInclude Include="Ir\Instructions\UpVarDefI.h" />
+    <ClInclude Include="Ir\Instructions\UseI.h" />
+    <ClInclude Include="Ir\Instructions\ValuesI.h" />
+    <ClInclude Include="Ir\Instructions\VarDefI.h" />
+    <ClInclude Include="Ir\IrDefs.h" />
+    <ClInclude Include="Ir\IrObject.h" />
+    <ClInclude Include="Ir\Modifier.h" />
+    <ClInclude Include="Ir\Module.h" />
+    <ClInclude Include="Ir\Name.h" />
+    <ClInclude Include="Ir\Operands.h" />
+    <ClInclude Include="Ir\Operands\ArrayType.h" />
+    <ClInclude Include="Ir\Operands\BoolOutput.h" />
+    <ClInclude Include="Ir\Operands\BoolType.h" />
+    <ClInclude Include="Ir\Operands\Class.h" />
+    <ClInclude Include="Ir\Operands\ClassOrNamespace.h" />
+    <ClInclude Include="Ir\Operands\ConstructedClass.h" />
+    <ClInclude Include="Ir\Operands\ConstructedMethod.h" />
+    <ClInclude Include="Ir\Operands\Field.h" />
+    <ClInclude Include="Ir\Operands\Float.h" />
+    <ClInclude Include="Ir\Operands\FrameReg.h" />
+    <ClInclude Include="Ir\Operands\Function.h" />
+    <ClInclude Include="Ir\Operands\FunctionType.h" />
+    <ClInclude Include="Ir\Operands\GenericClass.h" />
+    <ClInclude Include="Ir\Operands\GenericMethod.h" />
+    <ClInclude Include="Ir\Operands\Immediate.h" />
+    <ClInclude Include="Ir\Operands\Label.h" />
+    <ClInclude Include="Ir\Operands\Literal.h" />
+    <ClInclude Include="Ir\Operands\Method.h" />
+    <ClInclude Include="Ir\Operands\MethodGroup.h" />
+    <ClInclude Include="Ir\Operands\NameRef.h" />
+    <ClInclude Include="Ir\Operands\Namespace.h" />
+    <ClInclude Include="Ir\Operands\Operand.h" />
+    <ClInclude Include="Ir\Operands\Output.h" />
+    <ClInclude Include="Ir\Operands\PointerType.h" />
+    <ClInclude Include="Ir\Operands\PrimitiveType.h" />
+    <ClInclude Include="Ir\Operands\Property.h" />
+    <ClInclude Include="Ir\Operands\PseudoOutput.h" />
+    <ClInclude Include="Ir\Operands\Register.h" />
+    <ClInclude Include="Ir\Operands\SsaOutput.h" />
+    <ClInclude Include="Ir\Operands\Type.h" />
+    <ClInclude Include="Ir\Operands\TypeArgs.h" />
+    <ClInclude Include="Ir\Operands\TypeParam.h" />
+    <ClInclude Include="Ir\Operands\TypeVar.h" />
+    <ClInclude Include="Ir\Operands\UnresolvedConstructedType.h" />
+    <ClInclude Include="Ir\Operands\UnresolvedType.h" />
+    <ClInclude Include="Ir\Operands\Values.h" />
+    <ClInclude Include="Ir\Operands\ValuesType.h" />
+    <ClInclude Include="Ir\Operands\ValuesTypeBuilder.h" />
+    <ClInclude Include="Ir\Operands\Variable.h" />
+    <ClInclude Include="Ir\Operands\VoidOutput.h" />
+    <ClInclude Include="Ir\SccNode.h" />
+    <ClInclude Include="Ir\SourceInfo.h" />
+    <ClInclude Include="Ir\VmErrorInfo.h" />
+    <ClInclude Include="Ir\WithLogging.h" />
+    <ClInclude Include="Ir\WithModifiers.h" />
+    <ClInclude Include="Ir\WithSourceInfo.h" />
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="Tasks\Cfg2SsaTask.h" />
+    <ClInclude Include="Tasks\CleanTask.h" />
+    <ClInclude Include="Tasks\ClosureTask.h" />
+    <ClInclude Include="Tasks\CodeEmitter.h" />
+    <ClInclude Include="Tasks\EditInstructionTasklet.h" />
+    <ClInclude Include="Tasks\EditTask.h" />
+    <ClInclude Include="Tasks\EditTasklet.h" />
+    <ClInclude Include="Tasks\FinalTask.h" />
+    <ClInclude Include="Tasks\FunctionEditor.h" />
+    <ClInclude Include="Tasks\FunctionTask.h" />
+    <ClInclude Include="Tasks\FunctionTasklet.h" />
+    <ClInclude Include="Tasks\ModuleTask.h" />
+    <ClInclude Include="Tasks\NormalizeTasklet.h" />
+    <ClInclude Include="Tasks\OperandEvaluator.h" />
+    <ClInclude Include="Tasks\PropagateTypeTasklet.h" />
+    <ClInclude Include="Tasks\Session.h" />
+    <ClInclude Include="Tasks\Task.h" />
+    <ClInclude Include="Tasks\Tasklet.h" />
+    <ClInclude Include="Tasks\VerifyTask.h" />
+    <ClInclude Include="Tasks\WithChangeCount.h" />
+    <ClInclude Include="VmDefs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Analysis\BitVec.cpp" />
+    <ClCompile Include="Analysis\DataFlowAnalysis.cpp" />
+    <ClCompile Include="Analysis\DominanceAnalyzer.cpp" />
+    <ClCompile Include="Fasl\FaslErrorInfo.cpp" />
+    <ClCompile Include="Fasl\FastReader.cpp" />
+    <ClCompile Include="Fasl\FastWriter.cpp" />
+    <ClCompile Include="Fasl\FastLoader.cpp" />
+    <ClCompile Include="Fasl\Name64.cpp" />
+    <ClCompile Include="Fasl\TypeSorter.cpp" />
+    <ClCompile Include="Functor.cpp" />
+    <ClCompile Include="Ir\BBlock.cpp" />
+    <ClCompile Include="Ir\CfgEdge.cpp" />
+    <ClCompile Include="Ir\CgEdge.cpp" />
+    <ClCompile Include="Ir\ErrorInfo.cpp" />
+    <ClCompile Include="Ir\Graph.cpp" />
+    <ClCompile Include="Ir\Instructions\AddI.cpp" />
+    <ClCompile Include="Ir\Instructions\BoxI.cpp" />
+    <ClCompile Include="Ir\Instructions\BranchI.cpp" />
+    <ClCompile Include="Ir\Instructions\CallI.cpp" />
+    <ClCompile Include="Ir\Instructions\CatchI.cpp" />
+    <ClCompile Include="Ir\Instructions\CloseI.cpp" />
+    <ClCompile Include="Ir\Instructions\ClosureI.cpp" />
+    <ClCompile Include="Ir\Instructions\DivI.cpp" />
+    <ClCompile Include="Ir\Instructions\EltRefI.cpp" />
+    <ClCompile Include="Ir\Instructions\EntryI.cpp" />
+    <ClCompile Include="Ir\Instructions\EqI.cpp" />
+    <ClCompile Include="Ir\Instructions\ExitI.cpp" />
+    <ClCompile Include="Ir\Instructions\FieldPtrI.cpp" />
+    <ClCompile Include="Ir\Instructions\FunctionOperandBox.cpp" />
+    <ClCompile Include="Ir\Instructions\GeI.cpp" />
+    <ClCompile Include="Ir\Instructions\GtI.cpp" />
+    <ClCompile Include="Ir\Instructions\IfI.cpp" />
+    <ClCompile Include="Ir\Instructions\Instruction.cpp" />
+    <ClCompile Include="Ir\Instructions\JumpI.cpp" />
+    <ClCompile Include="Ir\Instructions\LastInstruction.cpp" />
+    <ClCompile Include="Ir\Instructions\LeI.cpp" />
+    <ClCompile Include="Ir\Instructions\LoadI.cpp" />
+    <ClCompile Include="Ir\Instructions\LogAndI.cpp" />
+    <ClCompile Include="Ir\Instructions\LogEqvI.cpp" />
+    <ClCompile Include="Ir\Instructions\LogIorI.cpp" />
+    <ClCompile Include="Ir\Instructions\LogXorI.cpp" />
+    <ClCompile Include="Ir\Instructions\LtI.cpp" />
+    <ClCompile Include="Ir\Instructions\MulI.cpp" />
+    <ClCompile Include="Ir\Instructions\MvRestoreI.cpp" />
+    <ClCompile Include="Ir\Instructions\MvSaveI.cpp" />
+    <ClCompile Include="Ir\Instructions\NameRefI.cpp" />
+    <ClCompile Include="Ir\Instructions\NeI.cpp" />
+    <ClCompile Include="Ir\Instructions\NewArrayI.cpp" />
+    <ClCompile Include="Ir\Instructions\NewI.cpp" />
+    <ClCompile Include="Ir\Instructions\NonLocalI.cpp" />
+    <ClCompile Include="Ir\Instructions\NullI.cpp" />
+    <ClCompile Include="Ir\Instructions\OpenFinallyI.cpp" />
+    <ClCompile Include="Ir\Instructions\OpenInstruction.cpp" />
+    <ClCompile Include="Ir\Instructions\OpenCatchI.cpp" />
+    <ClCompile Include="Ir\Instructions\OperandBox.cpp" />
+    <ClCompile Include="Ir\Instructions\PhiI.cpp" />
+    <ClCompile Include="Ir\Instructions\PhiOperandBox.cpp" />
+    <ClCompile Include="Ir\Instructions\PrologueI.cpp" />
+    <ClCompile Include="Ir\Instructions\RemI.cpp" />
+    <ClCompile Include="Ir\Instructions\RetI.cpp" />
+    <ClCompile Include="Ir\Instructions\RuntimeCastI.cpp" />
+    <ClCompile Include="Ir\Instructions\SelectI.cpp" />
+    <ClCompile Include="Ir\Instructions\ShlI.cpp" />
+    <ClCompile Include="Ir\Instructions\ShrI.cpp" />
+    <ClCompile Include="Ir\Instructions\StaticCastI.cpp" />
+    <ClCompile Include="Ir\Instructions\StoreI.cpp" />
+    <ClCompile Include="Ir\Instructions\SubI.cpp" />
+    <ClCompile Include="Ir\Instructions\SwitchI.cpp" />
+    <ClCompile Include="Ir\Instructions\SwitchOperandBox.cpp" />
+    <ClCompile Include="Ir\Instructions\TerminateInstruction.cpp" />
+    <ClCompile Include="Ir\Instructions\ThrowI.cpp" />
+    <ClCompile Include="Ir\Instructions\UnBoxI.cpp" />
+    <ClCompile Include="Ir\Instructions\UpVarBaseI.cpp" />
+    <ClCompile Include="Ir\Instructions\UpVarDefI.cpp" />
+    <ClCompile Include="Ir\Instructions\UseI.cpp" />
+    <ClCompile Include="Ir\Instructions\ValuesI.cpp" />
+    <ClCompile Include="Ir\Instructions\VarDefI.cpp" />
+    <ClCompile Include="Ir\IrDefs.cpp" />
+    <ClCompile Include="Ir\IrObject.cpp" />
+    <ClCompile Include="Ir\Modifier.cpp" />
+    <ClCompile Include="Ir\Module.cpp" />
+    <ClCompile Include="Ir\Name.cpp" />
+    <ClCompile Include="Ir\Operands\ArrayType.cpp" />
+    <ClCompile Include="Ir\Operands\BoolOutput.cpp" />
+    <ClCompile Include="Ir\Operands\BoolType.cpp" />
+    <ClCompile Include="Ir\Operands\Class.cpp" />
+    <ClCompile Include="Ir\Operands\ClassOrNamespace.cpp" />
+    <ClCompile Include="Ir\Operands\ConstructedClass.cpp" />
+    <ClCompile Include="Ir\Operands\ConstructedMethod.cpp" />
+    <ClCompile Include="Ir\Operands\Field.cpp" />
+    <ClCompile Include="Ir\Operands\Float.cpp" />
+    <ClCompile Include="Ir\Operands\Function.cpp" />
+    <ClCompile Include="Ir\Operands\FunctionType.cpp" />
+    <ClCompile Include="Ir\Operands\GenericClass.cpp" />
+    <ClCompile Include="Ir\Operands\GenericMethod.cpp" />
+    <ClCompile Include="Ir\Operands\Label.cpp" />
+    <ClCompile Include="Ir\Operands\Literal.cpp" />
+    <ClCompile Include="Ir\Operands\Method.cpp" />
+    <ClCompile Include="Ir\Operands\MethodGroup.cpp" />
+    <ClCompile Include="Ir\Operands\NameRef.cpp" />
+    <ClCompile Include="Ir\Operands\Namespace.cpp" />
+    <ClCompile Include="Ir\Operands\Operand.cpp" />
+    <ClCompile Include="Ir\Operands\Output.cpp" />
+    <ClCompile Include="Ir\Operands\PointerType.cpp" />
+    <ClCompile Include="Ir\Operands\PrimitiveType.cpp" />
+    <ClCompile Include="Ir\Operands\Property.cpp" />
+    <ClCompile Include="Ir\Operands\Register.cpp" />
+    <ClCompile Include="Ir\Operands\SsaOutput.cpp" />
+    <ClCompile Include="Ir\Operands\Type.cpp" />
+    <ClCompile Include="Ir\Operands\TypeArgs.cpp" />
+    <ClCompile Include="Ir\Operands\TypeParam.cpp" />
+    <ClCompile Include="Ir\Operands\TypeVar.cpp" />
+    <ClCompile Include="Ir\Operands\UnresolvedConstructedType.cpp" />
+    <ClCompile Include="Ir\Operands\UnresolvedType.cpp" />
+    <ClCompile Include="Ir\Operands\Values.cpp" />
+    <ClCompile Include="Ir\Operands\ValuesType.cpp" />
+    <ClCompile Include="Ir\Operands\ValuesTypeBuilder.cpp" />
+    <ClCompile Include="Ir\Operands\Variable.cpp" />
+    <ClCompile Include="Ir\Operands\VoidOutput.cpp" />
+    <ClCompile Include="Ir\SourceInfo.cpp" />
+    <ClCompile Include="Ir\VmErrorInfo.cpp" />
+    <ClCompile Include="precomp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Tasks\Cfg2SsaTask.cpp" />
+    <ClCompile Include="Tasks\CleanTask.cpp" />
+    <ClCompile Include="Tasks\ClosureTask.cpp" />
+    <ClCompile Include="Tasks\CodeEmitter.cpp" />
+    <ClCompile Include="Tasks\EditInstructionTasklet.cpp" />
+    <ClCompile Include="Tasks\EditTask.cpp" />
+    <ClCompile Include="Tasks\EditTasklet.cpp" />
+    <ClCompile Include="Tasks\FinalTask.cpp" />
+    <ClCompile Include="Tasks\FunctionEditor.cpp" />
+    <ClCompile Include="Tasks\FunctionTask.cpp" />
+    <ClCompile Include="Tasks\FunctionTasklet.cpp" />
+    <ClCompile Include="Tasks\ModuleTask.cpp" />
+    <ClCompile Include="Tasks\NormalizeTasklet.cpp" />
+    <ClCompile Include="Tasks\OperandEvaluator.cpp" />
+    <ClCompile Include="Tasks\PropagateTypeTasklet.cpp" />
+    <ClCompile Include="Tasks\Task.cpp" />
+    <ClCompile Include="Tasks\Tasklet.cpp" />
+    <ClCompile Include="Tasks\VerifyTask.cpp" />
+    <ClCompile Include="VmDefs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Ir\Instructions\instructions.inc" />
+    <None Include="Ir\Modifiers.inc" />
+    <None Include="Ir\Symbols.inc" />
+    <None Include="Ir\types.inc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{8cee7ecb-a659-4c81-b6a4-4e30611876ce}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

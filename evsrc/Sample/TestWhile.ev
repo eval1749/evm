@@ -1,0 +1,19 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+  public void TestWhile(int n) {
+    var k = n;
+    while (k > 0) {
+      if ((k & 1) == 0) {
+        Console.WriteLine("even!");
+      }
+      k = k - 1;
+    }
+  }
+}
+
+} // Sample

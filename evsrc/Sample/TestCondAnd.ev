@@ -1,0 +1,13 @@
+// @(#)$Id$
+
+namespace Sample {
+
+using Common;
+
+class SampleClass {
+    public bool testCondAnd(int a, int b) {
+        return a == 0 && b == 0;
+    } // testWhile
+} // SampleClass
+
+} // Sample

@@ -1,0 +1,970 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Ir\Instructions\AddI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\ArrayType.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\BBlock.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\BoolOutput.cpp">
+      <Filter>Outputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\BoxI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\BranchI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\CallI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\CfgEdge.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\CgEdge.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Class.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\CloseI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\ClosureI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\ConstructedClass.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Analysis\DataFlowAnalysis.cpp">
+      <Filter>Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\EditTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\EditTasklet.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\DivI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\EntryI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\EqI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\ExitI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Field.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\FieldPtrI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\FunctionOperandBox.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\FunctionTasklet.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\FunctionType.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\GeI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\GtI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\GenericClass.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\Instruction.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\JumpI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Graph.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\IrDefs.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\IrObject.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Label.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\LastInstruction.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\LeI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\LoadI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\LogAndI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\LogEqvI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\LogIorI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Literal.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\MethodGroup.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Method.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\PointerType.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Name.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\OperandEvaluator.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Output.cpp">
+      <Filter>Outputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Operand.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Register.cpp">
+      <Filter>Outputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\LogXorI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\LtI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\MulI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\MvRestoreI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\MvSaveI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\NameRefI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\NeI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\OpenFinallyI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\OpenInstruction.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\OperandBox.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\PhiI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\PhiOperandBox.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\PrologueI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\RemI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\RetI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\RuntimeCastI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\SelectI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\ShlI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\ShrI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\SsaOutput.cpp">
+      <Filter>Outputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\Task.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\Tasklet.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\ValuesType.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Type.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\TypeParam.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Values.cpp">
+      <Filter>Outputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Variable.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\VoidOutput.cpp">
+      <Filter>Outputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\NameRef.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Namespace.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Function.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\FastLoader.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\Name64.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\StoreI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\SubI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\TerminateInstruction.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\UnBoxI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\UpVarDefI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\ValuesI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\VarDefI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\ValuesTypeBuilder.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\IfI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\StaticCastI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\VerifyTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\CleanTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\Cfg2SsaTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\ClosureTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Float.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\EltRefI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\ConstructedMethod.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\TypeArgs.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\PrimitiveType.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\UpVarBaseI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\SwitchI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\SwitchOperandBox.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\ThrowI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\NewI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\OpenCatchI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\CatchI.cpp">
+      <Filter>Instructions\A-M</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\NonLocalI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\UnresolvedType.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\GenericMethod.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\TypeVar.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\BoolType.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\ClassOrNamespace.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\NullI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\UnresolvedConstructedType.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\TypeSorter.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\FastWriter.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\FastReader.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\UseI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Analysis\BitVec.cpp">
+      <Filter>Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Module.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\ModuleTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Modifier.cpp">
+      <Filter>Ir</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\FinalTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Fasl\FaslErrorInfo.cpp">
+      <Filter>Fasl</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Operands\Property.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\FunctionEditor.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Analysis\DominanceAnalyzer.cpp">
+      <Filter>Analysis</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\PropagateTypeTasklet.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\EditInstructionTasklet.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\NormalizeTasklet.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\FunctionTask.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\CodeEmitter.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\Instructions\NewArrayI.cpp">
+      <Filter>Instructions\N-Z</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\ErrorInfo.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="Functor.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\SourceInfo.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="VmDefs.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="Ir\VmErrorInfo.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="precomp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Ir\Instructions\AddI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\ArithmeticInstruction.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\ArrayType.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\BBlock.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\BoolOutput.h">
+      <Filter>Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\CastInstruction.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\BoxI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\BranchI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\CallI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\CfgEdge.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Cg\CgDefs.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\CgEdge.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Class.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\CloseI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\ClosureI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\ConstructedClass.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Analysis\DataFlowAnalysis.h">
+      <Filter>Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\DomInfo.h">
+      <Filter>Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Edge.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\EditTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\EditTasklet.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\ExitI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\DivI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\EntryI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\EqI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Field.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\FieldPtrI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\FrameReg.h">
+      <Filter>Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Function.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\FunctionOperandBox.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\FunctionTasklet.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\FunctionType.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\GeI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\GtI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\GenericClass.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Immediate.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\Instruction.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\JumpI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Graph.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\GraphNode.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\IrDefs.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\IrObject.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Label.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\LogIorI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\LastInstruction.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\LeI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\LoadI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\LogAndI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\LogEqvI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Literal.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Method.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\MethodGroup.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\PointerType.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Modifier.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Name.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\OperandEvaluator.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Output.h">
+      <Filter>Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Operand.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\PseudoOutput.h">
+      <Filter>Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Register.h">
+      <Filter>Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\MvSaveI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\LogXorI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\LtI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\MulI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\MvRestoreI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\ShrI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\NameRefI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\NeI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\OpenExitPointInstruction.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\OpenFinallyI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\OpenInstruction.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\OperandBox.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\PhiI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\PhiOperandBox.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\PrologueI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\RemI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\RetI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\RuntimeCastI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\SelectI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\ShlI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\SsaOutput.h">
+      <Filter>Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\Tasklet.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\Task.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\SccNode.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\ValuesType.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Type.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\TypeParam.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Values.h">
+      <Filter>Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Variable.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\VoidOutput.h">
+      <Filter>Outputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\WithChangeCount.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\NameRef.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Namespace.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\FaslOp.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\FastLoader.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\FaslError.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\Name64.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\VarDefI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\StoreI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\SubI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\TerminateInstruction.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\UnBoxI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\UpVarDefI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\ValuesI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\ValuesTypeBuilder.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\IfI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\StaticCastI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\VerifyTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\CleanTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\Cfg2SsaTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\ClosureTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Float.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\EltRefI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\ConstructedMethod.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\TypeArgs.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\PrimitiveType.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\UpVarBaseI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\SwitchOperandBox.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\SwitchI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\ThrowI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\NewI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\OpenCatchI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\CatchI.h">
+      <Filter>Instructions\A-M</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\NonLocalI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\UnresolvedType.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\GenericMethod.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\TypeVar.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\BoolType.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\ClassOrNamespace.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\NullI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\UnresolvedConstructedType.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\BitWriter.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\BitReader.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\TypeSorter.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\FastWriter.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\FastReader.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\UseI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Analysis\BitVec.h">
+      <Filter>Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Module.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\ModuleTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\FinalTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Fasl\FaslErrorInfo.h">
+      <Filter>Fasl</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands\Property.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\FunctionEditor.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Analysis\DominanceAnalyzer.h">
+      <Filter>Analysis</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\PropagateTypeTasklet.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\EditInstructionTasklet.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\NormalizeTasklet.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\WithLogging.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\WithModifiers.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\WithSourceInfo.h">
+      <Filter>Ir</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\FunctionTask.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\CodeEmitter.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Instructions\NewArrayI.h">
+      <Filter>Instructions\N-Z</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\VmErrorInfo.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\ErrorInfo.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="Functor.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\Operands.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="Cg\Operands.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\Session.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="Ir\SourceInfo.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="VmDefs.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="precomp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Ir\Instructions\instructions.inc">
+      <Filter>Instructions</Filter>
+    </None>
+    <None Include="Ir\Modifiers.inc">
+      <Filter>Ir</Filter>
+    </None>
+    <None Include="Ir\types.inc">
+      <Filter>Types</Filter>
+    </None>
+    <None Include="Ir\Symbols.inc">
+      <Filter>Ir</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Types">
+      <UniqueIdentifier>{5fb92a5d-569e-4e84-8635-8226d37439a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Instructions">
+      <UniqueIdentifier>{f78a9ec6-b70b-472a-b1f6-fce5557b0902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Instructions\A-M">
+      <UniqueIdentifier>{05609f88-f302-4ee1-8058-969cd0cb9491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Instructions\N-Z">
+      <UniqueIdentifier>{1c29bcef-c8ae-4ce4-9354-999cc572476b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ir">
+      <UniqueIdentifier>{dbab1bef-c338-4829-b319-355fba09a2aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Outputs">
+      <UniqueIdentifier>{43ba0319-fb3d-4653-92e2-01fcff8444fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tasks">
+      <UniqueIdentifier>{457c4087-ec4d-4fd1-9f70-300e335405d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Analysis">
+      <UniqueIdentifier>{e7d9cec1-ff31-4cff-accb-c981a1f8c2bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Operands">
+      <UniqueIdentifier>{abcd6f33-a9ff-49c3-aa5b-f8d13440cc5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Io">
+      <UniqueIdentifier>{1e23aade-c393-45f9-a455-12459f8ffcc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fasl">
+      <UniqueIdentifier>{c2b617b9-5d09-4709-b8f8-2546b89c4627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="support">
+      <UniqueIdentifier>{50638422-f49e-4aef-b003-009cb1921395}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="precomp.cpp" />
+    <ClCompile Include="CgFunctor.cpp" />
+    <ClCompile Include="Instructions\CopyInstruction.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructions\PhiCopyI.cpp">
+      <Filter>Instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="Operands\Physical.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\CgAssembler.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\CicsAssembler.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\RegAllocPass.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="CgTarget.cpp" />
+    <ClCompile Include="CgInit.cpp" />
+    <ClCompile Include="Tasks\StackManager.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Operands\FunLit.cpp">
+      <Filter>Operands</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="Instructions\PhiCopyI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\CopyInstruction.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\RegAllocPass.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\CgAssembler.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\CicsAssembler.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="CgDefs.h" />
+    <ClInclude Include="CgFunctor.h" />
+    <ClInclude Include="CgInstructions.h" />
+    <ClInclude Include="CgOperands.h" />
+    <ClInclude Include="CgTarget.h" />
+    <ClInclude Include="Operands\Physical.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Operands\CgOperand.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\AssignI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\ReloadI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\SpillI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\SwapI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\UpVarRefI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\VarAnnexI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\VarHomeI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\VarRefI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\CopyI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\StackManager.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="Operands\FunLit.h">
+      <Filter>Operands</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\ReinterpretCastI.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructions\CgInstruction.h">
+      <Filter>Instructions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Tasks">
+      <UniqueIdentifier>{4f1fa658-f4b0-4757-8a5f-988a60cfc195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Instructions">
+      <UniqueIdentifier>{ed204fc2-02d7-42e4-aa31-158626c12d20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Operands">
+      <UniqueIdentifier>{787ebc11-1830-4365-b676-efcf40a4a5a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Io">
+      <UniqueIdentifier>{070c9122-6669-4f1b-8954-876428bff8b8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Instructions\CgInstructions.inc">
+      <Filter>Instructions</Filter>
+    </None>
+  </ItemGroup>
+</Project>

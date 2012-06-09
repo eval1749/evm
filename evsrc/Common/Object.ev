@@ -1,0 +1,13 @@
+// @(#)$Id$
+//
+// Evita Basic Library - Common Object
+// Copyright (C) 2010-2011 by Project Vogue.
+
+namespace Common {
+
+public class Object {
+  public extern Type GetType();
+  public extern String ToString();
+}
+
+} // Common

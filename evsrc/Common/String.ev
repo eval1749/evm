@@ -1,0 +1,81 @@
+// @(#)$Id$
+//
+// Evita Basic Library - Common String
+// Copyright (C) 2010-2011 by Project Vogue.
+
+namespace Common {
+
+class String
+    : Comparable<String>,
+      Enumerable<Char>,
+      Equatable<String>,
+      Hashable {
+
+  private char[] chars_;
+
+  // ctor
+  public extern String(char[] charv, int startIndex, int count);
+
+  public char this[int index] { get { return chars_[index]; } }
+
+  // [C]
+  public static int Compare(String a, String b) {
+    return Compare(a, 0, b, 0, a.Length);
+  }
+
+  public static int Compare(
+      String string1,
+      int start1,
+      String string2,
+      int start2,
+      int length) {
+    if (length < 0) {
+      throw new ArgumentOutOfRangeException(
+          String.Format("Length({0}) must be non-negative integer.",
+              length));
+    }
+
+    var index1 = start1;
+    var index2 = start2;
+
+    var end1 = Math.Min(string1.Length, start1 + length);
+    var end2 = Math.Min(string2.Length, start2 + length);
+
+    for (;;) {
+      if (index1 >= end1) {
+        return index2 >= end2 ? 0 : -1;
+      }
+
+      if (index2 >= end2) {
+        return 1;
+      }
+
+      var diff = string1[index1] - string2[index];
+      if (diff != 0) {
+        return diff;
+      }
+
+      ++index1;
+      ++index2;
+    }
+  }
+
+  public int Comparable<String>.CompareTo(String another) {
+    return Compare(this, that);
+  }
+
+  public extern int ComputeHashCode();
+
+  // [E]
+  public bool Equals(String another) {
+    return CompareTo(another) == 0;
+  }
+
+  // [L]
+  public int Length { get { return length_; } }
+
+  // [T]
+  public override extern String ToString();
+}
+
+}

@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Compiler\precomp.h" />
+    <ClInclude Include="Syntax\AbstractParserTest.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Passes\AbstractPassTest.h">
+      <Filter>Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="DomBuilder.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="DomNode.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Il\IlTest.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractCompilerTest.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\TokenBox.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax\AbstractLexerTest.h">
+      <Filter>Syntax</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorItem.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Tasks\AbstractTaskTest.h">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Compiler\precomp.cpp" />
+    <ClCompile Include="compiler_test_main.cpp" />
+    <ClCompile Include="Syntax\LexerTest.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\NameLexerTest.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\ParserTest.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\AbstractParserTest.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\ResolveClassPassTest.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\AbstractPassTest.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="DomBuilder.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="DomNode.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\FinalizeClassPassTest.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\ResolveMethodPassTest.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Passes\FinalizeEnumPassTest.cpp">
+      <Filter>Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Compiler\SourceBufferTest.cpp">
+      <Filter>Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Il\Ir\Instructions\Description.cpp" />
+    <ClCompile Include="..\Il\IlTest.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\TypeUnifierTest.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractCompilerTest.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\TokenTest.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\TokenBox.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\AbstractLexerTest.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorItem.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Syntax\ParserErrorTest.cpp">
+      <Filter>Syntax</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\NameRefResolverTest.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="Tasks\AbstractTaskTest.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Syntax">
+      <UniqueIdentifier>{ddaa14ee-fd2e-4307-8700-15d8d733efdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{9d86dcf4-1aab-4932-bc70-b77e5b385aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Passes">
+      <UniqueIdentifier>{783cebe2-1297-4568-8e89-07de4b7c77fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compiler">
+      <UniqueIdentifier>{6d66aee9-d17a-4f2f-95a2-d5f585b6afd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tasks">
+      <UniqueIdentifier>{2324d0bd-2929-4a4f-8f92-805273143f17}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

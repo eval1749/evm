@@ -1,0 +1,22 @@
+// -*- Mode: C++; -*-
+// @(#)$Id$
+//
+
+#if !defined(DEFINE_TARGET_INSTRUCTION)
+  #error "You must define DEFINE_TARGET_INSTRUCTION."
+#endif
+
+DEFINE_TARGET_INSTRUCTION(x86Bool, 2, X86, "X86BOOL bool %bd <= %ix int")
+DEFINE_TARGET_INSTRUCTION(x86Clc, 0, X86, "X86CLC") // for values
+DEFINE_TARGET_INSTRUCTION(x86CvtFloat, 1, X86, "X86CVTFLOAT ty %fx <= %rd")
+DEFINE_TARGET_INSTRUCTION(x86CvtInt, 1, X86, "X86CVTINT ty %rd <= %fx")
+DEFINE_TARGET_INSTRUCTION(x86Encode, 1, X86, "X86ENCODE ty %rd <= %rx") // for float
+DEFINE_TARGET_INSTRUCTION(x86Cmp, 2, X86, "X86CMP int %id <= %sx %sy")
+DEFINE_TARGET_INSTRUCTION(x86CmpF32, 2, X86, "X86CMPF32 int %id <= %sx %sy")
+DEFINE_TARGET_INSTRUCTION(x86CmpF64, 2, X86, "X86CMPF64 int %id <= %sx %sy")
+DEFINE_TARGET_INSTRUCTION(x86Lea, 2, X86, "X86LEA int %rd <= %rx %sy")
+DEFINE_TARGET_INSTRUCTION(x86Stc, 0, X86, "X86STC") // for values
+DEFINE_TARGET_INSTRUCTION(x86Test, 2, X86, "X86TEST int %id <= %sx %sy")
+DEFINE_TARGET_INSTRUCTION(x86Zero, 0, X86, "X86ZERO ty %rd <=") // for +0.0
+
+#undef DEFINE_TARGET_INSTRUCTION
