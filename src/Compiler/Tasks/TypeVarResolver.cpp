@@ -66,7 +66,7 @@ void TypeVarResolver::FixTypeVarWithMethodCall(const CallI& call_inst) {
   }
 
   while (params.IsRequired()) {
-    if (auto const tyvar = args.Get().DynamicCast<TypeVar>()) {
+    if (auto const tyvar = args->DynamicCast<TypeVar>()) {
       auto& paramty = params.Get().Construct(type_args);
       DEBUG_FORMAT("outy=%s rety=%s", tyvar, paramty);
       tyvar->And(paramty);
@@ -79,7 +79,7 @@ void TypeVarResolver::FixTypeVarWithMethodCall(const CallI& call_inst) {
   if (auto const resty = params.GetRestType()) {
     auto& paramty = resty->element_type().Construct(type_args);
     while (!args.AtEnd()) {
-      if (auto const tyvar = args.Get().DynamicCast<TypeVar>()) {
+      if (auto const tyvar = args->DynamicCast<TypeVar>()) {
         DEBUG_FORMAT("argty=%s paramty=%s", tyvar, paramty);
         tyvar->And(paramty);
         type_var_set_.Add(tyvar);
@@ -104,13 +104,32 @@ void TypeVarResolver::Resolve() {
       DEBUG_FORMAT("type_var_insts_=%s", type_var_insts_);
       changed = false;
       WorkList_<Instruction> pendings;
+      WorkList_<Instruction> pending_calls;
       foreach (ArrayList_<Instruction*>::Enum, insts, type_var_insts_) {
-        pendings.Push(insts.Get());
+        auto& inst = *insts.Get();
+        if (inst.Is<CallI>()) {
+          pending_calls.Push(&inst);
+        } else {
+          pendings.Push(&inst);
+        }
       }
 
       type_var_insts_.Clear();
+
       while (!pendings.IsEmpty()) {
         auto& inst = *pendings.Pop();
+        if (UpdateTypeVar(inst)) {
+          type_var_insts_.Add(&inst);
+          changed = true;
+        }
+      }
+
+      if (compile_session_.HasError()) {
+        return;
+      }
+
+      while (!pending_calls.IsEmpty()) {
+        auto& inst = *pending_calls.Pop();
         if (UpdateTypeVar(inst)) {
           type_var_insts_.Add(&inst);
           changed = true;
@@ -186,7 +205,9 @@ bool TypeVarResolver::UnifyTypes(
     auto& ty = tyvars.GetBoundType();
     type_var_set_.Add(&tyvar);
     if (ty.IsBound()) {
-      if (tyvar.And(ty) == *Ty_Void) {
+      auto& andty = tyvar.And(ty);
+      DEBUG_FORMAT(" type_and(%s,  %s) = %s", tyvar, ty, andty);
+      if (andty == *Ty_Void) {
         compile_session_.AddError(
             inst.source_info(),
             CompileError_Resolve_Type_Conflict,
@@ -283,7 +304,8 @@ bool TypeVarResolver::UpdateTypeVarWithCall(const CallI& call_inst) {
 bool TypeVarResolver::UpdateTypeVarWithMethod(
     const CallI& call_inst,
     const Method& method) {
-  auto& argsty = *call_inst.op1().type().StaticCast<ValuesType>();
+  auto& args_inst = call_inst.args_inst();
+  auto& argsty = *args_inst.output_type().StaticCast<ValuesType>();
   auto& outy = call_inst.output_type();
 
   if (auto const tyvar = outy.DynamicCast<TypeVar>()) {
@@ -293,14 +315,11 @@ bool TypeVarResolver::UpdateTypeVarWithMethod(
 
   Method::ParamTypeScanner params(method);
   ValuesType::Enum args(argsty);
-
-  if (!method.IsStatic()) {
-    // Skip "this" argument.
-    args.Next();
-  }
+  // Skip "this" argument.
+  args.Next();
 
   while (params.IsRequired()) {
-    if (auto const tyvar = args.Get().DynamicCast<TypeVar>()) {
+    if (auto const tyvar = args->DynamicCast<TypeVar>()) {
       auto& paramty = params.Get();
       DEBUG_FORMAT("outy=%s rety=%s", tyvar, paramty);
       tyvar->Or(paramty);
@@ -313,7 +332,7 @@ bool TypeVarResolver::UpdateTypeVarWithMethod(
   if (auto const resty = params.GetRestType()) {
     auto& paramty = resty->element_type();
     while (!args.AtEnd()) {
-      if (auto const tyvar = args.Get().DynamicCast<TypeVar>()) {
+      if (auto const tyvar = args->DynamicCast<TypeVar>()) {
         DEBUG_FORMAT("argty=%s paramty=%s", tyvar, paramty);
         tyvar->Or(paramty);
         type_var_set_.Add(tyvar);
@@ -325,7 +344,8 @@ bool TypeVarResolver::UpdateTypeVarWithMethod(
     compile_session_.AddError(
       call_inst.source_info(),
       CompileError_Instruction_Invalid,
-      call_inst);
+      call_inst,
+      args_inst);
     return false;
   }
 
@@ -361,8 +381,7 @@ bool TypeVarResolver::UpdateTypeVarWithMethodGroup(const CallI& call_inst) {
       DEBUG_FORMAT("One applicable method: %s", call_inst);
       ASSERT(!method.Is<GenericMethod>());
 
-      auto& args_inst = *call_inst.op1().StaticCast<Values>()
-          ->def_inst()->StaticCast<ValuesI>();
+      auto& args_inst = call_inst.args_inst();
       auto& argsty = *args_inst.output_type().StaticCast<ValuesType>();
 
       ValuesType::Enum types(argsty);
@@ -399,10 +418,12 @@ bool TypeVarResolver::UpdateTypeVarWithMethodGroup(const CallI& call_inst) {
     }
 
     default: {
-      DEBUG_FORMAT("%s: applicable methods: %s", call_inst, applicable_methods);
+      DEBUG_FORMAT("%s has %d applicable methods: %s",
+        call_inst,
+        applicable_methods.Count(),
+        applicable_methods);
       auto& outy = call_inst.output_type();
-      auto& args_inst = *call_inst.op1().StaticCast<Values>()
-          ->def_inst()->StaticCast<ValuesI>();
+      auto& args_inst = call_inst.args_inst();
       auto& argsty = *args_inst.output_type().StaticCast<ValuesType>();
 
       foreach (ArrayList_<Method*>::Enum, methods, applicable_methods) {
@@ -415,9 +436,10 @@ bool TypeVarResolver::UpdateTypeVarWithMethodGroup(const CallI& call_inst) {
 
         Method::ParamTypeScanner params(method);
         ValuesType::Enum args(argsty);
+        args.Next();
 
         while (params.IsRequired()) {
-          if (auto const tyvar = args.Get().DynamicCast<TypeVar>()) {
+          if (auto const tyvar = args->DynamicCast<TypeVar>()) {
             auto& paramty = params.Get();
             DEBUG_FORMAT("outy=%s rety=%s", tyvar, paramty);
             tyvar->Or(paramty);
@@ -430,7 +452,7 @@ bool TypeVarResolver::UpdateTypeVarWithMethodGroup(const CallI& call_inst) {
         if (auto const resty = params.GetRestType()) {
           auto& paramty = resty->element_type();
           while (!args.AtEnd()) {
-            if (auto const tyvar = args.Get().DynamicCast<TypeVar>()) {
+            if (auto const tyvar = args->DynamicCast<TypeVar>()) {
               DEBUG_FORMAT("argty=%s paramty=%s", tyvar, paramty);
               tyvar->Or(paramty);
               type_var_set_.Add(tyvar);
@@ -442,7 +464,8 @@ bool TypeVarResolver::UpdateTypeVarWithMethodGroup(const CallI& call_inst) {
           compile_session_.AddError(
             call_inst.source_info(),
             CompileError_Instruction_Invalid,
-            call_inst);
+            call_inst,
+            args_inst);
           return false;
         }
       }
@@ -452,7 +475,7 @@ bool TypeVarResolver::UpdateTypeVarWithMethodGroup(const CallI& call_inst) {
 }
 
 bool TypeVarResolver::UpdateTypeVarWithOperator(const CallI& call_inst) {
-  auto& args_inst = *call_inst.op1().def_inst()->StaticCast<ValuesI>();
+  auto& args_inst = call_inst.args_inst();
   auto const clazz = args_inst.op0().type().DynamicCast<Class>();
   if (!clazz) {
     DEBUG_FORMAT("type=%s", args_inst.op0().type());
