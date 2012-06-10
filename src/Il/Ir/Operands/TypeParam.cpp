@@ -60,13 +60,28 @@ Subtype TypeParam::IsSubtypeOf(const Type& r) const {
     return Subtype_Yes;
   }
 
-  if (auto const that = r.DynamicCast<TypeParam>()) {
-      return owner_ == that->owner_ && name_ == that->name_
-        ? Subtype_Yes
-        : Subtype_No;
+  if (!is_realized()) {
+    return Subtype_Unknown;
   }
 
-  return Subtype_Unknown;
+  if (auto const that = r.DynamicCast<TypeParam>()) {
+    foreach (EnumConstraint, it, *that) {
+      auto const is_subtype_of = IsSubtypeOf(**it);
+      if (is_subtype_of != Subtype_Yes) {
+        return is_subtype_of;
+      }
+    }
+    return Subtype_Yes;
+  }
+
+  foreach (EnumConstraint, it, *this) {
+    auto const is_subtype_of = it->IsSubtypeOf(r);
+    if (is_subtype_of != Subtype_Yes) {
+      return is_subtype_of;
+    }
+  }
+
+  return Subtype_Yes;
 }
 
 // [R]
