@@ -98,4 +98,18 @@ void swap(T& rx, T& ry) {
   ry = temp;
 } // swap
 
+#if _MSC_VER >= 1700
+// C++11 requires a forward declaration of an unscoped enumeration must have 
+// an underlying type.
+#define HAS_FORWARD_DECLARED_ENUMS 0
+#else
+#define HAS_FORWARD_DECLARED_ENUMS 0
+#endif
+
+#if HAS_FORWARD_DECLARED_ENUMS
+  #define enum__(name, type) enum name : type
+#else
+  #define enum__(name, type) enum name
+#endif
+
 #endif //!defined(INCLUDE_z_defs_h)
