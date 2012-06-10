@@ -29,6 +29,7 @@ class TypeParamDef : public TypeDef_<TypeParamDef> {
   // ctor
   public: TypeParamDef(ClassOrNamespaceDef&, const Name&, const SourceInfo&);
 
+  // properties
   public: const TypeParam& type_param() const { return type_param_; }
 
   // [A]
