@@ -139,5 +139,5 @@ DEFOP(PatchPhi) // Stack(Ref(PhiOutput), Ref(Output))
 DEFOP(ConstructedMethodRef)
 DEFOP(Property) // Modifier Type Name
 DEFOP(PropertyMember) // name Method
-
+DEFOP(RealizeTypeParam) // Array(Class) Int32
 #undef DEFOP

@@ -807,21 +807,31 @@ void FastWriter::WriteSourceInfo(const SourceInfo* source_info) {
 #endif
 }
 
+// TypeParam object is serialized within two steps:
+//  1. Serialize name for creating TypeParam object.
+//  2. Serialzie constraints
+// Two step serialization is required for supporting self reference, e.g.
+//  class Foo<T> where T : Comparable<T> { ... }
 void FastWriter::WriteTypeParam(const TypeParam& typaram) {
   if (!typaram.is_realized()) {
     UnexpectedOperand(typaram);
     return;
   }
+
   WriteName(typaram.name());
+  WriteFaslOp(FaslOp_TypeParam);
+  Remember(typaram);
+
   auto num_constraints = 0;
   foreach (TypeParam::EnumConstraint, it, typaram) {
     WriteTypeRef(**it);
     ++num_constraints;
   }
+
+  WriteTypeRef(typaram);
   WriteArrayFaslOp(num_constraints);
   WritePushInt32(typaram.is_newable());
-  WriteFaslOp(FaslOp_TypeParam);
-  Remember(typaram);
+  WriteFaslOp(FaslOp_RealizeTypeParam);
 }
 
 void FastWriter::WriteTypeRef(const Type& type) {

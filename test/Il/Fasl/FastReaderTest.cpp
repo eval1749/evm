@@ -268,6 +268,10 @@ class MockReaderCallback : public FastReader::Callback {
     PopCommand("RealizeClass", 2);
   }
 
+  public: virtual void HandleRealizeTypeParam() override {
+    PopCommand("RealizeTypeParam", 3);
+  }
+
   public: virtual void HandleRef(int const ref_id) override {
     if (ref_id <= 0) {
       operand_stack_.Push(String("???"));
@@ -287,7 +291,7 @@ class MockReaderCallback : public FastReader::Callback {
 
   // [H][T]
   public: virtual void HandleTypeParam() override {
-    PushAndRemember("TypeParam", 3);
+    PushAndRemember("TypeParam", 1);
   }
 
   // [H][V]
@@ -425,7 +429,8 @@ TEST_F(FastReaderTest, ConstructedMethod) {
     L"(RealizeClass #9# [Object])\n"
     L"(ClassContext #9#)\n"
     L"#11=(MethodGroup #10='Bar')\n"
-    L"#13=(TypeParam #12='T' [] 0)\n"
+    L"#13=(TypeParam #12='T')\n"
+    L"(RealizeTypeParam #13# [] 0)\n"
     L"#14=(ValuesType [])\n"
     L"#15=(FunctionType #14# #13#)\n"
     L"#16=(GenericMethod 64 [#13#] #15#)\n"
@@ -472,7 +477,8 @@ TEST_F(FastReaderTest, GenericClass) {
 
   char16 const expected[] =
     L"(FileMagic #7='EvO')\n"
-    L"#10=(TypeParam #9='T' [] 0)\n"
+    L"#10=(TypeParam #9='T')\n"
+    L"(RealizeTypeParam #10# [] 0)\n"
     L"#11=(GenericClass Zero 256 #8='Foo' [#10#])\n"
     L"(RealizeClass #11# [Object])\n"
     L"(ClassContext #11#)\n"

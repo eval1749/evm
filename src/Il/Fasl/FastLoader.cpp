@@ -1113,6 +1113,34 @@ void FastLoader::HandleRealizeClass() {
   }
 }
 
+// Stack:
+//  [0] TypeParam
+//  [1] Array(Class)
+//  [2] newable
+void FastLoader::HandleRealizeTypeParam() {
+  Object* objects[3];
+  if (!Pop(objects, ARRAYSIZE(objects))) {
+    return;
+  }
+  if (HasError()) return;
+
+  auto& typaram = ExpectTypeParam(objects[0]);
+  auto& things = ExpectArray(objects[1]);
+  auto const newable = ExpectInt32(objects[2]);
+
+  ArrayList_<const Class*> constraints(things.Count());
+  auto index = 0;
+  foreach (ObjectArray::Enum, it, things) {
+    constraints[index] = &ExpectClass(*it);
+    ++index;
+  }
+  if (HasError()) return;
+
+  const_cast<TypeParam&>(typaram).RealizeTypeParam(
+      constraints,
+      newable ? TypeParam::Newable : TypeParam::NotNewable);
+}
+
 void FastLoader::HandleRef(int const ref_id) {
   PushRef(ref_id);
 }
@@ -1125,31 +1153,16 @@ void FastLoader::HandleReset() {
 
 // Stack:
 //  [0] name
-//  [1] Array(Class)
-//  [2] newable
 void FastLoader::HandleTypeParam() {
-  Object* objects[3];
+  Object* objects[1];
   if (!Pop(objects, ARRAYSIZE(objects))) {
     return;
   }
   if (HasError()) return;
 
   auto& name = ExpectName(objects[0]);
-  auto& things = ExpectArray(objects[1]);
-  auto const  newable = ExpectInt32(objects[2]);
-
-  ArrayList_<const Class*> constraints(things.Count());
-  auto index = 0;
-  foreach (ObjectArray::Enum, it, things) {
-    constraints[index] = &ExpectClass(*it);
-    ++index;
-  }
   if (HasError()) return;
-
   auto& typaram = *new TypeParam(name);
-  typaram.RealizeTypeParam(
-      constraints,
-      newable ? TypeParam::Newable : TypeParam::NotNewable);
   PushAndRemember(typaram);
 }
 

@@ -168,6 +168,7 @@ class FastLoader : public Tasklet, protected FastReader::Callback {
 
   // [H][R]
   protected: virtual void HandleRealizeClass() override;
+  protected: virtual void HandleRealizeTypeParam() override;
   protected: virtual void HandleRef(int) override;
   protected: virtual void HandleReset() override;
 

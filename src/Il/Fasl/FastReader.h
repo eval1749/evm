@@ -92,6 +92,7 @@ class FastReader : public Tasklet {
 
     // [H][R]
     public: virtual void HandleRealizeClass() = 0;
+    public: virtual void HandleRealizeTypeParam() = 0;
     public: virtual void HandleRef(int) = 0;
     public: virtual void HandleReset() = 0;
 
