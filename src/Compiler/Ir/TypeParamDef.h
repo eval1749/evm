@@ -30,6 +30,7 @@ class TypeParamDef : public TypeDef_<TypeParamDef> {
   public: TypeParamDef(ClassOrNamespaceDef&, const Name&, const SourceInfo&);
 
   // properties
+  public: bool is_newable() const { return m_fNewable; }
   public: const TypeParam& type_param() const { return type_param_; }
 
   // [A]

@@ -361,6 +361,9 @@ static void InstallClasses() {
   #define DEFINE_GENERIC_CLASS_1(mp_outer, mp_name, mp_mod, ...) { \
     Q_ ## mp_name = &Q(mp_name); \
     auto& typaram1 = *new TypeParam(Q(T)); \
+    typaram1.RealizeTypeParam( \
+        CollectionV_<const Class*>(), \
+        TypeParam::NotNewable); \
     Ty_ ## mp_name = new GenericClass( \
         *Ty_ ## mp_outer, \
         mp_mod, \

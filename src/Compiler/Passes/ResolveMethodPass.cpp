@@ -174,8 +174,13 @@ void ResolveMethodPass::Process(MethodDef* const method_def_ptr) {
   auto& method_group = InternMethodGroup(method_def);
 
   ArrayList_<const TypeParam*> type_params;
-  foreach (MethodDef::EnumTypeParam, oEnum, method_def) {
-    type_params.Add(&oEnum.Get()->type_param());
+  foreach (MethodDef::EnumTypeParam, it, method_def) {
+    auto& typaram = it->type_param();
+    // TODO(yosi) 2012-06-10 NYI: Realize type param from TypeParamDef.
+    const_cast<TypeParam&>(typaram).RealizeTypeParam(
+        CollectionV_<const Class*>(),
+        it->is_newable() ? TypeParam::Newable : TypeParam::NotNewable);
+    type_params.Add(&typaram);
   }
 
   auto& method = type_params.IsEmpty()

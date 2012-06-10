@@ -101,6 +101,10 @@ void AbstractFaslTest::MakeSampleConstructedMethod(MemoryStream& mem) {
 
   auto& ty_T = *new TypeParam(Name::Intern("T"));
 
+  ty_T.RealizeTypeParam(
+      CollectionV_<const Class*>(),
+      TypeParam::NotNewable);
+
   auto& gmt_Bar = *new GenericMethod(
       mtg_Bar,
       Modifier_Private,
@@ -153,6 +157,9 @@ void AbstractFaslTest::MakeSampleField(MemoryStream& mem) {
 // class Foo<T> { T x; }
 void AbstractFaslTest::MakeSampleGenericClass(MemoryStream& mem) {
   auto& type_param_T = *new TypeParam(Name::Intern("T"));
+  type_param_T.RealizeTypeParam(
+      CollectionV_<const Class*>(),
+      TypeParam::NotNewable);
 
   auto& class_Foo = *new GenericClass(
       global_ns(),

@@ -105,11 +105,16 @@ TEST_F(TypeSorterTest, Nested) {
 // class Bar<T> {}
 // class Foo : Bar<Foo> {}
 TEST_F(TypeSorterTest, SelfRefernce) {
+  auto& typaram_T = *new TypeParam(Name::Intern("T"));
+  typaram_T.RealizeTypeParam(
+      CollectionV_<const Class*>(),
+      TypeParam::NotNewable);
+
   auto& class_Bar = *new GenericClass(
     global_ns(),
     Modifier_Public | Modifier_ClassVariation_Interface,
     Name::Intern("Bar"),
-    CollectionV_<const TypeParam*>(new TypeParam(Name::Intern("T"))));
+    CollectionV_<const TypeParam*>(&typaram_T));
   class_Bar.RealizeClass(CollectionV_<const Class*>());
 
   auto& class_Foo = *new Class(

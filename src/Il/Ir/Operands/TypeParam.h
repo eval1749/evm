@@ -21,15 +21,32 @@ namespace Ir {
 class TypeParam : public Type_<TypeParam> {
   CASTABLE_CLASS(TypeParam)
 
-  private: const Name& name_;
+  public: enum ConstructorConstraint {
+    NotNewable,
+    Newable,
+  };
+
+  public: typedef Collection_<const Class*> Constraints;
+
+  public: class EnumConstraint : public Constraints::Enum {
+    private: typedef Constraints::Enum Base;
+    public: EnumConstraint(const TypeParam& r) : Base(r.class_constraints_) {}
+    DISALLOW_COPY_AND_ASSIGN(EnumConstraint);
+  };
 
   // Member varible owner_ contains Class or Method object.
+  private: Constraints class_constraints_;
+  private: ConstructorConstraint ctor_constraint_;
+  private: const Name& name_;
   private: const Operand* owner_;
+  private: bool realized_;
 
   // ctor
   public: explicit TypeParam(const Name&);
 
   // properties
+  public: bool is_newable() const;
+  public: bool is_realized() const { return realized_; }
   public: const Name& name() const { return name_; }
   public: const Operand& owner() const;
 
@@ -43,6 +60,11 @@ class TypeParam : public Type_<TypeParam> {
   // [I]
   public: bool IsBound() const { return !!owner_; }
   public: virtual Subtype IsSubtypeOf(const Type&) const override;
+
+  // [R]
+  public: void RealizeTypeParam(
+      const Constraints&,
+      ConstructorConstraint);
 
   // [T]
   public: virtual String ToString() const override;

@@ -808,7 +808,18 @@ void FastWriter::WriteSourceInfo(const SourceInfo* source_info) {
 }
 
 void FastWriter::WriteTypeParam(const TypeParam& typaram) {
+  if (!typaram.is_realized()) {
+    UnexpectedOperand(typaram);
+    return;
+  }
   WriteName(typaram.name());
+  auto num_constraints = 0;
+  foreach (TypeParam::EnumConstraint, it, typaram) {
+    WriteTypeRef(**it);
+    ++num_constraints;
+  }
+  WriteArrayFaslOp(num_constraints);
+  WritePushInt32(typaram.is_newable());
   WriteFaslOp(FaslOp_TypeParam);
   Remember(typaram);
 }

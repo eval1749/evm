@@ -204,6 +204,13 @@ bool ResolveClassPass::FixClassDef(ClassDef& class_def) {
    return true;
   }
 
+  foreach (ClassDef::EnumTypeParam, it, class_def) {
+    // TODO(yosi) 2012-06-10 NYI: Realize type param from TypeParamDef.
+    const_cast<TypeParam&>(it->type_param()).RealizeTypeParam(
+        CollectionV_<const Class*>(),
+        it->is_newable() ? TypeParam::Newable : TypeParam::NotNewable);
+  }
+
   DEBUG_FORMAT("Realize %s %s : %s",
       class_def.IsInterface() ? "interface" : "class",
       class_def, base_spec_list);

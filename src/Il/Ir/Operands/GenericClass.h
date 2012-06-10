@@ -61,6 +61,10 @@ class GenericClass : public Class_<GenericClass> {
   // [I]
   public: bool IsBound() const { return false; }
 
+  // [R]
+  public: virtual void RealizeClass(
+      const Collection_<const Class*>&) override;
+
   // [T]
   public: virtual String ToString() const override;
 

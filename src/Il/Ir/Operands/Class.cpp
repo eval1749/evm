@@ -247,42 +247,40 @@ void Class::RealizeClass(const Collection_<const Class*>& base_specs) {
     outer().Add(name(), *this);
   }
 
-  #ifdef _DEBUG
-    if (IsInterface()) {
-      foreach (EnumBaseSpec, base_specs, *this) {
-        auto& base = base_specs.Get();
-        ASSERT(this != &base);
-        if (!base.IsInterface()) {
-          DEBUG_FORMAT("%s: %s %d must be an interface.",
-            name(), base, base.modifiers());
-          CAN_NOT_HAPPEN();
-        }
-      }
-    } else {
-      EnumBaseSpec base_specs(*this);
-      if (!base_specs.AtEnd()) {
-        auto& base = base_specs.Get();
-        ASSERT(this != &base);
-        if (base.IsInterface()) {
-          DEBUG_FORMAT("%s: %s %d must not be an interface.",
-            name(), base, base.modifiers());
-          CAN_NOT_HAPPEN();
-        }
-        base_specs.Next();
-      }
-
-      while (!base_specs.AtEnd()) {
-        auto& base = base_specs.Get();
-        ASSERT(this != &base);
-        if (!base.IsInterface()) {
-          DEBUG_FORMAT("%s: %s %d must be an interface.",
-            name(), base, base.modifiers());
-          CAN_NOT_HAPPEN();
-        }
-        base_specs.Next();
+  if (IsInterface()) {
+    foreach (EnumBaseSpec, base_specs, *this) {
+      auto& base = base_specs.Get();
+      ASSERT(this != &base);
+      if (!base.IsInterface()) {
+        DEBUG_FORMAT("%s: %s %d must be an interface.",
+          name(), base, base.modifiers());
+        CAN_NOT_HAPPEN();
       }
     }
-  #endif
+  } else {
+    EnumBaseSpec base_specs(*this);
+    if (!base_specs.AtEnd()) {
+      auto& base = base_specs.Get();
+      ASSERT(this != &base);
+      if (base.IsInterface()) {
+        DEBUG_FORMAT("%s: %s %d must not be an interface.",
+          name(), base, base.modifiers());
+        CAN_NOT_HAPPEN();
+      }
+      base_specs.Next();
+    }
+
+    while (!base_specs.AtEnd()) {
+      auto& base = base_specs.Get();
+      ASSERT(this != &base);
+      if (!base.IsInterface()) {
+        DEBUG_FORMAT("%s: %s %d must be an interface.",
+          name(), base, base.modifiers());
+        CAN_NOT_HAPPEN();
+      }
+      base_specs.Next();
+    }
+  }
 }
 
 } // Ir

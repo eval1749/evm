@@ -89,7 +89,7 @@ class Class
   public: virtual Subtype IsSubtypeOf(const Type&) const override;
 
   // [R]
-  public: void RealizeClass(const Collection_<const Class*>&);
+  public: virtual void RealizeClass(const Collection_<const Class*>&);
 
   DISALLOW_COPY_AND_ASSIGN(Class);
 }; // Class

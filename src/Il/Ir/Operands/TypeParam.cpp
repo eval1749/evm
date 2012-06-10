@@ -18,10 +18,17 @@ namespace Ir {
 
 // ctor
 TypeParam::TypeParam(const Name& name)
-  : name_(name),
-    owner_(nullptr) {}
+  : ctor_constraint_(NotNewable),
+    name_(name),
+    owner_(nullptr),
+    realized_(false) {}
 
 // properties
+bool TypeParam::is_newable() const {
+  ASSERT(is_realized());
+  return ctor_constraint_ == Newable;
+}
+
 const Operand& TypeParam::owner() const {
   ASSERT(!!owner_);
   return *owner_;
@@ -60,6 +67,16 @@ Subtype TypeParam::IsSubtypeOf(const Type& r) const {
   }
 
   return Subtype_Unknown;
+}
+
+// [R]
+void TypeParam::RealizeTypeParam(
+    const Constraints& class_constraints,
+    ConstructorConstraint ctor_constraint) {
+  ASSERT(!is_realized());
+  class_constraints_ = class_constraints;
+  ctor_constraint_ = ctor_constraint;
+  realized_ = true;
 }
 
 // [T]

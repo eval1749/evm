@@ -1121,15 +1121,35 @@ void FastLoader::HandleReset() {
   ResetAll();
 }
 
-// [H][V]
+// [H][T]
+
+// Stack:
+//  [0] name
+//  [1] Array(Class)
+//  [2] newable
 void FastLoader::HandleTypeParam() {
-  Object* objects[1];
+  Object* objects[3];
   if (!Pop(objects, ARRAYSIZE(objects))) {
     return;
   }
+  if (HasError()) return;
 
   auto& name = ExpectName(objects[0]);
+  auto& things = ExpectArray(objects[1]);
+  auto const  newable = ExpectInt32(objects[2]);
+
+  ArrayList_<const Class*> constraints(things.Count());
+  auto index = 0;
+  foreach (ObjectArray::Enum, it, things) {
+    constraints[index] = &ExpectClass(*it);
+    ++index;
+  }
+  if (HasError()) return;
+
   auto& typaram = *new TypeParam(name);
+  typaram.RealizeTypeParam(
+      constraints,
+      newable ? TypeParam::Newable : TypeParam::NotNewable);
   PushAndRemember(typaram);
 }
 

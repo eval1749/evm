@@ -132,6 +132,14 @@ const Collection_<const TypeParam*>& GenericClass::GetTypeParams() const {
   return type_params_;
 }
 
+// [R]
+void GenericClass::RealizeClass(const Collection_<const Class*>& base_specs) {
+  Class::RealizeClass(base_specs);
+  foreach (EnumTypeParam, it, *this) {
+    ASSERT(it->is_realized());
+  }
+}
+
 // [T]
 String GenericClass::ToString() const {
   StringBuilder builder;
