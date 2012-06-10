@@ -9,6 +9,7 @@
 #include "./CallI.h"
 
 #include "./FunctionOperandBox.h"
+#include "./ValuesI.h"
 
 #include "../Name.h"
 #include "../Operands.h"
@@ -34,8 +35,12 @@ CallI::CallI(
   AppendOperand(args);
 }
 
+ValuesI& CallI::args_inst() const {
+  return *op1().StaticCast<Values>()->def_inst()->StaticCast<ValuesI>();
+}
+
 const ValuesType& CallI::args_type() const {
-  return *GetVy()->GetDefI()->output_type().StaticCast<ValuesType>();
+  return *args_inst().output_type().StaticCast<ValuesType>();
 }
 
 /// <summary>

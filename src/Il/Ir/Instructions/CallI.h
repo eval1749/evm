@@ -13,6 +13,8 @@
 namespace Il {
 namespace Ir {
 
+class ValuesI;
+
 /// <summary>
 ///   Call instruction.
 ///   <para>
@@ -32,6 +34,7 @@ class CallI : public Instruction_<CallI, Op_Call> {
       const Values& args);
 
   // properties
+  public: ValuesI& args_inst() const;
   public: const ValuesType& args_type() const;
 
   // [G]
