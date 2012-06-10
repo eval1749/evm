@@ -101,7 +101,7 @@ void swap(T& rx, T& ry) {
 #if _MSC_VER >= 1700
 // C++11 requires a forward declaration of an unscoped enumeration must have 
 // an underlying type.
-#define HAS_FORWARD_DECLARED_ENUMS 0
+#define HAS_FORWARD_DECLARED_ENUMS 1
 #else
 #define HAS_FORWARD_DECLARED_ENUMS 0
 #endif

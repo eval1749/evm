@@ -37,7 +37,7 @@ class ClassOrNamespace;
 class CgEdge;
 class Functor;
 
-enum__(Op, unit);
+enum__(Op, int);
 
 class Instruction;
     class ArithmeticInstruction;
