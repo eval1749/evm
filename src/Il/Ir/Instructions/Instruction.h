@@ -21,7 +21,7 @@ namespace Il {
 namespace Ir {
 
 // Note: enum Op must include all opcode used in IL, CG, TARGET.
-enum Op {
+enum__(Op, uint) {
   Op_None = 0,
 
   #define DEFINSTRUCTION(mp_name, mp_arity, mp_family, mp_format) \
