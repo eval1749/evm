@@ -17,24 +17,30 @@ class TypeParamDef : public TypeDef_<TypeParamDef> {
 
   public: class EnumConstraint : public Type::List::Enum {
     private: typedef Type::List::Enum Base;
-    public: EnumConstraint(const TypeParamDef* p)
-        : Base(&const_cast<TypeParamDef*>(p)->m_oConstraints) {}
+    public: EnumConstraint(const TypeParamDef&r )
+        : Base(&r.constraints_) {}
     DISALLOW_COPY_AND_ASSIGN(EnumConstraint);
   };
 
-  private: bool m_fNewable;
-  private: Type::List m_oConstraints;
+  private: Type::List constraints_;
+  private: int newable_;
+  private: const NameDef* owner_;
   private: TypeParam& type_param_;
 
   // ctor
   public: TypeParamDef(ClassOrNamespaceDef&, const Name&, const SourceInfo&);
 
   // properties
-  public: bool is_newable() const { return m_fNewable; }
+  public: bool is_newable() const { return !!newable_; }
+  public: const NameDef& owner() const { ASSERT(!!owner_); return *owner_; }
   public: const TypeParam& type_param() const { return type_param_; }
+  public: void set_owner(const NameDef&);
 
   // [A]
-  public: void Add(const Type&);
+  public: void AddConstraint(const Type&);
+
+  // [M]
+  public: void MarkNewable();
 
   DISALLOW_COPY_AND_ASSIGN(TypeParamDef);
 };

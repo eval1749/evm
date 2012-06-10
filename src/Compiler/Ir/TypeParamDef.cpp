@@ -8,6 +8,9 @@
 
 #include "./TypeParamDef.h"
 
+#include "./ClassDef.h"
+#include "./MethodDef.h"
+
 namespace Compiler {
 
 // ctor
@@ -16,12 +19,28 @@ TypeParamDef::TypeParamDef(
     const Name& name,
     const SourceInfo& source_info)
     : Base(owner, 0, name, source_info),
-      m_fNewable(false),
+      newable_(0),
+      owner_(nullptr),
       type_param_(*new TypeParam(name)) {}
 
+// properties
+void TypeParamDef::set_owner(const NameDef& owner) {
+  ASSERT(!owner_);
+  ASSERT(owner.Is<ClassDef>() || owner.Is<MethodDef>());
+  owner_ = &owner;
+}
+
 // [A]
-void TypeParamDef::Add(const Type& type) {
-  m_oConstraints.Add(&type);
+void TypeParamDef::AddConstraint(const Type& type) {
+  ASSERT(!!owner_);
+  constraints_.Add(&type);
+}
+
+// [M]
+void TypeParamDef::MarkNewable() {
+  ASSERT(!!owner_);
+  ASSERT(!newable_);
+  ++newable_;
 }
 
 } // Compiler
