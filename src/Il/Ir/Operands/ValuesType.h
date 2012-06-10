@@ -28,7 +28,8 @@ class ValuesType : public Type_<ValuesType> {
     private: typedef Type::Collection::Enum Base;
     public: Enum(const ValuesType& r) : Base(r.types_) {}
     public: Enum(const ValuesType* p) : Base(p->types_) {}
-    public: const Type& operator*() const { return Get(); }
+    public: const Type& operator *() const { return Get(); }
+    public: const Type* operator ->() const { return &Get(); }
     public: const Type& Get() const { return *Base::Get(); }
     DISALLOW_COPY_AND_ASSIGN(Enum);
   };
@@ -43,6 +44,9 @@ class ValuesType : public Type_<ValuesType> {
           rest_type_(r.ComputeRestType()) {
       m_cRequireds = !rest_type_ ? r.Count() : r.Count() - 1;
     }
+
+    public: const Type& operator *() const { return Get(); }
+    public: const Type* operator ->() const { return &Get(); }
 
     public: bool IsRequired() const {
       return m_cRequireds > 0;
