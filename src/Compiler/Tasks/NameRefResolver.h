@@ -47,6 +47,12 @@ class NameRefResolver : public Tasklet {
     const Operand&,
     const NameRef&,
     const NameRef::Item&);
+  private: const Operand* ResolveNameItemForClass(
+    const Class&,
+    const NameRef::Item&);
+  private: const Operand* ResolveNameItemForTypeParam(
+    const TypeParam&,
+    const NameRef::Item&);
 
   // [S]
   private: const Operand& SelectBaseOperand(

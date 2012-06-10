@@ -26,6 +26,7 @@ class ClassMemberResolver {
 
   public: ClassMemberResolver(const Class& clazz, const Name& name)
       : name_(name) {
+    DEBUG_FORMAT("%s %s", clazz, name);
     Resolve(clazz);
   }
 
@@ -488,22 +489,6 @@ const Operand* NameRefResolver::ResolveNameItem(
     const NameRef& name_ref,
     const NameRef::Item& name_item) {
 
-  class Local {
-    public: static const Type& EnsureClass(const Type& type) {
-      if (auto const clazz = type.DynamicCast<Class>()) {
-        return *clazz;
-      }
-
-      if (auto const arrty = type.DynamicCast<ArrayType>()) {
-        return Ty_Array->Construct(arrty->element_type());
-      }
-
-      // Caller of EnsureClass must not pass type parameter and type variable,
-      // even if it is bound.
-      return type;
-    }
-  };
-
   auto& name = name_item.name();
   if (base_operand == *Void) {
     if (auto const present = method_def_.Find(name)) {
@@ -543,29 +528,49 @@ const Operand* NameRefResolver::ResolveNameItem(
     return namespaze->Find(name);
   }
 
-  // TODO(yosi) 2012-05-19 If type of base_operand is type variable or
-  // type parameter, EnsureClass doesn't work.
-  auto& base_type = base_operand.Is<Class>()
-      ? *base_operand.StaticCast<const Type>()
-      : Local::EnsureClass(base_operand.type());
-  if (!base_type.Is<Class>()) {
-    DEBUG_FORMAT("unexpected type: %s %s", base_type.GetKind(), base_type);
-    compile_session_.AddError(
-        name_item.source_info(),
-        CompileError_Resolve_Unexpected,
-        base_operand.type(),
-        name_ref);
-    return nullptr;
+  if (auto const clazz = base_operand.DynamicCast<Class>()) {
+    return ResolveNameItemForClass(*clazz, name_item);
   }
 
-  ClassMemberResolver resolver(*base_type.StaticCast<Class>(), name);
+  if (auto const typaram = base_operand.DynamicCast<TypeParam>()) {
+    return ResolveNameItemForTypeParam(*typaram, name_item);
+  }
 
+  auto& base_type = base_operand.type();
+
+  if (auto const arrty = base_type.DynamicCast<ArrayType>()) {
+    return ResolveNameItemForClass(
+        Ty_Array->Construct(arrty->element_type()),
+        name_item);
+  }
+
+  if (auto const clazz = base_type.DynamicCast<Class>()) {
+    return ResolveNameItemForClass(*clazz, name_item);
+  }
+
+  if (auto const typaram = base_type.DynamicCast<TypeParam>()) {
+    return ResolveNameItemForTypeParam(*typaram, name_item);
+  }
+
+  DEBUG_FORMAT("unexpected type: %s %s", base_type.GetKind(), base_type);
+  compile_session_.AddError(
+      name_item.source_info(),
+      CompileError_Resolve_Unexpected,
+      base_operand.type(),
+      name_ref);
+  return nullptr;
+}
+
+const Operand* NameRefResolver::ResolveNameItemForClass(
+    const Class& clazz,
+    const NameRef::Item& name_item) {
+  ClassMemberResolver resolver(clazz, name_item.name());
   switch (resolver.Count()) {
     case 0:
       compile_session_.AddError(
           name_item.source_info(),
           CompileError_Resolve_Name_NotFound,
-          name);
+          name_item.name());
       return nullptr;
 
     case 1:
@@ -577,6 +582,39 @@ const Operand* NameRefResolver::ResolveNameItem(
           CompileError_Resolve_Name_Ambiguous,
         resolver[0],
         resolver[1]);
+      return nullptr;
+  }
+}
+
+const Operand* NameRefResolver::ResolveNameItemForTypeParam(
+    const TypeParam& typaram,
+    const NameRef::Item& name_item) {
+  auto& name = name_item.name();
+  ArrayList_<const Operand*> presents;
+  foreach (TypeParam::EnumConstraint, it, typaram) {
+    ClassMemberResolver resolver(**it, name);
+    for (auto i = 0; i < resolver.Count(); ++i) {
+      presents.Add(&resolver[i]);
+    }
+  }
+
+  switch (presents.Count()) {
+    case 0:
+      compile_session_.AddError(
+          name_item.source_info(),
+          CompileError_Resolve_Name_NotFound,
+          name);
+      return nullptr;
+
+    case 1:
+      return presents[0];
+
+    default:
+       compile_session_.AddError(
+          name_item.source_info(),
+          CompileError_Resolve_Name_Ambiguous,
+        presents[0],
+        presents[1]);
       return nullptr;
   }
 }
