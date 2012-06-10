@@ -105,7 +105,8 @@ class Collection_ : public Object_<Collection_<T>> {
     }
 
     public: ~Enum() { data_->Release(); }
-    public: T operator*() const { return Get(); }
+    public: T operator *() const { return Get(); }
+    public: T operator ->() const { return Get(); }
 
     public: bool AtEnd() const {
       ASSERT(current_ <= end_);
