@@ -251,10 +251,7 @@ void FastWriter::WriteClassDef(const Class& clazz) {
   if (auto const gen_class = clazz.DynamicCast<GenericClass>()) {
     auto num_type_params = 0;
     foreach (GenericClass::EnumTypeParam, type_params, *gen_class) {
-      auto& type_param = *type_params.Get();
-      WriteName(type_param.name());
-      WriteFaslOp(FaslOp_TypeParam);
-      Remember(type_param);
+      WriteTypeParam(*type_params.Get());
       ++num_type_params;
     }
     WriteArrayFaslOp(num_type_params);
@@ -487,10 +484,7 @@ void FastWriter::WriteMethod(const Method& method) {
   if (auto const gen_method = method.DynamicCast<GenericMethod>()) {
     auto num_type_params = 0;
     foreach (GenericMethod::EnumTypeParam, type_params, *gen_method) {
-      auto& type_param = *type_params.Get();
-      WriteName(type_param.name());
-      WriteFaslOp(FaslOp_TypeParam);
-      Remember(type_param);
+      WriteTypeParam(*type_params.Get());
       ++num_type_params;
     }
     WriteArrayFaslOp(num_type_params);
@@ -811,6 +805,12 @@ void FastWriter::WriteSourceInfo(const SourceInfo* source_info) {
    WriteUInt32V4(-column_delta);
   }
 #endif
+}
+
+void FastWriter::WriteTypeParam(const TypeParam& typaram) {
+  WriteName(typaram.name());
+  WriteFaslOp(FaslOp_TypeParam);
+  Remember(typaram);
 }
 
 void FastWriter::WriteTypeRef(const Type& type) {

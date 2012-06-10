@@ -102,6 +102,7 @@ class FastWriter : public Tasklet {
   private: void WriteRef(const Operand&);
   private: void WriteRefId(int);
   private: void WriteSourceInfo(const SourceInfo*);
+  private: void WriteTypeParam(const TypeParam&);
   private: void WriteTypeRef(const Type&);
 
   private: void WriteUInt32V4(uint32, uint32 = 0);
