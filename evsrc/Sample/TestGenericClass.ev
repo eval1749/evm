@@ -1,0 +1,15 @@
+using Common;
+
+class Foo<T> where T : Comparable<T> {
+  private static T Max(T x, T y) {
+    return x.CompareTo(y) > 0 ? x : y;
+  }
+
+  private static int Max(int x, int y) {
+    return x > y ? x : y;
+  }
+
+  public void Bar(T x, T y) {
+    Console.WriteLine("%s %s", Max(10, 20), Max(x, y));
+  }
+}
