@@ -21,34 +21,27 @@ namespace Ir {
 class TypeParam : public Type_<TypeParam> {
   CASTABLE_CLASS(TypeParam)
 
-  private: static long s_lIndex;
-
-  // TODO 2011-01-10 Encode new constraints into modifiers since type
-  // parameter doesn't use modifier.
-  private: bool const m_fNewable;
-  private: int const m_iIndex;
   private: const Name& name_;
-  private: Operand* m_pOwner;
+
+  // Member varible owner_ contains Class or Method object.
+  private: const Operand* owner_;
 
   // ctor
   public: explicit TypeParam(const Name&);
 
+  // properties
   public: const Name& name() const { return name_; }
+  public: const Operand& owner() const;
 
   // [B]
-  public: void BindTo(Operand* const pOwner);
+  public: void BindTo(const Operand&);
 
   // [C]
   public: virtual int ComputeHashCode() const override;
   public: virtual const Type& Construct(const TypeArgs&) const override;
 
-  // [G]
-  public: Operand* GetOwner() const;
-  public: GenericClass* GetOwnerClass() const;
-  public: GenericMethod* GetOwnerMethod() const;
-
   // [I]
-  public: bool IsBound() const { return m_pOwner != nullptr; }
+  public: bool IsBound() const { return !!owner_; }
   public: virtual Subtype IsSubtypeOf(const Type&) const override;
 
   // [T]

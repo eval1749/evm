@@ -16,26 +16,28 @@
 namespace Il {
 namespace Ir {
 
-long TypeParam::s_lIndex;
-
 // ctor
 TypeParam::TypeParam(const Name& name)
-  : m_fNewable(false),
-    m_iIndex(static_cast<int>(::InterlockedIncrement(&s_lIndex))),
-    name_(name),
-    m_pOwner(nullptr) {}
+  : name_(name),
+    owner_(nullptr) {}
+
+// properties
+const Operand& TypeParam::owner() const {
+  ASSERT(!!owner_);
+  return *owner_;
+}
 
 // [B]
-void TypeParam::BindTo(Operand* const pOwner) {
-  ASSERT(pOwner != nullptr);
-  ASSERT(m_pOwner == nullptr);
-  m_pOwner = pOwner;
+void TypeParam::BindTo(const Operand& owner) {
+  ASSERT(owner.Is<Class>() || owner.Is<Method>());
+  ASSERT(!owner_);
+  owner_ = &owner;
 }
 
 // [C]
 int TypeParam::ComputeHashCode() const {
   auto const hash_code = name().ComputeHashCode();
-  return Common::ComputeHashCode(m_iIndex, hash_code);
+  return Common::ComputeHashCode('T', hash_code);
 }
 
 const Type& TypeParam::Construct(const TypeArgs& type_args) const {
@@ -45,20 +47,6 @@ const Type& TypeParam::Construct(const TypeArgs& type_args) const {
   return type ? *type : typaram;
 }
 
-// [G]
-Operand* TypeParam::GetOwner() const {
-  ASSERT(m_pOwner != nullptr);
-  return m_pOwner;
-}
-
-GenericClass* TypeParam::GetOwnerClass() const {
-  return GetOwner()->StaticCast<GenericClass>();
-}
-
-GenericMethod* TypeParam::GetOwnerMethod() const {
-  return GetOwner()->StaticCast<GenericMethod>();
-}
-
 // [I]
 Subtype TypeParam::IsSubtypeOf(const Type& r) const {
   if (*this == r || r == *Ty_Object) {
@@ -66,7 +54,7 @@ Subtype TypeParam::IsSubtypeOf(const Type& r) const {
   }
 
   if (auto const that = r.DynamicCast<TypeParam>()) {
-      return m_pOwner == that->m_pOwner && name_ == that->name_
+      return owner_ == that->owner_ && name_ == that->name_
         ? Subtype_Yes
         : Subtype_No;
   }

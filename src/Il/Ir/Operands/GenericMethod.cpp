@@ -27,7 +27,7 @@ GenericMethod::GenericMethod(
   ASSERT(type_params.Count() > 0);
   foreach (TypeParams::Enum, params, type_params) {
     auto& type_param = *const_cast<TypeParam*>(params.Get());
-    type_param.BindTo(this);
+    type_param.BindTo(*this);
   } // for
 } // GenericMethod
 

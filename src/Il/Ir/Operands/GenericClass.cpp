@@ -33,7 +33,7 @@ GenericClass::GenericClass(
   ASSERT(type_params.Count() > 0);
   foreach (TypeParams::Enum, oEnum, type_params) {
     auto& type_param = *const_cast<TypeParam*>(oEnum.Get());
-    type_param.BindTo(this);
+    type_param.BindTo(*this);
     Add(type_param.name(), type_param);
   } // for
 }
