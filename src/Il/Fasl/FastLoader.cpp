@@ -542,12 +542,10 @@ void FastLoader::HandleGenericClass() {
   Array_<const TypeParam*> type_params(name_list.Count());
   auto num_type_params = 0;
   foreach (ObjectArray::Enum, names, name_list) {
-    auto& name = ExpectName(names.Get());
+    auto& typaram = ExpectTypeParam(names.Get());
     if (HasError()) return;
-    auto& type_param = *new TypeParam(name);
-    type_params.Set(num_type_params, &type_param);
+    type_params.Set(num_type_params, &typaram);
     ++num_type_params;
-    Remember(type_param);
   }
 
   auto& clazz = *new GenericClass(
@@ -579,9 +577,9 @@ void FastLoader::HandleGenericMethod() {
   Array_<const TypeParam*> type_params(name_list.Count());
   auto num_type_params = 0;
   foreach (ObjectArray::Enum, names, name_list) {
-    auto& type_param = ExpectTypeParam(names.Get());
+    auto& typaram = ExpectTypeParam(names.Get());
     if (HasError()) return;
-    type_params.Set(num_type_params++, &type_param);
+    type_params.Set(num_type_params++, &typaram);
   }
 
   auto& module = *new Module();
@@ -1132,7 +1130,7 @@ void FastLoader::HandleTypeParam() {
 
   auto& name = ExpectName(objects[0]);
   auto& typaram = *new TypeParam(name);
-  Remember(typaram);
+  PushAndRemember(typaram);
 }
 
 // [H][V]
@@ -1195,6 +1193,7 @@ bool FastLoader::Pop(Object** const objects, int const count) {
 }
 
 void FastLoader::Push(const Object& obj) {
+  DEBUG_FORMAT("Stack[%d]=%s", operand_stack_.Count(), obj);
   operand_stack_.Push(&const_cast<Object&>(obj));
 }
 

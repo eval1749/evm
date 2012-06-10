@@ -472,11 +472,11 @@ TEST_F(FastReaderTest, GenericClass) {
 
   char16 const expected[] =
     L"(FileMagic #7='EvO')\n"
-    // In loader, #10=TypeParam(T), #11=GenericClass
-    L"#10=(GenericClass Zero 256 #8='Foo' [#9='T'])\n"
+    L"#10=(TypeParam #9='T')\n"
+    L"#11=(GenericClass Zero 256 #8='Foo' [#10#])\n"
     L"(RealizeClass #11# [Object])\n"
     L"(ClassContext #11#)\n"
-    L"#12=(Field 64 #10# #11='x')\n";
+    L"#13=(Field 64 #10# #12='x')\n";
 
   MockSession session;
   String actual(Load(session, mem));

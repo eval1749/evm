@@ -86,8 +86,8 @@ TEST_F(FastWriterTest, GenericClass) {
   ScopedPtr_<ByteArray> actual_bytes(ToByteArray(mem));
 
   uint8 const expected_bytev[] = {
-    89, 253, 50, 4, 222, 9, 158, 8, 1, 104, 103, 152, 11, 120, 6, 12, 128, 27,
-    9, 176, 100, 16, 220, 133, 51, 160, 6, 151, 224, 17, 77, 0
+    89, 253, 50, 4, 222, 9, 158, 8, 1, 104, 103, 152, 11, 120, 9, 25, 131, 32,
+    6, 194, 108, 25, 4, 55, 33, 76, 232, 1, 165, 248, 4, 83, 64, 0
   };
   ByteArray expected_bytes(expected_bytev, sizeof(expected_bytev));
   EXPECT_EQ(expected_bytes, *actual_bytes);

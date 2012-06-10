@@ -253,6 +253,7 @@ void FastWriter::WriteClassDef(const Class& clazz) {
     foreach (GenericClass::EnumTypeParam, type_params, *gen_class) {
       auto& type_param = *type_params.Get();
       WriteName(type_param.name());
+      WriteFaslOp(FaslOp_TypeParam);
       Remember(type_param);
       ++num_type_params;
     }
