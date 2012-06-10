@@ -213,7 +213,7 @@ void FastWriter::UnexpectedOperand(const Operand& operand) {
   DEBUG_FORMAT("%s %s", operand.GetKind(), operand);
   AddErrorInfo(
     FaslErrorInfo(
-        *source_info_,
+        source_info_ ? *source_info_ : SourceInfo(),
         FaslError_Unexpected_Operand,
         operand));
 }
