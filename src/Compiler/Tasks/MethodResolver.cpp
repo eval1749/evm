@@ -27,6 +27,38 @@ static const Class* EnsureOperatorClass(const Type& type) {
   return type.DynamicCast<Class>();
 }
 
+static bool IsMoreSpecific(const Type& type1, const Type& type2) {
+  if (type1.Is<TypeParam>()) {
+    return type2.Is<TypeParam>();
+  }
+  return type1.IsSubtypeOf(type2) != Subtype_No;
+}
+
+// TODO(yosi) 2012-06-10 MethodResolver.cpp IsMoreSpecific should return
+// Unknown
+static bool IsMoreSpecific(const Method& method1, const Method& method2) {
+  ValuesType::ElementScanner scanner1(method1.function_type().params_type());
+  ValuesType::ElementScanner scanner2(method2.function_type().params_type());
+  while (scanner1.IsRequired() && scanner2.IsRequired()) {
+    if (!IsMoreSpecific(scanner1.Get(), scanner2.Get())) {
+      return false;
+    }
+    scanner1.Next();
+    scanner2.Next();
+  }
+
+  if (!scanner1.IsRequired() && !scanner2.IsRequired()) {
+    auto const resty1 = scanner1.GetRestType();
+    auto const resty2 = scanner2.GetRestType();
+    if (resty1 && resty2) {
+      return IsMoreSpecific(*resty1, *resty2);
+    }
+    return !resty1;
+  }
+
+  return scanner1.IsRequired();
+}
+
 } // namespace
 
 // ctor
@@ -41,6 +73,7 @@ MethodResolver::MethodResolver(
 
 // [B]
 bool MethodResolver::BindTypeArg(
+    const Method& method,
     TypeArgs& type_args,
     const Type& param_ty,
     const Type& arg_ty) const {
@@ -54,13 +87,19 @@ bool MethodResolver::BindTypeArg(
       return UnifyTypes(type_args, *tyarg, arg_ty);
     }
 
-    DEBUG_FORMAT(" bind %s to %s", *typaram, arg_ty);
-    type_args.Add(*typaram, arg_ty);
-    return true;
+    if (typaram->owner() == method) {
+      DEBUG_FORMAT(" bind %s to %s", *typaram, arg_ty);
+      type_args.Add(*typaram, arg_ty);
+      return true;
+    }
+
+    DEBUG_FORMAT(" try bind %s and %s", *typaram, arg_ty);
+    return UnifyTypes(type_args, *typaram, arg_ty);
   }
 
   if (auto const arrty = param_ty.DynamicCast<ArrayType>()) {
     return BindTypeArg(
+        method,
         type_args,
         arrty->element_type(),
         arg_ty.StaticCast<ArrayType>()->element_type());
@@ -71,10 +110,12 @@ bool MethodResolver::BindTypeArg(
 
     return
         BindTypeArg(
+            method,
             type_args,
             param_funty->return_type(),
             arg_funty->return_type())
         && BindTypeArg(
+            method,
             type_args,
             param_funty->params_type(),
             arg_funty->params_type());
@@ -82,6 +123,7 @@ bool MethodResolver::BindTypeArg(
 
   if (auto const param_ptry = param_ty.DynamicCast<PointerType>()) {
     return BindTypeArg(
+        method,
         type_args,
         param_ptry->pointee_type(),
         arg_ty.StaticCast<PointerType>()->pointee_type());
@@ -92,7 +134,7 @@ bool MethodResolver::BindTypeArg(
     foreach (ValuesType::Enum, enum_paramty, param_vals_ty) {
       auto& arg_ty = enum_argty.Get();
       auto& param_ty = enum_paramty.Get();
-      if (!BindTypeArg(type_args, param_ty, arg_ty)) {
+      if (!BindTypeArg(method, type_args, param_ty, arg_ty)) {
         return false;
       }
       enum_argty.Next();
@@ -144,6 +186,9 @@ const Operand& MethodResolver::BoxingIfNeeded(
 }
 
 // [C]
+
+// TODO(yosi) 2012-06-10 We should search method group in class base
+// class and interfaces.
 ArrayList_<Method*> MethodResolver::ComputeApplicableMethods(
     const CallI& call_inst) const {
   class Local {
@@ -156,7 +201,7 @@ ArrayList_<Method*> MethodResolver::ComputeApplicableMethods(
 
   auto& callee = call_inst.op0();
   if (auto const mtg = callee.DynamicCast<MethodGroup>()) {
-    return ComputeApplicableMethods(call_inst, *mtg);
+    return SelectMostSpecific(ComputeApplicableMethods(call_inst, *mtg));
   }
 
   if (auto const simple_name = Local::ToSimpleName(callee)) {
@@ -165,8 +210,9 @@ ArrayList_<Method*> MethodResolver::ComputeApplicableMethods(
     auto& arg_type = args_inst.op0().type().ComputeBoundType();
     if (auto const clazz = EnsureOperatorClass(arg_type)) {
       if (auto const mtg = clazz->Find(name)->DynamicCast<MethodGroup>()) {
-        return ComputeApplicableMethods(call_inst, *mtg);
+        return SelectMostSpecific(ComputeApplicableMethods(call_inst, *mtg));
       }
+
       return ArrayList_<Method*>();
     }
 
@@ -178,11 +224,12 @@ ArrayList_<Method*> MethodResolver::ComputeApplicableMethods(
           if (auto const mtg = clazz->Find(name)
                 ->DynamicCast<MethodGroup>()) {
             applicable_methods.AddAll(
-                ComputeApplicableMethods(call_inst, *mtg));
+                SelectMostSpecific(
+                    ComputeApplicableMethods(call_inst, *mtg)));
           }
         }
       }
-      return applicable_methods;
+      return SelectMostSpecific(applicable_methods);
     }
   }
 
@@ -436,7 +483,7 @@ bool MethodResolver::IsApplicable(
         return false;
     }
 
-    if (!BindTypeArg(type_args, params.Get(), args.Get())) {
+    if (!BindTypeArg(method, type_args, params.Get(), args.Get())) {
       DEBUG_FORMAT("param(%s) != arg(%s)", params.Get(), args.Get());
       return false;
     }
@@ -464,7 +511,7 @@ bool MethodResolver::IsApplicable(
   auto& param_type = resty->element_type();
   while (!args.AtEnd()) {
     auto& arg_type = args.Get();
-    if (!BindTypeArg(type_args, param_type, arg_type)) {
+    if (!BindTypeArg(method, type_args, param_type, arg_type)) {
       return false;
     }
     args.Next();
@@ -474,6 +521,32 @@ bool MethodResolver::IsApplicable(
   return true;
 }
 
+// [S]
+// TODO(yosi) 2012-06-10 MethodResolverSelectMostSpecific should return
+// multiple methods.
+ArrayList_<Method*> MethodResolver::SelectMostSpecific(
+    const ArrayList_<Method*>& methods) const {
+  if (methods.Count() <= 1) {
+    return ArrayList_<Method*>(methods);
+  }
+
+  ArrayList_<Method*>::Enum it(methods);
+  auto most_specific_method = *it;
+  it.Next();
+  while (!it.AtEnd()) {
+    auto& another = **it;
+    if (IsMoreSpecific(another, *most_specific_method)) {
+      most_specific_method = &another;
+    }
+    it.Next();
+  }
+
+  ArrayList_<Method*> result(1);
+  result.Add(most_specific_method);
+  return result;
+}
+
+// [U]
 bool MethodResolver::UnifyTypes(
     TypeArgs& type_args,
     const Type& lhs_ty,

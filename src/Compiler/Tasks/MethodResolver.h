@@ -23,7 +23,8 @@ class MethodResolver : public Tasklet {
   public: MethodResolver(CompileSession&, const Module&, const SourceInfo&);
 
   // [B]
-  private: bool BindTypeArg(TypeArgs&, const Type&, const Type&) const;
+  private: bool BindTypeArg(
+      const Method&, TypeArgs&, const Type&, const Type&) const;
   private: const Operand& BoxingIfNeeded(OperandBox&, const Type&);
 
   // [C]
@@ -39,6 +40,10 @@ class MethodResolver : public Tasklet {
   public: void static Init();
   private: bool IsApplicable(TypeArgs&, const Method&, const CallI&) const;
   private: bool IsApplicable(const Method&, const CallI&) const;
+
+  // [S]
+  private: ArrayList_<Method*> SelectMostSpecific(
+      const ArrayList_<Method*>&) const;
 
   // [U]
   private: bool UnifyTypes(TypeArgs&, const Type&, const Type&) const;
