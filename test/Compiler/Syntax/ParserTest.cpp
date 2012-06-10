@@ -355,6 +355,19 @@ TEST_F(ParserTest, GenericClass) {
     "}")
 }
 
+TEST_F(ParserTest, GenericClassTypeParam) {
+  RUN_PARSER("class Foo<T> where T : Comparable {}");
+}
+
+TEST_F(ParserTest, GenericClassTypeParam2) {
+  RUN_PARSER(
+    "class Foo<A, B, C> : Bar, Comparable"
+    "   where A : Comparable, Equtable"
+    "   where B : class, new()"
+    "   where C : new() {"
+    "}");
+}
+
 TEST_F(ParserTest, GenericMethod) {
   RUN_PARSER(
     "class Foo {",

@@ -142,6 +142,7 @@ Parser::Parser(
     outer_ns_member_(&compilation_unit.namespace_body().namespace_def()),
     property_def_(nullptr),
     session_(session),
+    typaram_def_(nullptr),
 
     // Lexers
     //ALLOW_THIS_IN_INITIALIZER_LIST(m_pCastLexer(new CastLexer(this, this))),
@@ -1676,7 +1677,7 @@ void Parser::StartClass(const NameRef& name_ref) {
           *class_def_,
           name,
           simple_name->source_info());
-  
+
       class_def_->AddTypeParam(type_param);
       name_scope_->Add(type_param);
     } else {

@@ -287,6 +287,7 @@ class Parser : public TokenProcessor {
   private: CompileSession& session_;
   private: const Type* current_type_;
   private: LocalVarDef* local_var_def_;
+  private: TypeParamDef* typaram_def_;
 
   // Lexers
   // Note: Do not change order of member variables for lexers.

@@ -276,6 +276,40 @@ TEST_F(ParserErrorTest, Parse_Stmt_Using_Void) {
   EXPECT_EQ(expected, actual);
 }
 
+TEST_F(ParserErrorTest, Parse_TypeParam_Invalid) {
+  auto actual = ParseWithError(
+      "class Foo<T> {\n"
+      "  class Bar where T : Comparable {}\n"
+      "}");
+
+  auto expected = ErrorItem("Parse_TypeParam_Invalid", 1, 19, "T");
+  EXPECT_EQ(expected, actual);
+}
+
+TEST_F(ParserErrorTest, Parse_TypeParam_NotTypeParam) {
+  auto actual = ParseWithError("class Foo where T : Comparable {}");
+
+  auto expected = ErrorItem("Parse_TypeParam_NotTypeParam", 0, 17, "T");
+  EXPECT_EQ(expected, actual);
+}
+
+TEST_F(ParserErrorTest, Parse_TypeParamConstraint_Expect_Colon) {
+  auto actual = ParseWithError(
+    "class Foo<T> where T Comparable, class {}");
+
+  auto expected = ErrorItem("Parse_Expect", 0, 22, "Comparable", ":");
+  EXPECT_EQ(expected, actual);
+}
+
+TEST_F(ParserErrorTest, Parse_TypeParamConstraint_Invalid) {
+  auto actual = ParseWithError(
+    "class Foo<T> where T : Comparable, class {}");
+
+  auto expected = ErrorItem(
+      "Parse_TypeParamConstraint_Invalid", 0, 36, "Keyword(class)");
+  EXPECT_EQ(expected, actual);
+}
+
 TEST_F(ParserErrorTest, Parse_Unexpected_Eof) {
   auto actual = ParseWithError(
       "namespace\n"

@@ -13,6 +13,8 @@
 //      "{" class-member-decl* "}"
 //
 case State_Class:
+  ASSERT(!typaram_def_);
+
   if (auto const name_ref = GetNameRef(token)) {
     StartClass(*name_ref);
     return;
@@ -24,6 +26,7 @@ case State_Class:
 case State_Class_Member:
   ASSERT(!!class_def_);
   ASSERT(outer_ns_member_ == class_def_);
+  ASSERT(!typaram_def_);
 
   method_def_ = nullptr;
   name_ref_ = nullptr;
@@ -49,6 +52,7 @@ case State_Class_Member:
 case State_Class_Member_Modifier:
   ASSERT(!!class_def_);
   ASSERT(outer_ns_member_ == class_def_);
+  ASSERT(!typaram_def_);
 
   if (token.Is(*K_class)) {
     modifiers_ = ValidateModifiers(
@@ -96,6 +100,7 @@ case State_Class_Member_Type:
   ASSERT(name_ref_ == nullptr);
   ASSERT(outer_ns_member_ == class_def_);
   ASSERT(current_type_ != nullptr);
+  ASSERT(!typaram_def_);
 
   // Constructor - T T(...)
   if (token.Is(*Op__OpenParen) && current_type_ == &class_def_->GetClass()) {
@@ -168,6 +173,7 @@ case State_Class_Member_Type_Name: {
   ASSERT(!!class_def_);
   ASSERT(!!name_ref_);
   ASSERT(outer_ns_member_ == class_def_);
+  ASSERT(!typaram_def_);
 
   auto& source_info = name_ref_->source_info();
 
@@ -248,6 +254,7 @@ case State_Class_Member_Type_Name: {
 case State_Class_Member_Type_Operator:
   ASSERT(!!class_def_);
   ASSERT(outer_ns_member_ == class_def_);
+  ASSERT(!typaram_def_);
 
   if (token.Is(*K_false)) {
     name_ref_ = new NameRef(*Q_false, token.source_info());
@@ -274,9 +281,15 @@ case State_Class_Member_Type_Operator:
 case State_Class_Name:
   ASSERT(!!class_def_);
   ASSERT(outer_ns_member_ != class_def_);
+  ASSERT(!typaram_def_);
 
   if (token.Is(*Op__Colon)) {
     GotoState(State_Class_Name_Colon);
+    return;
+  }
+
+  if (token.Is(*Q_where)) {
+    GotoState(State_Class_TypeParam_Constraint);
     return;
   }
 
@@ -293,6 +306,7 @@ case State_Class_Name:
 case State_Class_Name_Colon:
   ASSERT(!!class_def_);
   ASSERT(outer_ns_member_ != class_def_);
+  ASSERT(!typaram_def_);
 
   if (auto const name_ref = GetNameRef(token)) {
     auto& type = ResolveTypeName(*name_ref);
@@ -307,6 +321,7 @@ case State_Class_Name_Colon:
 case State_Class_Name_Colon_Name:
   ASSERT(!!class_def_);
   ASSERT(outer_ns_member_ != class_def_);
+  ASSERT(!typaram_def_);
 
   if (token.Is(*Op__Comma)) {
     GotoState(State_Class_Name_Colon);
@@ -317,6 +332,11 @@ case State_Class_Name_Colon_Name:
     PushParenthesis(token);
     outer_ns_member_ = class_def_;
     GotoState(State_Class_Member);
+    return;
+  }
+
+  if (token.Is(*Q_where)) {
+    GotoState(State_Class_TypeParam_Constraint);
     return;
   }
 
@@ -331,4 +351,158 @@ case State_Field_Name_Eq:
 case State_Field_Name_Eq_Expr:
   Expect(*Op__SemiColon, token);
   GotoState(State_Class_Member);
+  return;
+
+case State_Class_TypeParam_Constraint:
+  ASSERT(!!class_def_);
+  ASSERT(!typaram_def_);
+
+  if (auto const name_ref = GetNameRef(token)) {
+    auto& name = GetSimpleName(
+        *name_ref,
+        CompileError_Parse_TypeParam_NotTypeParam);
+    auto const typaram_def = Find(name)->DynamicCast<TypeParamDef>();
+    if (!typaram_def) {
+      AddError(CompileError_Parse_TypeParam_NotTypeParam, token);
+      return;
+    }
+
+    if (&typaram_def->owner() != class_def_) {
+      AddError(CompileError_Parse_TypeParam_Invalid, token);
+      return;
+    }
+
+    typaram_def_ = typaram_def;
+    GotoState(State_Class_TypeParam_Constraint_Name);
+    return;
+  }
+
+  AddError(CompileError_Parse_ExpectName, token);
+  return;
+
+case State_Class_TypeParam_Constraint_Name:
+  ASSERT(!!class_def_);
+  ASSERT(!!typaram_def_);
+  ASSERT(&typaram_def_->owner() == class_def_);
+  Expect(*Op__Colon, token);
+  GotoState(State_Class_TypeParam_Constraint_Name_Colon);
+  return;
+
+case State_Class_TypeParam_Constraint_Name_Colon:
+  ASSERT(!!class_def_);
+  ASSERT(!!typaram_def_);
+  ASSERT(&typaram_def_->owner() == class_def_);
+
+  if (token.Is(*K_class)) {
+    typaram_def_->AddConstraint(*Ty_Object);
+    GotoState(State_Class_TypeParam_Constraint_Name_Colon_Name);
+    return;
+  }
+
+  if (token.Is(*K_new)) {
+    GotoState(State_Class_TypeParam_Constraint_New);
+    return;
+  }
+
+  if (token.Is(*K_struct)) {
+    typaram_def_->AddConstraint(*Ty_Value);
+    GotoState(State_Class_TypeParam_Constraint_Name_Colon_Name);
+    return;
+  }
+
+  if (auto const name_ref = GetNameRef(token)) {
+    typaram_def_->AddConstraint(ResolveTypeName(*name_ref));
+    GotoState(State_Class_TypeParam_Constraint_Name_Colon_Name);
+    return;
+  }
+
+  AddError(CompileError_Parse_ExpectName, token);
+  return;
+
+case State_Class_TypeParam_Constraint_Name_Colon_Name:
+  ASSERT(!!class_def_);
+  ASSERT(!!typaram_def_);
+  ASSERT(&typaram_def_->owner() == class_def_);
+
+  if (token.Is(*Op__Comma)) {
+    GotoState(State_Class_TypeParam_Constraint_Name_Colon_Name_Comma);
+    return;
+  }
+
+  if (token.Is(*Q_where)) {
+    typaram_def_ = nullptr;
+    GotoState(State_Class_TypeParam_Constraint);
+    return;
+  }
+
+  if (token.Is(*Op__OpenBrace)) {
+    typaram_def_ = nullptr;
+    PushParenthesis(token);
+    outer_ns_member_ = class_def_;
+    GotoState(State_Class_Member);
+    return;
+  }
+
+  AddError(CompileError_Parse_TypeParamConstraint_Invalid, token);
+  return;
+
+case State_Class_TypeParam_Constraint_Name_Colon_Name_Comma:
+  ASSERT(!!class_def_);
+  ASSERT(!!typaram_def_);
+  ASSERT(&typaram_def_->owner() == class_def_);
+
+  if (token.Is(*K_new)) {
+    GotoState(State_Class_TypeParam_Constraint_New);
+    return;
+  }
+
+  if (auto const name_ref = GetNameRef(token)) {
+    typaram_def_->AddConstraint(ResolveTypeName(*name_ref));
+    GotoState(State_Class_TypeParam_Constraint_Name_Colon_Name);
+    return;
+  }
+
+  AddError(CompileError_Parse_TypeParamConstraint_Invalid, token);
+  return;
+
+case State_Class_TypeParam_Constraint_New:
+  ASSERT(!!class_def_);
+  ASSERT(!!typaram_def_);
+  ASSERT(&typaram_def_->owner() == class_def_);
+
+  typaram_def_->MarkNewable();
+  typaram_def_ = nullptr;
+
+  if (Expect(*Op__OpenParen, token)) {
+    PushParenthesis(token);
+  }
+  GotoState(State_Class_TypeParam_Constraint_New_OpenParen);
+  return;
+
+case State_Class_TypeParam_Constraint_New_OpenParen:
+  ASSERT(!!class_def_);
+  ASSERT(!typaram_def_);
+  if (Expect(*Op__CloseParen, token)) {
+    PopParenthesis(token);
+  }
+  GotoState(State_Class_TypeParam_Constraint_New_OpenParen_CloseParen);
+  return;
+
+case State_Class_TypeParam_Constraint_New_OpenParen_CloseParen:
+  ASSERT(!!class_def_);
+  ASSERT(!typaram_def_);
+
+  if (token.Is(*Q_where)) {
+    GotoState(State_Class_TypeParam_Constraint);
+    return;
+  }
+
+  if (token.Is(*Op__OpenBrace)) {
+    PushParenthesis(token);
+    outer_ns_member_ = class_def_;
+    GotoState(State_Class_Member);
+    return;
+  }
+
+  AddError(CompileError_Parse_TypeParamConstraint_Invalid, token);
   return;

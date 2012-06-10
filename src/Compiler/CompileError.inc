@@ -55,6 +55,7 @@ DEFERROR(Parse, Class_ExpectMember)
 DEFERROR(Parse, Class_ExpectMemberName)
 DEFERROR(Parse, Class_ExpectOperator)
 DEFERROR(Parse, Class_Method_Modifier)
+DEFERROR(Parse, Class_TypeParamConstaint_Invalid)
 
 DEFERROR(Parse, Enum_BadModifier)
 DEFERROR(Parse, Enum_Member)
@@ -182,6 +183,11 @@ DEFERROR(Parse, Struct_BadModifier)
 DEFERROR(Parse, Type_BadArray)
 DEFERROR(Parse, Type_DuplicateName)
 DEFERROR(Parse, Type_NotType)
+
+DEFERROR(Parse, TypeParam_Invalid)
+DEFERROR(Parse, TypeParam_NotTypeParam)
+
+DEFERROR(Parse, TypeParamConstraint_Invalid)
 
 DEFERROR(Parse, RedefineOther)
 DEFERROR(Parse, RedefineSame)
