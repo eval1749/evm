@@ -39,7 +39,8 @@ void ClassDef::AddBaseSpec(const Type& type) {
 ///  Caller must check multiple occurence of type parameter name.
 /// </summary>
 void ClassDef::AddTypeParam(TypeParamDef& type_param) {
-  ASSERT(Find(type_param.name()) == nullptr);
+  ASSERT(!Find(type_param.name()));
+  type_param.set_owner(*this);
   type_params_.Add(&type_param);
 }
 
