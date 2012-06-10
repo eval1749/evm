@@ -160,7 +160,7 @@ class FastReader : public Tasklet {
   // [P]
   private: void Process();
   private: void ProcessName();
-  private: void ProcessVn(int);
+  private: bool ProcessVn(int);
 
   // [S]
   private: void StartFaslOp();

@@ -164,23 +164,33 @@ void FastReader::Feed(const void* const pv, uint const size) {
        break;
 
      case State_V4:
-       ProcessVn(4);
+       if (!ProcessVn(4)) {
+         return;
+       }
        break;
 
      case State_V5:
-       ProcessVn(5);
+       if (!ProcessVn(5)) {
+         return;
+       }
        break;
 
      case State_V6:
-       ProcessVn(6);
+       if (!ProcessVn(6)) {
+         return;
+       }
        break;
 
      case State_V7:
-       ProcessVn(7);
+       if (!ProcessVn(7)) {
+         return;
+       }
        break;
 
      case State_V8:
-       ProcessVn(8);
+       if (!ProcessVn(8)) {
+         return;
+       }
        break;
 
      default:
@@ -519,6 +529,7 @@ void FastReader::Process() {
     case_FaslOp_(Property);
     case_FaslOp_(PropertyMember);
     case_FaslOp_(RealizeClass);
+    case_FaslOp_(RealizeTypeParam);
 
     case FaslOp_Ref1:
       switch (state_) {
@@ -805,13 +816,13 @@ void FastReader::ProcessName() {
   char_sink_.Clear();
 }
 
-void FastReader::ProcessVn(int const num_bits) {
+bool FastReader::ProcessVn(int const num_bits) {
   ASSERT(num_bits >= 4);
   ASSERT(num_bits <= 8);
 
   auto const bits = bit_reader_.Read(num_bits);
   if (bits < 0) {
-   return;
+   return false;
   }
 
   auto const continue_bit = 1 << (num_bits - 1);
@@ -822,6 +833,8 @@ void FastReader::ProcessVn(int const num_bits) {
   if ((bits & continue_bit) == 0) {
     Process();
   }
+
+  return true;
 }
 
 // [S]
