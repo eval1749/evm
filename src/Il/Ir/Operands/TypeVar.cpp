@@ -156,28 +156,44 @@ Subtype TypeVar::IsSubtypeOf(const Type& r) const {
 
 // [O]
 const Type& TypeVar::Or(const Type& type) {
+  if (types_.Count() == 1 && types_[0] == Ty_Object) {
+    return *this;
+  }
+
+  if (type == *Ty_Object) {
+    types_.Clear();
+    types_.Add(Ty_Object);
+  }
+
   if (auto const tyvar = type.DynamicCast<TypeVar>()) {
     foreach (Type::List::Enum, types, tyvar->types_) {
       auto& ty = *types.Get();
       ASSERT(!ty.Is<TypeVar>());
       Or(ty);
     }
+    return *this;
+  }
 
-  } else if (type == *Ty_Object) {
-    types_.Clear();
-    types_.Add(Ty_Object);
-
-  } else {
-    Type::List cur_types(types_);
-    types_.Clear();
-    foreach (Type::List::Enum, types, cur_types) {
-      auto& ty = TypeOr(*types.Get(), type);
-      if (ty == *Ty_Void) {
+  Type::List cur_types(types_);
+  types_.Clear();
+  Type::Set tyset;
+  foreach (Type::List::Enum, types, cur_types) {
+    auto& curty = *types.Get();
+    auto& orty = TypeOr(curty, type);
+    if (orty == *Ty_Void) {
+      if (!tyset.Contains(&type)) {
+        tyset.Add(&type);
         types_.Add(&type);
-        types_.Add(types.Get());
-      } else {
-        types_.Add(&ty);
       }
+
+      if (!tyset.Contains(&curty)) {
+        tyset.Add(&curty);
+        types_.Add(&curty);
+      }
+    
+    } else if (!tyset.Contains(&orty)) {
+      tyset.Add(&orty);
+      types_.Add(&orty);
     }
   }
   return *this;
