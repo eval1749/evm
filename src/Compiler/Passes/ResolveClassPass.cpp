@@ -204,11 +204,32 @@ bool ResolveClassPass::FixClassDef(ClassDef& class_def) {
    return true;
   }
 
-  foreach (ClassDef::EnumTypeParam, it, class_def) {
-    // TODO(yosi) 2012-06-10 NYI: Realize type param from TypeParamDef.
-    const_cast<TypeParam&>(it->type_param()).RealizeTypeParam(
-        CollectionV_<const Class*>(),
-        it->is_newable() ? TypeParam::Newable : TypeParam::NotNewable);
+  {
+    ResolveContext context(
+        class_def.namespace_body(),
+        class_def.GetClass());
+
+    foreach (ClassDef::EnumTypeParam, it, class_def) {
+      auto& typaram_def = **it;
+
+      Class::List constraints;
+      foreach (TypeParamDef::EnumConstraint, it2, typaram_def) {
+        auto& spec = **it2;
+        auto& type = Resolve(context, spec);
+        DEBUG_FORMAT(" where %s : %s -> %s", typaram_def, spec, type);
+        if (auto const clazz = type.DynamicCast<Class>()) {
+          constraints.Add(clazz);
+        }
+      }
+
+      const_cast<TypeParam&>(it->type_param()).RealizeTypeParam(
+          constraints,
+          it->is_newable() ? TypeParam::Newable : TypeParam::NotNewable);
+    }
+
+    if (compile_session().HasError()) {
+     return true;
+    }
   }
 
   DEBUG_FORMAT("Realize %s %s : %s",
