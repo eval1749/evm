@@ -818,7 +818,7 @@ case State_Expr_Primary_Primary_Paren: {
     return;
   }
 
-  CallExpr(*new TypeVar(), State_Expr_Primary_Primary_Paren_Expr);
+  CallExpr(*Ty_Object, State_Expr_Primary_Primary_Paren_Expr);
   continue;
 }
 
