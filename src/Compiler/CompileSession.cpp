@@ -146,8 +146,9 @@ void CompileSession::Apply(Functor* const functor) {
 
 // [R]
 void CompileSession::RecordErrorInfo(const ErrorInfo& templ) {
-  static bool fContinue = false;
+  DEBUG_FORMAT("%s", templ);
 
+  static bool fContinue = false;
   if (!fContinue && ::IsDebuggerPresent()) {
     __debugbreak();
     fContinue = true;
