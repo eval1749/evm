@@ -838,7 +838,7 @@ case State_Expr_Primary_Primary_Paren_Expr: {
   }
 
   if (token.Is(*Op__Comma)) {
-      CallState(State_Expr);
+      CallExpr(*new TypeVar(), State_Expr_Primary_Primary_Paren_Expr);
       return;
   }
 
