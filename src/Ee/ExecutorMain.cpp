@@ -196,8 +196,8 @@ class Static {
       auto& vec = thread.AllocVector(*Om::Ty_StringVector, args.Count())
           .StaticCast<Om::StringVector>();
       auto index = 0;
-      foreach (Collection_<String>::Enum, en, args) {
-        vec[index] = &thread.NewString(*en);
+      for (auto const arg: args) {
+        vec[index] = &thread.NewString(arg);
         ++index;
       }
       thread.value(0) = reinterpret_cast<intptr_t>(&vec);
