@@ -252,11 +252,8 @@ class Static {
       return true;
     }
 
-    StringBuilder oBuilder;
-    foreach (CompileSession::EnumError, errors, session) {
-      auto& error = *errors.Get();
+    for (auto& error: session.errors())
       StdOut->WriteLine("%s", error);
-    }
 
     StdOut->WriteLine("Compilation failed.");
     return false;

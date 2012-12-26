@@ -26,10 +26,8 @@ AbstractCompilerTest::~AbstractCompilerTest() {
 // [G]
 ErrorList AbstractCompilerTest::GetErrors() const {
   ErrorList error_list;
-  foreach (CompileSession::EnumError, errors, session()) {
-    auto const error = errors.Get();
-    error_list.Add(ErrorItem(*error));
-  }
+  for (auto& error: session().errors())
+    error_list.Add(ErrorItem(error));
   return error_list;
 }
 

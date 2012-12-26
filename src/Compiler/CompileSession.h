@@ -30,16 +30,6 @@ class CompileSession : public Il::Tasks::Session {
           Base(&const_cast<CompileSession&>(r).compilation_units_) {}
   };
 
-  public: class EnumError : public ErrorInfo::List::Enum {
-    private: typedef ErrorInfo::List::Enum Base;
-    public: EnumError(const CompileSession& r) : Base(r.errors_) {}
-  };
-
-  public: class EnumWarning : public ErrorInfo::List::Enum {
-    private: typedef ErrorInfo::List::Enum Base;
-    public: EnumWarning(const CompileSession& r) : Base(r.warnings_) {}
-  };
-
   private: HashSet_<HashKey_<const ErrorInfo>> error_set_;
   private: ErrorInfo::List errors_;
   private: LocalMemoryZone memory_zone_;
@@ -52,10 +42,12 @@ class CompileSession : public Il::Tasks::Session {
   public: CompileSession(const String&);
   public: virtual ~CompileSession();
 
+  public: ErrorInfo::List& errors() { return errors_; }
   public: Namespace& global_namespace() const;
   public: NamespaceDef& global_namespace_def() const;
   public: MemoryZone& memory_zone() const;
   public: const String& output_file_name() const;
+  public: ErrorInfo::List& warnings() { return warnings_; }
 
   // [A]
   public: void Add(CompilationUnit&);
