@@ -52,6 +52,26 @@ class DoubleLinkedList_ {
   private: typedef DoubleLinkedItem_<Item_, TParent> Cons_;
   public: typedef Cons_ Item;
 
+  public: class ForwardIterator {
+    private: Item_* item_;
+    public: ForwardIterator(Item_* item) : item_(item) {}
+
+    public: Item_& operator*() const { return *item_; }
+
+    public: bool operator ==(const ForwardIterator& another) const {
+      return item_ == another.item_;
+    }
+
+    public: bool operator !=(const ForwardIterator& another) const {
+      return !operator==(another);
+    }
+
+    public: ForwardIterator& operator++() {
+      item_= static_cast<Cons_*>(item_)->m_pNext;
+      return *this;
+    }
+  };
+
   private: Item_* m_pFirst;
   private: Item_* m_pLast;
 
@@ -62,6 +82,9 @@ class DoubleLinkedList_ {
   public: ~DoubleLinkedList_() {
     DeleteAll();
   }
+
+  public: ForwardIterator begin() const { return ForwardIterator(m_pFirst); }
+  public: ForwardIterator end() const { return ForwardIterator(m_pLast); }
 
   // [A]
   public: Item_* Append(Item_* const pItem) {
