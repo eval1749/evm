@@ -11,7 +11,7 @@
 namespace Compiler {
 
 class CompilationUnit;
-enum CompileError;
+enum CompileError : int;
 class CompileErrorInfo;
 class CompilePass;
 class CompileSession;

@@ -13,6 +13,9 @@
 
 // precomp.h must include <stddef.h> for offsetof
 
+// C4350: behavior change: 'std::_Wrap_alloc<_Alloc>::_Wrap_alloc(const std::_Wrap_alloc<_Alloc> &) throw()' called instead of 'std::_Wrap_alloc<_Alloc>::_Wrap_alloc<std::_Wrap_alloc<_Alloc>>(_Other &) throw()'
+#pragma warning(disable: 4350)
+
 // C4373: previous versions of the compiler did not override when parameters
 // only differed by const/volatile qualifiers
 #pragma warning(disable: 4373)
@@ -23,9 +26,8 @@
 // C4505: 'Common::Collections::ArrayList_<T>::ToString' : unreferenced local function has been removed
 #pragma warning(disable: 4505)
 
-// C4350: C++ exception handler used, but unwind semantics are not enabled.
-// Specify
-// /EHsc in <xlocale>
+// C4530: C++ exception handler used, but unwind semantics are not enabled.
+// Specify /EHsc in <xlocale>
 #pragma warning(disable: 4530)
 
 // warning C4710: 'int swprintf(wchar_t *,size_t,const wchar_t *,...)' : function not inlined

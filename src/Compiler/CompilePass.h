@@ -19,7 +19,7 @@ namespace Common {
 namespace Compiler {
 
 class CompilationUnit;
-enum CompileError;
+enum CompileError : int;
 class CompileSession;
 class MethodDef;
 
