@@ -17,24 +17,6 @@ namespace Executor {
 class ExecuteSession;
 
 class ExecuteSession : public Il::Cg::CgSession {
-  public: class EnumError
-      : public ExecuteErrorInfo::List::Enum {
-
-    private: typedef ExecuteErrorInfo::List::Enum Base;
-
-    public: EnumError(const ExecuteSession* const p)
-        : Base(&const_cast<ExecuteSession*>(p)->errors_) {}
-  }; // EnumError
-
-  public: class EnumWarning
-      : public ExecuteErrorInfo::List::Enum {
-
-    private: typedef ExecuteErrorInfo::List::Enum Base;
-
-    public: EnumWarning(const ExecuteSession* const p)
-        : Base(&const_cast<ExecuteSession*>(p)->warnings_) {}
-  }; // EnumWarning
-
   private: LocalMemoryZone zone_;
 
   private: ExecuteErrorInfo::List errors_;
@@ -46,7 +28,9 @@ class ExecuteSession : public Il::Cg::CgSession {
   public: virtual ~ExecuteSession();
 
   // properties
+  public: const ExecuteErrorInfo::List errors() const { return errors_; }
   public: const CgTarget& target() const override { return target_; }
+  public: const ExecuteErrorInfo::List warnings() const { return warnings_; }
 
   // [A]
   public: virtual void AddErrorInfo(const ErrorInfo&) override;

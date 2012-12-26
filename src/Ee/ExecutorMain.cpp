@@ -214,10 +214,8 @@ class Static {
     }
 
     StringBuilder oBuilder;
-    foreach (ExecuteSession::EnumError, errors, &session) {
-      auto& error = *errors.Get();
+    for (const auto& error: session.errors())
       StdErr->WriteLine("%s", error);
-    }
     return false;
   }
 
