@@ -10,7 +10,7 @@
 #if !defined(INCLUDE_Common_DebugHelper_h)
 #define INCLUDE_Common_DebugHelper_h
 
-#include "./Box.h"
+//#include "./Box.h"
 
 #if _DEBUG
 #define DCHECK_OP(name, op, a, b) \
@@ -34,6 +34,9 @@
 #define DCHECK_NE(a, b) DCHECK_OP(Ne, !=, a, b)
 
 namespace Common {
+
+class Box;
+
 namespace DebugHelper {
 
 void __declspec(noreturn) __fastcall

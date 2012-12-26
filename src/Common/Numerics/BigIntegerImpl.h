@@ -12,10 +12,15 @@
 #include "../Collections/Vector_.h"
 
 namespace Common {
+  class String;
+}
+
+namespace Common {
 namespace Numerics {
 
 using Common::Pair_;
 using Common::Collections::Vector_;
+using Common::String;
 
 // Represents Bignum implementation.
 //

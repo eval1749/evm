@@ -8,7 +8,7 @@
 
 #include "./DebugHelper.h"
 
-#include "./String.h"
+#include "./Box.h"
 
 namespace Common {
 namespace DebugHelper{

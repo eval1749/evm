@@ -82,6 +82,18 @@ TEST_F(CollectionTest, Enum) {
   Collection_<int> c1(v, ARRAYSIZE(v));
   auto count = 0;
   foreach (Collection_<int>::Enum, elems, c1) {
+    EXPECT_EQ(*elems, v[count]);
+    ++count;
+  }
+  EXPECT_EQ(ARRAYSIZE(v), count);
+}
+
+TEST_F(CollectionTest, ForEach) {
+  int const v[] = { 'A', 'B', 'C' };
+  Collection_<int> c1(v, ARRAYSIZE(v));
+  auto count = 0;
+  for (auto const x : c1) {
+    EXPECT_EQ(x, v[count]);
     ++count;
   }
   EXPECT_EQ(ARRAYSIZE(v), count);

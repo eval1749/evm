@@ -8,6 +8,8 @@
 
 #include "./BigInteger.h"
 
+#include "../String.h"
+
 namespace Common {
 namespace Numerics {
 

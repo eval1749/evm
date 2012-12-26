@@ -10,6 +10,8 @@
 
 #include "./BigIntegerImpl.h"
 
+#include "../Object.h"
+
 namespace Common {
 namespace Numerics {
 

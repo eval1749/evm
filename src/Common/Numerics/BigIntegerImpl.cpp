@@ -15,6 +15,7 @@
 #include "./BigIntegerImpl.h"
 
 #include "./Float64Impl.h"
+#include "../Box.h"
 #include "../StringBuilder.h"
 #include "../Collections/Stack_.h"
 

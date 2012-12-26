@@ -8,8 +8,8 @@
 #if !defined(INCLUDE_Common_Collections_Collection_h)
 #define INCLUDE_Common_Collections_Collection_h
 
+#include "../DebugHelper.h"
 #include "../Object.h"
-
 
 #define PARAMS_DECL_1(ty) Box a
 #define PARAMS_DECL_2(ty) PARAMS_DECL_1(ty), Box b
@@ -118,6 +118,29 @@ class Collection_ : public Object_<Collection_<T>> {
     DISALLOW_COPY_AND_ASSIGN(Enum);
   };
 
+  public: class Iterator {
+    private: Data* data_;
+    private: size_t index_;
+
+    public: Iterator(Data* data, size_t index) : data_(data), index_(index) {}
+    public: T operator*() const { return data_->elements()[index_]; }
+
+    public: bool operator==(const Iterator& another) const {
+      ASSERT(data_ == another.data_);
+      return index_ == another.index_;
+    }
+
+    public: bool operator!=(const Iterator& another) const {
+      return !operator==(another);
+    }
+
+    public: Iterator& operator++() {
+      DCHECK_LT(index_, data_->length());
+      ++index_;
+      return *this;
+    }
+  };
+
   private: Data* data_;
 
   // ctor
@@ -173,6 +196,9 @@ class Collection_ : public Object_<Collection_<T>> {
   }
 
   public: virtual ~Collection_() { data_->Release(); }
+
+  public: Iterator begin() { return Iterator(data_, 0); }
+  public: Iterator end() { return Iterator(data_, data_->length()); }
 
   // operators
   public: Collection_& operator=(const Collection_& r) {
@@ -245,7 +271,7 @@ class Collection_ : public Object_<Collection_<T>> {
 
   // [G]
   public: T Get(size_t const index) const {
-    ASSERT(index < data_->length());
+    DCHECK_LT(index, data_->length());
     return data_->elements()[index];
   }
 
