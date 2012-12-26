@@ -1108,8 +1108,9 @@ void FastLoader::HandleRealizeClass() {
   }
 
   const_cast<Class&>(clazz).RealizeClass(class_list);
+  context_.class_ = &const_cast<Class&>(clazz);
   if (callback_) {
-    callback_->HandleClass(*context_.class_);
+    callback_->HandleClass(const_cast<Class&>(clazz));
   }
 }
 
