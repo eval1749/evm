@@ -36,79 +36,102 @@ namespace {
 
 char16 const k_wszTitle[] = L"Evita Executor";
 
-// EnumParam enumerates command line arguments.
-class EnumParam {
-  private: StringBuilder builder_;
-  private: const char16* cur_;
+class CommandLine {
+  private: const char16* command_line_;
 
-  public: EnumParam(const char16* const pwsz) : cur_(pwsz) {
-    if (!AtEnd()) {
-      Next();
+  public: class Iterator {
+    private: const char16* current_;
+    private: StringBuilder builder_;
+
+    public: Iterator(const char16* string) : current_(string) {
+      ExtractWord();
     }
-  }
 
-  public: bool AtEnd() const {
-    return *cur_ == 0 && builder_.IsEmpty();
-  }
+    public: Iterator(const Iterator& another)
+      : current_(another.current_) {
+    }
 
-  public: String Get() const {
-    ASSERT(!AtEnd());
-    ASSERT(!builder_.IsEmpty());
-    return builder_.ToString();
-  }
+    public: Iterator& operator=(const Iterator& another) {
+      current_ = another.current_;
+      builder_.Clear();
+      return *this;
+    }
 
-  private: static bool IsSpace(char16 const wch) {
-    return wch == ' ' || wch == '\t';
-  }
+    public: bool operator==(const Iterator& another) const {
+      return current_ == another.current_ && builder_.IsEmpty();
+    }
 
-  public: void Next() {
-    ASSERT(!AtEnd());
+    public: bool operator!=(const Iterator& another) const {
+      return !operator==(another);
+    }
 
-    enum State {
-      State_DoubleQuote,
-      State_Start,
-      State_Word,
-    } state = State_Start;
+    public: String operator*() const {
+      ASSERT(!builder_.IsEmpty());
+      return builder_.ToString();
+    }
 
-    builder_.Clear();
-    for (;;) {
-      auto ch = *cur_;
-      if (ch == 0) {
-        break;
-      }
-      cur_++;
+    public: Iterator& operator++() {
+      ExtractWord();
+      return *this;
+    }
 
-      switch (state) {
-        case State_DoubleQuote:
-          if (ch == '"') {
-            return;
-          }
-          builder_.Append(ch);
-          break;
+    private: static bool IsSpace(char16 const wch) {
+      return wch == ' ' || wch == '\t';
+    }
 
-        case State_Start:
-          if (ch == '"') {
-            state = State_DoubleQuote;
-          } else if (!IsSpace(ch)) {
+    private: void ExtractWord() {
+      builder_.Clear();
+
+      enum State {
+        State_DoubleQuote,
+        State_Start,
+        State_Word,
+      } state = State_Start;
+
+      for (;;) {
+        auto const ch = *current_;
+        if (!ch)
+          return;
+
+        current_++;
+
+        switch (state) {
+          case State_DoubleQuote:
+            if (ch == '"')
+              return;
             builder_.Append(ch);
-            state = State_Word;
-          }
-          break;
+            break;
 
-       case State_Word:
-         if (IsSpace(ch)) {
-           return;
-         }
-         builder_.Append(ch);
-         break;
+          case State_Start:
+            if (ch == '"') {
+              state = State_DoubleQuote;
+            } else if (!IsSpace(ch)) {
+              builder_.Append(ch);
+              state = State_Word;
+            }
+            break;
 
-       default:
-         CAN_NOT_HAPPEN();
+         case State_Word:
+           if (IsSpace(ch))
+             return;
+           builder_.Append(ch);
+           break;
+
+         default:
+           CAN_NOT_HAPPEN();
+        }
       }
     }
+  };
+
+  public: CommandLine() : command_line_(::GetCommandLineW()) {}
+  public: Iterator begin() { return Iterator(command_line_); }
+
+  public: Iterator end() {
+    return Iterator(command_line_ + ::lstrlenW(command_line_));
   }
 
-  DISALLOW_COPY_AND_ASSIGN(EnumParam);
+  DISALLOW_COPY_AND_ASSIGN(CommandLine);
 };
 
 }
@@ -226,10 +249,15 @@ class Static {
 
   // [U]
   public: static void Usage() {
-    StdErr->WriteLine("Usage: evm option... file...");
-    StdErr->WriteLine("Options:");
-    StdErr->WriteLine(" -get name");
+    StdErr->WriteLine("Usage: evm specification... [-- arg...]");
+    StdErr->WriteLine("Specification:");
+    StdErr->WriteLine(" -disasm");
+    StdErr->WriteLine(" -help");
+    StdErr->WriteLine(" -html");
+    StdErr->WriteLine(" -list");
+    StdErr->WriteLine(" -text");
     StdErr->WriteLine(" -r reference-module-file");
+    StdErr->WriteLine(" -ref reference-module-file");
   }
 }; // Static
 
@@ -253,9 +281,8 @@ static int ExecutorMain() {
   bool invoke = true;
   auto state = State_Start;
 
-  foreach (EnumParam, params, ::GetCommandLineW()) {
-    auto const param = String(params.Get());
-
+  CommandLine params;
+  for (auto const param : params) {
     switch (state) {
       case State_Args:
         args.Add(param);
