@@ -185,9 +185,8 @@ class Collection_ : public Object_<Collection_<T>> {
       : data_(new Data(arr.length())) {
     typedef Array_<T, A> Array;
     T* p = data_->elements();
-    foreach (Array::Enum, elems, arr) {
-      *p++ = elems.Get();
-    }
+    for (auto const value: arr)
+      *p++ = value;
   }
 
   public: template<class A> Collection_(

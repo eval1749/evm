@@ -37,6 +37,34 @@ class Array_
 
   DEFINE_ENUMERATOR(Array_, T);
 
+  public: class ConstForwardIterator {
+    private: const Array_* array_;
+    private: size_t index_;
+
+    public: ConstForwardIterator(const Array_* array, size_t index = 0)
+        : array_(array), index_(index) {
+      DCHECK(!!array_);
+      DCHECK_LE(index_, array_->length());
+    }
+
+    public: const T& operator*() const { return (*array_)[index_]; }
+
+    public: bool operator==(const ConstForwardIterator& another) const {
+      DCHECK_EQ(array_, another.array_);
+      return index_ == another.index_;
+    }
+
+    public: bool operator!=(const ConstForwardIterator& another) const {
+      return !operator==(another);
+    }
+
+    public: ConstForwardIterator& operator++() {
+      DCHECK_LT(index_, array_->length());
+      ++index_;
+      return *this;
+    }
+  };
+
   public: class ForwardIterator {
     private: Array_* array_;
     private: size_t index_;
@@ -83,9 +111,9 @@ class Array_
       : length_(collection.Count()),
         elements_(new T[collection.Count()]) {
     auto index = 0;
-    foreach (Collection_<T>::Enum, elems, collection) {
-      Set(index, *elems);
-      index++;
+    for (auto const value : collection) {
+      Set(index, value);
+      ++index;
     }
   }
 
@@ -114,16 +142,14 @@ class Array_
     return elements_[index];
   }
 
-  public: bool operator==(const Array& r) const {
-    if (Count() != r.Count()) return false;
-    Enum this_enum(this);
-    Enum that_enum(r);
-    while (!this_enum.AtEnd()) {
-      if (this_enum.Get() != that_enum.Get()) {
+  public: bool operator==(const Array& another) const {
+    if (length_ != another.length_)
+      return false;
+    auto another_it = another.begin();
+    for (auto const this_value: *this) {
+      if (this_value != *another_it)
         return false;
-      }
-      this_enum.Next();
-      that_enum.Next();
+      ++another_it;
     }
     return true;
   }
@@ -132,7 +158,13 @@ class Array_
 
   // properties
   public: ForwardIterator begin() { return ForwardIterator(this, 0); }
+  public: ConstForwardIterator begin() const {
+    return ConstForwardIterator(this, 0);
+  }
   public: ForwardIterator end() { return ForwardIterator(this, length()); }
+  public: ConstForwardIterator end() const {
+    return ConstForwardIterator(this, length());
+  }
   public: size_t length() const { return length_; }
 
   // [C]
@@ -152,21 +184,15 @@ class Array_
   public: int Count() const { return static_cast<int>(length_); }
 
   // [E]
-  public: bool Equals(const Array& that) const {
-    if (length_ != that.length_) {
+  public: bool Equals(const Array& another) const {
+    if (length_ != another.length_)
       return false;
+    auto another_it = another.begin();
+    for (auto const this_value: *this) {
+      if (!this_value.Equals(*another_it))
+        return false;
+      ++another_it;
     }
-
-    Enum oEnumThat(that);
-    foreach (Enum, oEnumThis, this) {
-      auto const pThis = oEnumThis.Get();
-      auto const pThat = oEnumThat.Get();
-      if (!pThis->Equals(pThat)) {
-          return false;
-      }
-      oEnumThat.Next();
-    }
-
     return true;
   }
 
@@ -190,7 +216,9 @@ class Array_
     }
   }
 
-  public: void Set(const T* const v, size_t const vn, size_t const offset = 0) {
+  public: void Set(const T* const v,
+                   size_t const vn,
+                   size_t const offset = 0) {
     ASSERT(offset + vn <= length_);
     auto p = v;
     for (size_t i = offset; i < length_; i++) {
