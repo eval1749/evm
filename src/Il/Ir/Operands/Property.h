@@ -28,11 +28,6 @@ class Property
 
   private: typedef HashMap_<const Name*, const Method*> MemberMap;
 
-  public: class EnumMember : public MemberMap::Enum {
-    private: typedef MemberMap::Enum Base;
-    public: EnumMember(const Property& r) : Base(r.member_map_) {}
-  };
-
   public: static int const PropertyModifiers
       = Modifier_Abstract
       | Modifier_Extern
@@ -66,6 +61,7 @@ class Property
   public: virtual ~Property() {}
 
   // properties
+  public: const MemberMap& entries() const { return member_map_; }
   public: const Name& name() const { return name_; }
 
   public: Class& owner_class() const {

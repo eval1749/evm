@@ -82,10 +82,8 @@ class DomTreeBuilder : public VisitFunctor {
       }
     }
 
-    foreach (ClassDef::EnumMember, names, *clazz) {
-      auto const member = names.Get();
-      member->Apply(this);
-    }
+    for (auto& member: clazz->members())
+      member.Apply(this);
 
     builder_.EndElement("class");
   }
@@ -124,11 +122,9 @@ class DomTreeBuilder : public VisitFunctor {
     builder_.EndElement("using");
   }
 
-  private: void ProcessAux(NamespaceBody* const body) {
-    foreach (NamespaceBody::EnumMember, en, *body) {
-      auto const member = en.Get();
-      member->Apply(this);
-    }
+  private: void ProcessAux(NamespaceBody* const ns_body) {
+    for (auto& member: ns_body->members())
+      member.Apply(this);
   }
 
   private: void ProcessModifiers(int const mods) {

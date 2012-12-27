@@ -44,14 +44,6 @@ class ClassOrNamespace : public Type_<ClassOrNamespace> {
     }
   };
 
-  public: class EnumMember : public NameTable::Enum {
-    private: typedef NameTable::Enum Base;
-    public: EnumMember(const ClassOrNamespace& r) : Base(&r.name_table_) {}
-    public: Operand& operator*() const { return *Get(); }
-    public: Operand* Get() const { return Base::Get().GetValue(); }
-    public: const Name& name() const { return *Base::Get().GetKey(); }
-  };
-
   private: NameTable name_table_;
   private: const Name& name_;
   private: ClassOrNamespace& outer_;
@@ -62,6 +54,7 @@ class ClassOrNamespace : public Type_<ClassOrNamespace> {
   public: virtual ~ClassOrNamespace();
 
   // properties
+  public: const NameTable& entries() const { return name_table_; }
   public: const Name& name() const { return name_; }
   public: ClassOrNamespace& outer() const { return outer_; }
 

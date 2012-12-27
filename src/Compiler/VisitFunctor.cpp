@@ -21,10 +21,8 @@ void VisitFunctor::Process(CastOperator* const) {}
 void VisitFunctor::Process(ClassDef* const pClassDef) {
     ASSERT(pClassDef != nullptr);
 
-    foreach (ClassDef::EnumMember, oEnum, *pClassDef) {
-        auto const pNameDef = oEnum.Get();
-        pNameDef->Apply(this);
-    } // for
+    for (auto& name_def: pClassDef->members())
+      name_def.Apply(this);
 } // Process ClassDef
 
 void VisitFunctor::Process(CompilationUnit* const pCompilationUnit) {
@@ -72,9 +70,8 @@ void VisitFunctor::Process(NamespaceBody* const pNamespaceBody) {
         oEnum.Get()->Apply(this);
     } // for
 
-    foreach (NamespaceBody::EnumMember, oEnum, *pNamespaceBody) {
-        oEnum.Get()->Apply(this);
-    } // for
+    for (auto& member: pNamespaceBody->members())
+      member.Apply(this);
 } // Process NamespaceBody
 
 void VisitFunctor::Process(NamespaceDef* const) {}

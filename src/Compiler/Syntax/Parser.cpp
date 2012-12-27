@@ -906,8 +906,8 @@ void Parser::PopNameScope() {
 
   auto const outer = name_scope_->GetOuter();
 
-  foreach (NameScope::EnumMember, oEnum, name_scope_) {
-    auto const name_def = oEnum.Get();
+  for (auto const entry: name_scope_->entries()) {
+    auto const name_def = entry.value();
     if (auto const label_def = name_def->DynamicCast<LabelDef>()) {
       if (label_def->IsDefined()) {
         if (!label_def->IsUsed()) {

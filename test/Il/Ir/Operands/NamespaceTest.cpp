@@ -62,11 +62,11 @@ TEST_F(NamespaceTest, EnumMember) {
 
   const Name* namev[4];
   ::ZeroMemory(namev, sizeof(namev));
-  foreach (Namespace::EnumMember, oEnum, ns) {
-    auto const lit = oEnum.Get()->StaticCast<Literal>();
+  for (auto const entry: ns.entries()) {
+    auto const lit = entry.value()->StaticCast<Literal>();
     int val = lit->GetInt32();
     if (val >= 1 && val < lengthof(namev)) {
-      namev[val] = &oEnum.name();
+      namev[val] = entry.key();
     }
   }
 

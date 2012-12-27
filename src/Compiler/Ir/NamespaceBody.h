@@ -41,13 +41,6 @@ class NamespaceBody : public Entity_<NamespaceBody, NamespaceMember> {
   // Note: namespace and type are also found in NamespaceDef::Find.
   private: typedef HashMap_<const Name*, NameDef*> NameTable;
 
-  public: class EnumMember : public NamespaceMember::List::Enum {
-    public: EnumMember(const NamespaceBody& r)
-        : NamespaceMember::List::Enum(
-            &const_cast<NamespaceBody&>(r).members_) {
-    }
-  };
-
   public: class EnumOuterAndSelf {
     private: NamespaceBody* cur_;
 
@@ -82,6 +75,7 @@ class NamespaceBody : public Entity_<NamespaceBody, NamespaceMember> {
     return compilation_unit_;
   }
 
+  public: const NamespaceMember::List& members() const { return members_; }
   public: NamespaceDef& namespace_def() const { return namespace_def_;  }
   public: NamespaceBody* outer() const { return outer_;  }
 

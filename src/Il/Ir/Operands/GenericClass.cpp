@@ -67,8 +67,8 @@ Type& GenericClass::Construct(const TypeArgs& type_args) const {
 
   cons_class.RealizeClass(base_list);
 
-  foreach (EnumMember, members, *this) {
-    Operand& member = *members;
+  for (auto const entry: entries()) {
+    Operand& member = *entry.value();
     if (auto const mtg = member.DynamicCast<MethodGroup>()) {
       auto& cons_mtg = *new MethodGroup(cons_class, mtg->name());
       cons_class.Add(mtg->name(), cons_mtg);
@@ -84,8 +84,8 @@ Type& GenericClass::Construct(const TypeArgs& type_args) const {
   } // for member
 
   // Construct properties
-  foreach (EnumMember, members, *this) {
-    auto& member = *members;
+  for (auto const entry: entries()) {
+    auto& member = *entry.value();
     if (auto const gen_prop = member.DynamicCast<Property>()) {
       auto& cons_prop = *new Property(
           cons_class,
@@ -93,13 +93,13 @@ Type& GenericClass::Construct(const TypeArgs& type_args) const {
           gen_prop->property_type().Construct(type_args),
           gen_prop->name());
       cons_class.Add(cons_prop.name(), cons_prop);
-      foreach (Property::EnumMember, members, *gen_prop) {
+      for (auto const entry: gen_prop->entries()) {
         auto& method_name = Name::Intern(
             String::Format("%s_%s", 
-                *members.Get().GetKey(),
+                *entry.key(),
                 cons_prop.name()));
         cons_prop.Add(
-            *members.Get().GetKey(),
+            *entry.key(),
             *cons_class.Find(method_name)
                 ->DynamicCast<MethodGroup>()
                     ->Find(

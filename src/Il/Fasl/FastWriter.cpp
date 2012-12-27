@@ -76,8 +76,7 @@ void FastWriter::Finish() {
   ScopedPtr_<Type::Array> types(TypeSorter::Sort(type_set_));
 
   // Write type.
-  foreach (Type::Array::Enum, tys, types) {
-    auto const type = *tys;
+  for (auto const type: *types) {
     if (auto const clazz = type->DynamicCast<Class>()) {
       WriteClassDef(*clazz);
     } else {
@@ -85,8 +84,7 @@ void FastWriter::Finish() {
     }
   }
 
-  foreach (Type::Array::Enum, tys, types) {
-    auto const type = *tys;
+  for (auto const type: *types) {
     if (auto const clazz = type->DynamicCast<Class>()) {
       WriteTypeRef(*clazz);
       // Write base specifications as Array.
@@ -102,8 +100,7 @@ void FastWriter::Finish() {
 
   // Write fields, methods, method groups, and properties.
   ArrayList_<const Method*> method_list;
-  foreach (Type::Array::Enum, tys, types) {
-    auto const ty = *tys;
+  for (auto const ty: *types) {
     if (auto const clazz = ty->DynamicCast<Class>()) {
       WriteTypeRef(*clazz);
       WriteFaslOp(FaslOp_ClassContext);
@@ -118,8 +115,8 @@ void FastWriter::Finish() {
 
       // All methods must be emitted before properties for using property
       // reference in property member registation.
-      foreach (Class::EnumMember, members, *clazz) {
-        auto& member = *members;
+      for (auto const entry: clazz->entries()) {
+        auto& member = *entry.value();
         if (auto const method_group = member.DynamicCast<MethodGroup>()) {
           WriteName(method_group->name());
           WriteFaslOp(FaslOp_MethodGroup);
@@ -132,8 +129,8 @@ void FastWriter::Finish() {
         }
       }
 
-      foreach (Class::EnumMember, members, *clazz) {
-        auto& member = *members;
+      for (auto const entry: clazz->entries()) {
+        auto& member = *entry.value();
         if (auto const property = member.DynamicCast<Property>()) {
           WriteProperty(*property);
         }
@@ -660,10 +657,9 @@ void FastWriter::WriteProperty(const Property& property) {
   WriteFaslOp(FaslOp_Property);
 
   auto num_members = 0;
-  foreach (Property::EnumMember, members, property) {
-    auto entry = members.Get();
-    WriteName(*entry.GetKey());
-    WriteRef(*entry.GetValue());
+  for (auto const entry: property.entries()) {
+    WriteName(*entry.key());
+    WriteRef(*entry.value());
     WriteFaslOp(FaslOp_PropertyMember);
     ++num_members;
   }

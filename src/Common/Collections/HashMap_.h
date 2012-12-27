@@ -28,6 +28,9 @@ class HashMap_  : public TAllocable {
         value_(value) {
     }
 
+    public: Key key() const { return key_; }
+    public: Value value() const { return value_; }
+
     public: Key GetKey() const { return key_; }
     public: Value GetValue() const { return value_; }
     public: void SeKey(Key const key) { key_ = key; }

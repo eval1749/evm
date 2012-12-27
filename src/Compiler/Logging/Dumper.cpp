@@ -90,11 +90,10 @@ void Dumper::Dump() {
     public: static void CollectClassDef(
         const NamespaceBody& nsb,
         ArrayList_<ClassDef*>& list) {
-      foreach (NamespaceBody::EnumMember, members, nsb) {
-        auto const member = members.Get();
-        if (auto const class_def = member->DynamicCast<ClassDef>()) {
+      for (auto& member: nsb.members()) {
+        if (auto const class_def = member.DynamicCast<ClassDef>()) {
           list.Add(class_def);
-        } else if (auto const inner = member->DynamicCast<NamespaceBody>()) {
+        } else if (auto const inner = member.DynamicCast<NamespaceBody>()) {
           CollectClassDef(*inner, list);
         }
       }
@@ -131,13 +130,12 @@ void Dumper::DumpClass(const ClassDef& class_def) {
   ArrayList_<const MethodGroupDef*> method_groups;
   ArrayList_<const PropertyDef*> properties;
 
-  foreach (ClassDef::EnumMember, members, class_def) {
-    auto const member = members.Get();
-    if (auto const field = member->DynamicCast<FieldDef>()) {
+  for (auto& member: class_def.members()) {
+    if (auto const field = member.DynamicCast<FieldDef>()) {
       fields.Add(field);
-    } else if (auto const mg = member->DynamicCast<MethodGroupDef>()) {
+    } else if (auto const mg = member.DynamicCast<MethodGroupDef>()) {
       method_groups.Add(mg);
-    } else if (auto const prop = member->DynamicCast<PropertyDef>()) {
+    } else if (auto const prop = member.DynamicCast<PropertyDef>()) {
       properties.Add(prop);
     }
   }
@@ -164,10 +162,9 @@ void Dumper::DumpClass(const ClassDef& class_def) {
           prop->property_type(),
           prop->name());
       writer_.WriteLine("<ol>");
-      foreach (PropertyDef::EnumMember, members, *prop) {
-        auto entry = members.Get();
-        auto& method = *entry.GetValue();
-        auto& propty = *entry.GetKey();
+      for (auto const entry: prop->entries()) {
+        auto& method = *entry.value();
+        auto& propty = *entry.key();
         writer_.Write("<li>%s ", escape(propty.ToString()));
         WriteMethodRef(method);
         writer_.WriteLine("</li>");

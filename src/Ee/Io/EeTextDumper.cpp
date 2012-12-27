@@ -56,8 +56,8 @@ void EeTextDumper::DumpClass(const Class& clazz) {
   ArrayList_<const MethodGroup*> method_groups;
   ArrayList_<const Property*> properties;
 
-  foreach (Class::EnumMember, members, clazz) {
-    auto const member = members.Get();
+  for (auto const entry: clazz.entries()) {
+    auto const member = entry.value();
     if (auto const field = member->DynamicCast<Field>()) {
       fields.Add(field);
     } else if (auto const mg = member->DynamicCast<MethodGroup>()) {
@@ -82,10 +82,9 @@ void EeTextDumper::DumpClass(const Class& clazz) {
         ModifiersToString(property->modifiers()),
         property->property_type(),
         property->name());
-      foreach (Property::EnumMember, members, *property) {
-        auto entry = members.Get();
-        auto& name = *entry.GetKey();
-        auto& method = *entry.GetValue();
+      for (auto const entry: property->entries()) {
+        auto& name = *entry.key();
+        auto& method = *entry.value();
         writer_.WriteLine("  %s: %s;", name, method);
       }
       writer_.WriteLine("}");

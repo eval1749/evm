@@ -27,9 +27,8 @@ void FinalizeClassPass::Process(ClassDef* const class_def) {
 
   DEBUG_FORMAT("Resolve fields of %s", clazz);
 
-  foreach (ClassDef::EnumMember, oEnum, *class_def) {
-    auto const thing = oEnum.Get();
-    if (auto const field_def = thing->DynamicCast<FieldDef>()) {
+  for (auto& thing: class_def->members()) {
+    if (auto const field_def = thing.DynamicCast<FieldDef>()) {
         auto& type = Resolve(context, *field_def->GetTy());
         auto& name = field_def->name();
 

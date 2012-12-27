@@ -540,8 +540,8 @@ void FastLoader::HandleGenericClass() {
 
   Array_<const TypeParam*> type_params(name_list.Count());
   auto num_type_params = 0;
-  foreach (ObjectArray::Enum, names, name_list) {
-    auto& typaram = ExpectTypeParam(names.Get());
+  for (auto const name: name_list) {
+    auto& typaram = ExpectTypeParam(name);
     if (HasError()) return;
     type_params.Set(num_type_params, &typaram);
     ++num_type_params;
@@ -575,8 +575,8 @@ void FastLoader::HandleGenericMethod() {
 
   Array_<const TypeParam*> type_params(name_list.Count());
   auto num_type_params = 0;
-  foreach (ObjectArray::Enum, names, name_list) {
-    auto& typaram = ExpectTypeParam(names.Get());
+  for (auto const name: name_list) {
+    auto& typaram = ExpectTypeParam(name);
     if (HasError()) return;
     type_params.Set(num_type_params++, &typaram);
   }
@@ -720,10 +720,10 @@ void FastLoader::HandleInstruction(
 
     Label* label = nullptr;
 
-    foreach (ObjectArray::Enum, en, operands) {
-      auto const operand = en.Get()->DynamicCast<Operand>();
+    for (auto const thing: operands) {
+      auto const operand = thing->DynamicCast<Operand>();
       if (!operand) {
-        Error(FaslError_Expect_Operand, en.Get());
+        Error(FaslError_Expect_Operand, thing);
         return;
       }
 
@@ -1101,8 +1101,8 @@ void FastLoader::HandleRealizeClass() {
   if (HasError()) return;
 
   ArrayList_<const Class*> class_list;
-  foreach (ObjectArray::Enum, things, thing_list) {
-    class_list.Add(&ExpectClass(things.Get()));
+  for (auto const thing: thing_list) {
+    class_list.Add(&ExpectClass(thing));
     if (HasError()) return;
   }
 
@@ -1130,8 +1130,8 @@ void FastLoader::HandleRealizeTypeParam() {
 
   ArrayList_<const Class*> constraints(things.Count());
   auto index = 0;
-  foreach (ObjectArray::Enum, it, things) {
-    constraints[index] = &ExpectClass(*it);
+  for (auto const thing: things) {
+    constraints[index] = &ExpectClass(thing);
     ++index;
   }
   if (HasError()) return;
@@ -1175,8 +1175,8 @@ void FastLoader::HandleValuesType() {
   if (HasError()) return;
 
   ValuesTypeBuilder builder(array.Count());
-  foreach (ObjectArray::Enum, elems, array) {
-    auto& type = ExpectType(*elems);
+  for (auto const elem: array) {
+    auto& type = ExpectType(elem);
     builder.Append(type);
   }
   PushAndRemember(builder.GetValuesType());

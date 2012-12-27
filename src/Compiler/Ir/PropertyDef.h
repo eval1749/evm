@@ -18,11 +18,6 @@ class PropertyDef
   CASTABLE_CLASS(PropertyDef)
   private: typedef HashMap_<const Name*, const MethodDef*> MemberMap;
 
-  public: class EnumMember : public MemberMap::Enum {
-    private: typedef MemberMap::Enum Base;
-    public: EnumMember(const PropertyDef& r) : Base(r.member_map_) {}
-  };
-
   private: MemberMap member_map_;
   private: NamespaceBody& namespace_body_;
   private: const Type& property_type_;
@@ -37,6 +32,7 @@ class PropertyDef
       const NameRef&);
 
   // properties
+  public: const MemberMap& entries() const { return member_map_; }
   public: NamespaceBody& namespace_body() const { return namespace_body_; }
   public: const Type& property_type() const { return property_type_; }
   public: const NameRef& qualified_name() const { return qualified_name_; }

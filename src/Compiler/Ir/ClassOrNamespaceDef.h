@@ -26,17 +26,6 @@ class ClassOrNamespaceDef : public NameDef_<ClassOrNamespaceDef, NameDef> {
 
   private: typedef HashMap_<const Name*, NameDef*> NameTable;
 
-  // Enumerates NameDef objects in ClassOrNamespaceDef in source code order.
-  // Some unit tests depend on source code order for testing parser.
-  public: class EnumMember : public NameDef::List::Enum {
-    private: typedef NameDef::List::Enum Base;
-
-    public: EnumMember(const ClassOrNamespaceDef& r)
-        : Base(&r.name_defs_) {}
-
-    public: NameDef* Get() const { return Base::Get(); }
-  }; // EnumMember
-
   // name_defs_ contains list of name declarations in source code order.
   private: NameDef::List name_defs_;
 
@@ -50,6 +39,8 @@ class ClassOrNamespaceDef : public NameDef_<ClassOrNamespaceDef, NameDef> {
       const SourceInfo&);
 
   public: virtual ~ClassOrNamespaceDef() {}
+
+  public: const NameDef::List& members() const { return name_defs_; }
 
   // [A]
   public: void Add(NameDef&);

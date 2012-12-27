@@ -140,8 +140,8 @@ void ResolveMethodPass::Process(ClassDef* const class_def) {
   Base::Process(class_def);
   auto& clazz = class_def->GetClass();
   InstallDefaultCtor(clazz, class_def->source_info());
-  foreach (ClassDef::EnumMember, members, *class_def) {
-    if (auto const prop_def = members.Get()->DynamicCast<PropertyDef>()) {
+  for (auto& member: class_def->members()) {
+    if (auto const prop_def = member.DynamicCast<PropertyDef>()) {
       auto& prop = *new Property(
           clazz,
           prop_def->modifiers(),
@@ -150,11 +150,9 @@ void ResolveMethodPass::Process(ClassDef* const class_def) {
               prop_def->property_type()),
           prop_def->name());
       clazz.Add(prop.name(), prop);
-      foreach (PropertyDef::EnumMember, members, *prop_def) {
-        auto entry = members.Get();
-        auto& name = *entry.GetKey();
-        auto& method = *entry.GetValue()->operand().StaticCast<Method>();
-        prop.Add(name, method);
+      for (auto const entry: prop_def->entries()) {
+        auto& method = *entry.value()->operand().StaticCast<Method>();
+        prop.Add(*entry.key(), method);
       }
     }
   }

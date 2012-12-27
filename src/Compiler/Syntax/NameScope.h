@@ -39,21 +39,13 @@ class NameScope {
 
   private: typedef HashMap_<const Name*, NameDef*> NameTable;
 
-  public: class EnumMember : public NameTable::Enum {
-    public: EnumMember(const NameScope* const p)
-        : NameTable::Enum(&p->name_table_) {
-    }
-
-    public: NameDef* Get() const {
-      return NameTable::Enum::Get().GetValue();
-    } // Get
-  }; // EnumName
-
   private: NameTable name_table_;
   private: NameScope* const outer_;
 
   // ctor
   public: NameScope(MemoryZone&, NameScope* pOuer);
+
+  public: const NameTable& entries() const { return name_table_; }
 
   // [A]
   public: void Add(NameDef&);
