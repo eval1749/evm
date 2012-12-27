@@ -72,6 +72,21 @@ TEST_F(HashSetTest, Enum) {
   EXPECT_EQ(1, flagv['3']);
 }
 
+TEST_F(HashSetTest, ForEach) {
+  int flagv[256];
+  ::ZeroMemory(flagv, sizeof(flagv));
+
+  auto n = 0;
+  for (auto const entry: set_) {
+    ++flagv[*entry.value()];
+    n++;
+  }
+  EXPECT_EQ(3, n);
+  EXPECT_EQ(1, flagv['1']);
+  EXPECT_EQ(1, flagv['2']);
+  EXPECT_EQ(1, flagv['3']);
+}
+
 TEST_F(HashSetTest, Remove) {
   EXPECT_TRUE(set_.Remove("1"));
   EXPECT_FALSE(set_.Contains("1"));

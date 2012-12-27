@@ -213,9 +213,8 @@ class Collection_ : public Object_<Collection_<T>> {
       : data_(new Data(set.Count())) {
     typedef HashSet_<T, A> HashSet;
     T* p = data_->elements();
-    foreach (HashSet::Enum, elems, set) {
-      *p++ = elems.Get();
-    }
+    for (auto const value: set)
+      *p++ = value;
   }
 
   public: virtual ~Collection_() { data_->Release(); }

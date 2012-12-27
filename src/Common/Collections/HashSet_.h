@@ -32,7 +32,7 @@ class HashSet_ : public TAllocable {
     public: bool IsEmpty() const { return state_ == State_Empty; }
     public: bool IsRemoved() const { return state_ == State_Removed; }
 
-    public: void Set(Key key)  {
+    public: void Set(const Key& key)  {
       key_ = key;
       state_ = State_HasEntry;
     }
@@ -84,6 +84,90 @@ class HashSet_ : public TAllocable {
 
   DEFINE_ENUMERATOR(HashSet_, Key);
 
+  public: class Iterator {
+    private: size_t count_;
+    private: HashSet_* hash_set_;
+    private: const Slot* runner_;
+
+    public: Iterator(HashSet_& hash_set, size_t count)
+        : count_(count),
+          hash_set_(&hash_set),
+          runner_(hash_set.slots_) {
+      if (count_) {
+        ++count_;
+        --runner_;
+        operator++();
+      }
+    }
+
+    public: Key operator*() const {
+      DCHECK_GT(count_, 0u);
+      return runner_->GetKey();
+    }
+
+    public: bool operator==(const Iterator& another) const {
+      DCHECK_EQ(hash_set_, another.hash_set_);
+      return count_ == another.count_;
+    }
+
+    public: bool operator!=(const Iterator& another) const {
+      return !operator==(another);
+    }
+
+    public: Iterator& operator++() {
+      DCHECK_GT(count_, 0u);
+      --count_;
+      if (!count_)
+        return *this;
+      do {
+        ++runner_;
+      } while (!runner_->HasEntry());
+      return *this;
+    }
+  };
+
+  public: class ConstIterator {
+    private: size_t count_;
+    private: const HashSet_* hash_set_;
+    private: const Slot* runner_;
+
+    public: ConstIterator(const HashSet_& hash_set, size_t count)
+        : count_(count),
+          hash_set_(&hash_set),
+          runner_(hash_set.slots_) {
+      if (count_) {
+        ++count_;
+        --runner_;
+        operator++();
+      }
+    }
+
+    public: Key operator*() const {
+      DCHECK_GT(count_, 0u);
+      return runner_->GetKey();
+    }
+
+    public: bool operator==(const ConstIterator& another) const {
+      DCHECK_EQ(hash_set_, another.hash_set_);
+      return count_ == another.count_;
+    }
+
+    public: bool operator!=(const ConstIterator& another) const {
+      return !operator==(another);
+    }
+
+    public: ConstIterator& operator++() {
+      DCHECK_GT(count_, 0u);
+      --count_;
+      if (!count_)
+        return *this;
+      do {
+        ++runner_;
+      } while (!runner_->HasEntry());
+      return *this;
+    }
+  };
+
   private: static uint const kDefaultCapacity = 57;
   private: static uint const kDefaultRehashThreshold = 63;
 
@@ -131,6 +215,11 @@ class HashSet_ : public TAllocable {
     Clear();
     AddAll(r);
   }
+
+  public: Iterator begin() { return Iterator(*this, count_); }
+  public: ConstIterator begin() const { return ConstIterator(*this, count_); }
+  public: Iterator end() { return Iterator(*this, 0); }
+  public: ConstIterator end() const { return ConstIterator(*this, 0); }
 
   // [A]
   public: void Add(Key const key) {
