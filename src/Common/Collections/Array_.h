@@ -37,6 +37,34 @@ class Array_
 
   DEFINE_ENUMERATOR(Array_, T);
 
+  public: class ForwardIterator {
+    private: Array_* array_;
+    private: size_t index_;
+
+    public: ForwardIterator(Array_* array, size_t index)
+        : array_(array), index_(index) {
+      DCHECK(!!array_);
+      DCHECK_LE(index_, array_->length());
+    }
+
+    public: T& operator*() const { return (*array_)[index_]; }
+
+    public: bool operator==(const ForwardIterator& another) const {
+      DCHECK_EQ(array_, another.array_);
+      return index_ == another.index_;
+    }
+
+    public: bool operator!=(const ForwardIterator& another) const {
+      return !operator==(another);
+    }
+
+    public: ForwardIterator& operator++() {
+      DCHECK_LT(index_, array_->length());
+      ++index_;
+      return *this;
+    }
+  };
+
   // Note: length_ must be initialized before elements_.
   private: size_t const length_;
   private: T* const elements_;
@@ -103,6 +131,8 @@ class Array_
   public: bool operator!=(const Array& r) const { return !(*this == r); }
 
   // properties
+  public: ForwardIterator begin() { return ForwardIterator(this, 0); }
+  public: ForwardIterator end() { return ForwardIterator(this, length()); }
   public: size_t length() const { return length_; }
 
   // [C]

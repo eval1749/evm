@@ -61,6 +61,19 @@ TEST_F(ArrayTest, Enum) {
   }
 }
 
+TEST_F(ArrayTest, ForEach) {
+  int const v[] = { 'X', 'Y', 'Z' };
+  Array_<int> a1(ARRAYSIZE(v));
+  for (auto i = 0; i < ARRAYSIZE(v); ++i)
+    a1[i] = v[i];
+  auto index = size_t(0);
+  for (auto const x: a1) {
+    EXPECT_EQ(x, v[index]);
+    ++index;
+  }
+  EXPECT_EQ(index, ARRAYSIZE(v));
+}
+
 #if 0
 TEST_F(ArrayTest, Equals) {
   Array_<Int32> a1(3);
