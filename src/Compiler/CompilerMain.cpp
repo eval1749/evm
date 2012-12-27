@@ -9,6 +9,7 @@
 
 #include "../Common/GlobalMemoryZone.h"
 #include "../Common/Collections.h"
+#include "../Common/CommandLine.h"
 #include "../Common/String.h"
 #include "../Common/Io.h"
 
@@ -46,81 +47,6 @@ using namespace Il::Tasks;
 namespace {
 
 char16 const k_wszTitle[] = L"Evita Compiler";
-
-// EnumParam enumerates command line arguments.
-class EnumParam {
-  private: StringBuilder builder_;
-  private: const char16* cur_;
-
-  public: EnumParam(const char16* const pwsz) : cur_(pwsz) {
-    if (!AtEnd()) {
-      Next();
-    }
-  }
-
-  public: bool AtEnd() const {
-    return *cur_ == 0 && builder_.IsEmpty();
-  }
-
-  public: String Get() const {
-    ASSERT(!AtEnd());
-    ASSERT(!builder_.IsEmpty());
-    return builder_.ToString();
-  }
-
-  private: static bool IsSpace(char16 const wch) {
-    return wch == ' ' || wch == '\t';
-  }
-
-  public: void Next() {
-    ASSERT(!AtEnd());
-
-    enum State {
-      State_DoubleQuote,
-      State_Start,
-      State_Word,
-    } state = State_Start;
-
-    builder_.Clear();
-    for (;;) {
-      auto ch = *cur_;
-      if (ch == 0) {
-        break;
-      }
-      cur_++;
-
-      switch (state) {
-        case State_DoubleQuote:
-          if (ch == '"') {
-            return;
-          }
-          builder_.Append(ch);
-          break;
-
-        case State_Start:
-          if (ch == '"') {
-            state = State_DoubleQuote;
-          } else if (!IsSpace(ch)) {
-            builder_.Append(ch);
-            state = State_Word;
-          }
-          break;
-
-       case State_Word:
-         if (IsSpace(ch)) {
-           return;
-         }
-         builder_.Append(ch);
-         break;
-
-       default:
-         CAN_NOT_HAPPEN();
-      }
-    }
-  }
-
-  DISALLOW_COPY_AND_ASSIGN(EnumParam);
-};
 
 class TypeCollector : public VisitFunctor {
   private: FastWriter& writer_;
@@ -352,9 +278,7 @@ static int CompilerMain() {
 
     auto state = State_Start;
 
-    foreach (EnumParam, params, ::GetCommandLineW()) {
-      auto param = params.Get();
-
+    for (auto param: Common::CommandLine()) {
       switch (state) {
         case State_File:
           if (param == "-dump") {
