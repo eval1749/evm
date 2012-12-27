@@ -1048,15 +1048,13 @@ class X86AsmTasklet :
 
       m_oCodeBuf.Reset();
 
-      foreach (Function::EnumBBlock, oEnum, pFun) {
-          auto const pBBlock = oEnum.Get();
+      for (auto& bblock: pFun->bblocks()) {
           auto const pExt = new(this) BBlockExt;
-          pBBlock->SetWork(pExt);
+          bblock.SetWork(pExt);
       }
 
-      foreach (Function::EnumBBlock, oEnum, pFun) {
-          ProcessBBlock(oEnum.Get());
-      }
+      for (auto& bblock: pFun->bblocks())
+        ProcessBBlock(&bblock);
 
       FixSpans();
   }

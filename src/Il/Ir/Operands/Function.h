@@ -247,6 +247,9 @@ class Function :
   public: virtual ~Function() {}
 
   // properties
+  public: const LayoutList& bblocks() const {
+    return static_cast<const LayoutList&>(*this);
+  }
   public: Ee::CodeDesc* code_desc() const { return code_desc_; }
   public: Module& module() const { return *GetGraphParent(); }
   public: Flavor flavor() const { return flavor_; }

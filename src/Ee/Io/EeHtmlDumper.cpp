@@ -123,8 +123,7 @@ void EeHtmlDumper::DumpFunction(const Function& fun) {
       escape(fun.function_type().params_type().ToString()));
 
   auto index = 0;
-  foreach (Function::EnumBBlock, bblocks, fun) {
-    auto& bb = *bblocks.Get();
+  for (auto& bb: fun.bblocks()) {
     writer_.WriteLine("<a id='b%p'>%s</a>:<br>", bb, bb);
     foreach (BBlock::EnumI, insts, bb) {
       auto& inst = *insts.Get();

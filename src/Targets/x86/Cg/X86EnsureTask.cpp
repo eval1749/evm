@@ -276,9 +276,8 @@ class EnsureTasklet :
       }
     }
 
-    foreach (Function::EnumBBlock, oEnum, pFun) {
-      auto const pBB = oEnum.Get();
-      BBlock::EnumI oEnumI(pBB);
+    for (auto& bblock: pFun->bblocks()) {
+      BBlock::EnumI oEnumI(bblock);
       while (!oEnumI.AtEnd()) {
         auto const pI = oEnumI.Get();
         oEnumI.Next();

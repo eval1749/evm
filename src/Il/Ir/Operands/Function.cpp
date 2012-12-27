@@ -199,14 +199,12 @@ bool Function::IsClosure() const {
 
 // [M]
 void Function::MakeVoid() {
-  Function::EnumBBlock oEnum(this);
-  while (!oEnum.AtEnd()) {
-    BBlock* pBB = oEnum.Get();
-    oEnum.Next();
-    RemoveBBlock(*pBB);
-    delete pBB;
-  } // while
-} // Function::MakeVoid
+  while (!bblocks().IsEmpty()) {
+    auto const bblock = bblocks().GetFirst();
+    RemoveBBlock(*bblock);
+    delete bblock;
+  }
+}
 
 // [R]
 void Function::Realize(OperandBox* const pBox) {

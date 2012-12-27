@@ -243,8 +243,7 @@ void CleanTask::ProcessFunction(Function& fn) {
     }
 
     WorkList_<BBlock> unreachables;
-    foreach (Function::EnumBBlock, bblocks, fn) {
-      auto& bblock = *bblocks.Get();
+    for (auto& bblock: fn.bblocks()) {
       if (!bblock.HasInEdge() && fn.GetEntryBB() != &bblock) {
         unreachables.Push(&bblock);
       }

@@ -114,8 +114,7 @@ void EeTextDumper::DumpFunction(const Function& fun) {
       fun.function_type().params_type());
 
   auto index = 0;
-  foreach (Function::EnumBBlock, bblocks, fun) {
-    auto& bb = *bblocks.Get();
+  for (auto& bb: fun.bblocks()) {
     writer_.WriteLine("%s:", bb);
     foreach (BBlock::EnumI, insts, bb) {
       auto& inst = *insts.Get();

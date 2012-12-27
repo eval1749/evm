@@ -362,9 +362,8 @@ class LowerTasklet :
   }
 
   public: void Run(const Function& fun) {
-    foreach (Function::EnumBBlock, oEnum, fun) {
-      auto const pBB = oEnum.Get();
-      BBlock::EnumI oEnumI(pBB);
+    for (auto& bblock: fun.bblocks()) {
+      BBlock::EnumI oEnumI(bblock);
       while (!oEnumI.AtEnd()) {
         auto const pI = oEnumI.Get();
         oEnumI.Next();

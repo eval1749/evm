@@ -114,17 +114,15 @@ class RegLiveness {
     }
 
     if (cRegs == 0) {
-      foreach (Function::EnumBBlock, oEnum, fun) {
-        auto& bblock = *oEnum.Get()->Extend<DataFlowBB>();
-        bblock.InitDataFlow(0);
-      }
+      for (auto& bblock: fun.bblocks())
+        bblock.Extend<DataFlowBB>()->InitDataFlow(0);
       return;
     }
 
-    foreach (Function::EnumBBlock, oEnum, fun) {
-      auto& bblock = *oEnum.Get()->Extend<DataFlowBB>();
-      bblock.InitDataFlow(cRegs);
-      ComputeLocal(bblock);
+    for (auto& bblock: fun.bblocks()) {
+      auto& data_flow_block = *bblock.Extend<DataFlowBB>();
+      data_flow_block.InitDataFlow(cRegs);
+      ComputeLocal(data_flow_block);
       //DumpLiveness(bblock, &oRegList);
     }
 
@@ -201,17 +199,15 @@ class VarLiveness {
     }
 
     if (cVars == 0) {
-      foreach (Function::EnumBBlock, oEnum, fun) {
-        auto& bblock = *oEnum.Get()->Extend<DataFlowBB>();
-        bblock.InitDataFlow(0);
-      }
+      for (auto& bblock: fun.bblocks())
+        bblock.Extend<DataFlowBB>()->InitDataFlow(0);
       return;
     }
 
-    foreach (Function::EnumBBlock, oEnum, fun) {
-      auto& bblock = *oEnum.Get()->Extend<DataFlowBB>();
-      bblock.InitDataFlow(cVars);
-      ComputeLocal(bblock);
+    for (auto& bblock: fun.bblocks()) {
+      auto& data_flow_block = *bblock.Extend<DataFlowBB>();
+      data_flow_block.InitDataFlow(cVars);
+      ComputeLocal(data_flow_block);
     }
 
     Dfa::SolveBackward(fun);

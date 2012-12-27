@@ -47,16 +47,14 @@ Module& Module::Clone(const TypeArgs& type_args) const {
   for (auto& templ_fn: functions()) {
     auto& fn = *fn_map.Get(&templ_fn);
     HashMap_<const BBlock*, BBlock*> bb_map;
-    foreach (Function::EnumBBlock, bblocks, templ_fn) {
-      auto& templ_bb = *bblocks.Get();
+    for (auto& templ_bb: templ_fn.bblocks()) {
       auto& bb = NewBBlock();
       fn.AppendBBlock(&bb);
       bb_map.Add(&templ_bb, &bb);
     }
 
     HashMap_<const Output*, const Output*> out_map;
-    foreach (Function::EnumBBlock, bblocks, templ_fn) {
-      auto& templ_bb = *bblocks.Get();
+    for (auto& templ_bb: templ_fn.bblocks()) {
       auto& bb = *bb_map.Get(&templ_bb);
       foreach (BBlock::EnumI, insts, templ_bb) {
         auto& templ_inst = *insts.Get();

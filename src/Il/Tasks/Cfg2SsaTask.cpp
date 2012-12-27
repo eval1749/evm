@@ -278,17 +278,15 @@ class PrepareTasklet : public Tasklet {
       }
     }
 
-    foreach (Function::EnumBBlock, oEnum, pFun) {
-      auto const pBB = oEnum.Get();
-
-      foreach (BBlock::EnumPhiI, oEnum, pBB) {
+    for (auto& bblock: pFun->bblocks()) {
+      foreach (BBlock::EnumPhiI, oEnum, &bblock) {
         auto const pPhiI = oEnum.Get();
         pPhiI->SetWork(nullptr);
       }
 
-      foreach (BBlock::EnumInEdge, oEnum, pBB) {
+      foreach (BBlock::EnumInEdge, oEnum, bblock) {
         if (oEnum.Get()->GetEdgeKind() == CfgEdge::Kind_Nonlocal) {
-          m_oNonlocalBBs.Push(pBB);
+          m_oNonlocalBBs.Push(&bblock);
           break;
         }
       }
@@ -511,9 +509,8 @@ void Cfg2SsaTask::ProcessFunction(Function& fn) {
     tasklet.Run(pFun);
   }
 
-  foreach (Function::EnumBBlock, oEnum, pFun) {
-    auto const pBBlock = oEnum.Get();
-    foreach (BBlock::EnumPhiI, oEnum, pBBlock) {
+  for (auto& bblock: pFun->bblocks()) {
+    foreach (BBlock::EnumPhiI, oEnum, &bblock) {
       auto const pPhiI = oEnum.Get();
       pPhiI->SetWork(nullptr);
     }

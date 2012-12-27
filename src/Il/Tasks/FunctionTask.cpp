@@ -30,9 +30,8 @@ void FunctionTask::ProcessBBlockDefault(BBlock& bblock, Functor& functor) {
 
 void FunctionTask::ProcessFunctionDefault(Function& fun, Functor& functor) {
   DEBUG_FORMAT("Process %s %s", name(), fun);
-  foreach (Function::EnumBBlock, bblocks, fun) {
-    bblocks.Get()->Apply(&functor);
-  } // for bblock
+  for (auto& bblock: fun.bblocks())
+    bblock.Apply(&functor);
 } // Process Function
 
 // [S]

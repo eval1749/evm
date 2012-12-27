@@ -1120,9 +1120,8 @@ class SubPassAssign :
   private: void run(Function* const pFun) {
     DEBUG_FORMAT("Assign %s", pFun);
 
-    foreach (Function::EnumBBlock, oEnum, pFun) {
-      ProcessBBlock(oEnum.Get());
-    }
+    for (auto& bblock: pFun->bblocks())
+      ProcessBBlock(&bblock);
   }
 
   ////////////////////////////////////////////////////////////
@@ -1800,8 +1799,8 @@ class SubPassInvertPhi : public Tasklet {
 
   private: void Run(const Function& fun) {
     DEBUG_FORMAT("Process %s", fun);
-    foreach (Function::EnumBBlock, oEnum, fun) {
-      ProcessBBlock(oEnum.Get());
+    for (auto& bblock: fun.bblocks()) {
+      ProcessBBlock(&bblock);
     }
   }
 
@@ -1984,8 +1983,7 @@ class SubPassRa : public Tasklet, protected Mm {
   private: void BuildRegList(const Function& fun) {
     auto& target = session_.target();
 
-    foreach (Function::EnumBBlock, oEnum, fun) {
-      auto& bblock = *oEnum.Get();
+    for (auto& bblock: fun.bblocks()) {
       auto const pExt = new BBlockExt();
 
       pExt->m_pRegMap = new(this) RegMap(this, target);
@@ -2009,8 +2007,7 @@ class SubPassRa : public Tasklet, protected Mm {
 
   // [C]
   private: void ComputeSpillHint(const Function& fun) {
-    foreach (Function::EnumBBlock, bblocks, fun) {
-      auto& bblock = *bblocks.Get();
+    for (auto& bblock: fun.bblocks()) {
       if (bblock.GetFlag() != HasCall) {
         // No CALL in this bblock
         continue;
@@ -2077,13 +2074,10 @@ class SubPassRemovePhi : public Tasklet {
   private: void Run(Function* const pFun) {
     DEBUG_FORMAT("Remove Phi in %s", pFun);
 
-    foreach (Function::EnumBBlock, oEnum, pFun) {
-      auto const pBB = oEnum.Get();
-
-      DEBUG_FORMAT("Remove Phi in %s", pBB);
-
+    for (auto& bblock: pFun->bblocks()) {
+      DEBUG_FORMAT("Remove Phi in %s", bblock);
       WorkList_<Instruction> oPhiIs;
-      foreach (BBlock::EnumPhiI, oEnum, pBB) {
+      foreach (BBlock::EnumPhiI, oEnum, &bblock) {
         auto const pPhiI = oEnum.Get();
         if (!pPhiI->GetOutput()->Is<Values>()) {
             oPhiIs.Push(pPhiI);
@@ -2091,7 +2085,7 @@ class SubPassRemovePhi : public Tasklet {
       }
 
       while (!oPhiIs.IsEmpty()) {
-        pBB->RemoveI(*oPhiIs.Pop());
+        bblock.RemoveI(*oPhiIs.Pop());
       }
     }
   }
@@ -2121,12 +2115,11 @@ void RegAllocPass::ProcessFunction(Function& fun) {
   }
 
   // Put Phi-operands to LiveOut for easy checking of live range.
-  foreach (Function::EnumBBlock, oEnum, fun) {
-    auto const pBB = oEnum.Get();
-    foreach (BBlock::EnumPhiI, oEnum, pBB) {
+  for (auto& bblock: fun.bblocks()) {
+    foreach (BBlock::EnumPhiI, oEnum, &bblock) {
       auto const pPhiI = oEnum.Get();
       if (pPhiI->GetRd()) {
-        foreach (BBlock::EnumPred, oEnum, pBB) {
+        foreach (BBlock::EnumPred, oEnum, bblock) {
             auto const pPred = oEnum.Get();
             if (auto const pRx = pPhiI->GetRx(pPred)) {
                 pPred->SetLiveOut(pRx->GetIndex());

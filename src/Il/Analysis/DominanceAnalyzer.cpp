@@ -8,6 +8,7 @@
 
 #include "./DominanceAnalyzer.h"
 
+#include "../../Common/Collections.h"
 #include "./DataFlowAnalysis.h"
 #include "../Ir/BBlock.h"
 #include "../Ir/CfgEdge.h"
@@ -89,9 +90,8 @@ class DomTreeBuilder_ {
 
   //  Loop over bblock which has more than one predecessors.
   private: void ComputeFrontiers() {
-    foreach (Function::EnumBBlock, oEnum, cfg_.function()) {
-      auto const node = oEnum.Get()->Extend<DomBBlock>();
-
+    for (auto& bblock: cfg_.function().bblocks()) {
+      auto const node = bblock.Extend<DomBBlock>();
       if (!HasMoreThanOnePred(node)) {
         continue;
       }
@@ -161,15 +161,15 @@ class DomTreeBuilder_ {
 
   //  Allocates dominfo for all bblocks
   private: void Init() {
-    foreach (Function::EnumBBlock, bblocks, cfg_.function()) {
-      auto& bblock = *bblocks.Get()->Extend<DomBBlock>();
-      bblock.SetDfsName(0);
-      bblock.SetDfsNext(nullptr);
+    for (auto& bblock: cfg_.function().bblocks()) {
+      auto& dom_bblock = *bblock.Extend<DomBBlock>();
+      dom_bblock.SetDfsName(0);
+      dom_bblock.SetDfsNext(nullptr);
 
-      if (auto const pDomInfo = bblock.GetDomInfo()) {
+      if (auto const pDomInfo = dom_bblock.GetDomInfo()) {
         pDomInfo->Reset();
       } else {
-        bblock.SetDomInfo(new DomInfo(bblock));
+        dom_bblock.SetDomInfo(new DomInfo(dom_bblock));
       }
     }
   }
@@ -192,22 +192,21 @@ class DomTreeBuilder_ {
   }
 
   private: void RemoveUnrechable() {
-    Function::EnumBBlock oEnum(cfg_.function());
-    while (!oEnum.AtEnd()) {
-        BBlock* pBB = oEnum.Get();
-        oEnum.Next();
+    Common::Collections::Stack_<BBlock*> unreachables;
+    for (auto& bblock: cfg_.function().bblocks()) {
+      if (!bblock.Extend<DomBBlock>()->GetDfsName())
+        unreachables.Push(&bblock);
+    }
 
-        if (pBB->Extend<DomBBlock>()->GetDfsName() == 0) {
-          pBB->GetFunction()->RemoveBBlock(*pBB);
-        }
+    while (!unreachables.IsEmpty()) {
+      auto& bblock = *unreachables.Pop();
+      bblock.GetFunction()->RemoveBBlock(bblock);
     }
   }
 
   private: void Uninit() {
-    foreach (Function::EnumBBlock, oEnum, cfg_.function()) {
-      auto const pBB = oEnum.Get();
-      pBB->Reset();
-    }
+    for (auto& bblock: cfg_.function().bblocks())
+      bblock.Reset();
   }
 
   DISALLOW_COPY_AND_ASSIGN(DomTreeBuilder_);
@@ -241,8 +240,8 @@ class DomTreeDumper {
         pLogWriter->EndElement("tr");
     pLogWriter->EndElement("thead");
 
-    foreach (Function::EnumBBlock, oEnum, fun.function()) {
-        auto const pBBlock = oEnum.Get()->Extend<DomBBlock>();
+    for (auto& bblock: fun.function().bblocks()) {
+        auto const pBBlock = bblock.Extend<DomBBlock>();
 
         pLogWriter->StartElement("tr");
 

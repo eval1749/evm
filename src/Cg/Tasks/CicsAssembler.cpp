@@ -190,18 +190,16 @@ void CicsAssembler::FixSpans() {
         } // if
     }
 
-    foreach (Function::EnumBBlock, oEnum, m_pFun) {
-        auto const pBB = oEnum.Get();
-
+    for (auto& bblock: m_pFun->bblocks()) {
         auto const iDiff =
-            pBB->GetWork<BBlockExt>()->GetAddr()
-                - pBB->GetFirstI()->GetIndex();
+            bblock.GetWork<BBlockExt>()->GetAddr()
+                - bblock.GetFirstI()->GetIndex();
 
         if (0 == iDiff) {
             continue;
         }
 
-        foreach (BBlock::EnumI, oEnum, pBB) {
+        foreach (BBlock::EnumI, oEnum, bblock) {
             auto const pI = oEnum.Get();
             pI->SetIndex(pI->GetIndex() + iDiff);
         } // for each insn

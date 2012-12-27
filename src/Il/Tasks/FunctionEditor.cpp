@@ -57,9 +57,8 @@ bool FunctionEditor::EliminateInfiniteLoop(Function& fun) {
 
     // [R]
     private: void ResetFlags() {
-      foreach (Function::EnumBBlock, oEnum, function_) {
-        oEnum.Get()->SetFlag(0);
-      }
+      for (auto& bblock: function_.bblocks())
+        bblock.SetFlag(0);
     }
 
     DISALLOW_COPY_AND_ASSIGN(DfsWalker);
@@ -172,8 +171,7 @@ void FunctionEditor::Renumber(Function& fun) {
   auto num_bblocks = 0;
   auto num_insts = 0;
   auto num_outputs = 0;
-  foreach (Function::EnumBBlock, bblocks, fun) {
-    auto& bblock = *bblocks.Get();
+  for (auto& bblock: fun.bblocks()) {
     bblock.SetName(++num_bblocks);
     foreach (BBlock::EnumI, insts, bblock) {
       auto& inst = *insts.Get();
@@ -197,11 +195,9 @@ void FunctionEditor::RemoveCriticalEdges(Function& fun) {
 
   WorkList_<BBlock> phi_bblocks;
 
-  foreach (Function::EnumBBlock, bblocks, fun) {
-    auto& bblock = *bblocks.Get();
-    if (Local::HasPhiI(bblock)) {
+  for (auto& bblock: fun.bblocks()) {
+    if (Local::HasPhiI(bblock))
       phi_bblocks.Push(&bblock);
-    }
   }
 
   if (phi_bblocks.IsEmpty()) {
