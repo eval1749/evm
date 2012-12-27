@@ -118,23 +118,48 @@ class Collection_ : public Object_<Collection_<T>> {
     DISALLOW_COPY_AND_ASSIGN(Enum);
   };
 
-  public: class Iterator {
-    private: Data* data_;
+  public: class ConstForwardIterator {
+    private: const Data* data_;
     private: size_t index_;
 
-    public: Iterator(Data* data, size_t index) : data_(data), index_(index) {}
+    public: ConstForwardIterator(const Data* data, size_t index)
+        : data_(data), index_(index) {}
     public: T operator*() const { return data_->elements()[index_]; }
 
-    public: bool operator==(const Iterator& another) const {
+    public: bool operator==(const ConstForwardIterator& another) const {
       ASSERT(data_ == another.data_);
       return index_ == another.index_;
     }
 
-    public: bool operator!=(const Iterator& another) const {
+    public: bool operator!=(const ConstForwardIterator& another) const {
       return !operator==(another);
     }
 
-    public: Iterator& operator++() {
+    public: ConstForwardIterator& operator++() {
+      DCHECK_LT(index_, data_->length());
+      ++index_;
+      return *this;
+    }
+  };
+
+  public: class ForwardIterator {
+    private: Data* data_;
+    private: size_t index_;
+
+    public: ForwardIterator(Data* data, size_t index)
+        : data_(data), index_(index) {}
+    public: T operator*() const { return data_->elements()[index_]; }
+
+    public: bool operator==(const ForwardIterator& another) const {
+      ASSERT(data_ == another.data_);
+      return index_ == another.index_;
+    }
+
+    public: bool operator!=(const ForwardIterator& another) const {
+      return !operator==(another);
+    }
+
+    public: ForwardIterator& operator++() {
       DCHECK_LT(index_, data_->length());
       ++index_;
       return *this;
@@ -197,8 +222,21 @@ class Collection_ : public Object_<Collection_<T>> {
 
   public: virtual ~Collection_() { data_->Release(); }
 
-  public: Iterator begin() { return Iterator(data_, 0); }
-  public: Iterator end() { return Iterator(data_, data_->length()); }
+  public: ForwardIterator begin() {
+    return ForwardIterator(data_, 0);
+  }
+
+  public: ConstForwardIterator begin() const {
+    return ConstForwardIterator(data_, 0);
+  }
+
+  public: ConstForwardIterator end() const {
+    return ConstForwardIterator(data_, data_->length());
+  }
+
+  public: ForwardIterator end() {
+    return ForwardIterator(data_, data_->length());
+  }
 
   // operators
   public: Collection_& operator=(const Collection_& r) {
@@ -223,23 +261,20 @@ class Collection_ : public Object_<Collection_<T>> {
     public: static bool const Shorter() { return true; }
   };
 
-  private: template<class Trait> bool Compare(const Collection_& r) const {
-    if (this == &r) {
+  private: template<class Trait> bool Compare(
+      const Collection_& another) const {
+    if (this == &another)
       return true;
-    }
 
-    Enum that_elems(r);
-    foreach (Enum, this_elems, *this) {
-      if (that_elems.AtEnd()) {
+    auto another_it = another.begin();
+    for (auto const this_value: *this) {
+      if (another_it == another.end())
         return Trait::Shorter();
-      }
-
-      if (!Trait::Compare(this_elems.Get(), that_elems.Get())) {
+      if (!Trait::Compare(this_value, *another_it))
         return false;
-      }
-      that_elems.Next();
+      ++another_it;
     }
-    return that_elems.AtEnd();
+    return another_it == another.end();
   }
 
   public: bool operator==(const Collection_& r) const {
