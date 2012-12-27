@@ -47,10 +47,9 @@ Module* CommandContext::EnsureModule() {
                 ValuesType::Intern(Ty_StringVector))));
 
     ArrayList_<Method*> public_methods;
-    foreach (Collection_<Method*>::Enum, en, methods) {
-      auto& method = *en.Get();
-      if (method.IsPublic()) {
-        public_methods.Add(&method);
+    for (auto const method: methods) {
+      if (method->IsPublic()) {
+        public_methods.Add(method);
       }
     }
 
@@ -62,9 +61,8 @@ Module* CommandContext::EnsureModule() {
           stderr_.WriteLine(
             "There are method %s, but they aren't callable:",
             name_);
-          foreach (Collection_<Method*>::Enum, en, methods) {
-            stderr_.WriteLine("  %s", *en.Get());
-          }
+          for (auto const method: methods)
+            stderr_.WriteLine("  %s", *method);
         }
         return nullptr;
 
@@ -80,8 +78,8 @@ Module* CommandContext::EnsureModule() {
 
       default: {
         stderr_.WriteLine("There are two many entry point methods:");
-        foreach (Collection_<Method*>::Enum, en, public_methods) {
-          stderr_.WriteLine("  %s", *en.Get());
+        for (auto& method: public_methods) {
+          stderr_.WriteLine("  %s", method);
         }
         return nullptr;
       }
@@ -89,9 +87,8 @@ Module* CommandContext::EnsureModule() {
   }
 
   auto& name = Name::Intern(name_);
-  foreach (Collection_<const Class*>::Enum, classes, class_list_) {
-    auto& clazz = *classes.Get();
-    if (auto const mtg = clazz.Find(name)->DynamicCast<MethodGroup>()) {
+  for (auto const clazz: class_list_) {
+    if (auto const mtg = clazz->Find(name)->DynamicCast<MethodGroup>()) {
       foreach (MethodGroup::EnumMethod, methods, *mtg) {
         auto& mt = *methods.Get();
         if (auto const fun = mt.GetFunction()) {
@@ -113,8 +110,7 @@ const Operand* CommandContext::EnsureOperand() {
 
   {
     auto& name_atom = Name::Intern(name_);
-    foreach (ArrayList_<const Class*>::Enum, en, class_list_) {
-      auto const clazz = en.Get();
+    for (auto const clazz: class_list_) {
       if (clazz->name() == name_atom) {
         return clazz;
       }
@@ -164,16 +160,14 @@ Collection_<Method*> CommandContext::FindMethods(
     const Collection_<const FunctionType*> funty_list) const {
   ArrayList_<Method*> methods;
 
-  foreach (Collection_<const Class*>::Enum, classes, class_list_) {
-    auto& clazz = *classes.Get();
-    auto const mtg = clazz.Find(name)->DynamicCast<MethodGroup>();
+  for (auto const clazz: class_list_) {
+    auto const mtg = clazz->Find(name)->DynamicCast<MethodGroup>();
     if (!mtg) {
       continue;
     }
 
-    foreach (Collection_<const FunctionType*>::Enum, types, funty_list) {
-      auto& funty = *types.Get();
-      if (auto const mt = mtg->Find(funty)) {
+    for (auto const funty: funty_list) {
+      if (auto const mt = mtg->Find(*funty)) {
         methods.Add(mt);
       }
     }

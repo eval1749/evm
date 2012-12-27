@@ -63,9 +63,8 @@ class ListCommandsCommand : public Command {
   public: virtual ~ListCommandsCommand() {}
 
   public: virtual void Execute(CommandContext& context) override {
-    foreach (Collection_<const Command*>::Enum, commands, manager_.commands()) {
-      context.stdout().WriteLine(commands.Get()->name());
-    }
+    for (auto const command: manager_.commands())
+      context.stdout().WriteLine(command->name());
   }
 
   DISALLOW_COPY_AND_ASSIGN(ListCommandsCommand);
@@ -115,17 +114,14 @@ CommandManager::CommandManager() {
 
 CommandManager::~CommandManager() {
   DEBUG_PRINTF("%p\n", this);
-  foreach (CommandMap::Enum, entries, command_map_) {
-    auto entry = entries.Get();
+  for (auto entry: command_map_)
     delete entry.GetValue();
-  }
 }
 
 const Collection_<const Command*> CommandManager::commands() const {
   ArrayList_<const Command*> commands;
-  foreach (CommandMap::Enum, entries, command_map_) {
-    commands.Add(entries.Get().GetValue());
-  }
+  for (auto entry: command_map_)
+    commands.Add(entry.GetValue());
   return commands;
 }
 
