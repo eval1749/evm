@@ -62,8 +62,7 @@ Method& ConstructedClass::ConstructMethod(
 
   if (templ_mt.GetFunction()) {
     auto& module = templ_mt.module().Clone(type_args_);
-    foreach (Module::EnumFunction, fns, module) {
-      auto& fn = *fns.Get();
+    for (auto& fn: module.functions()) {
       if (fn.GetMethod() == &templ_mt) {
         fn.SetMethod(method);
         method.SetFunction(fn);

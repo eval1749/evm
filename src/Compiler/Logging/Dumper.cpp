@@ -370,10 +370,8 @@ void Dumper::DumpMethod(const MethodDef& method) {
   if (!method.function()) {
     return;
   }
-  foreach (Module::EnumFunction, funs, method.module()) {
-    auto& fun = *funs.Get();
+  for (auto& fun: method.module().functions())
     DumpFunction(fun);
-  }
 }
 
 void Dumper::WriteMethodRef(const MethodDef& method) {

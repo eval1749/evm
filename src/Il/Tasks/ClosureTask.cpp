@@ -134,11 +134,9 @@ class FunUsageTask : public Tasklet {
       // Note: Removing unused funciton is done in Pass destructor?
       {
           WorkList_<Function> oUnreachables;
-          foreach (Module::EnumFunction, oEnum, module) {
-              auto const pFun = oEnum.Get();
-              if (0 == pFun->m_nSccNum) {
-                  oUnreachables.Push(pFun);
-              }
+          for (auto& fun: module.functions()) {
+            if (!fun.m_nSccNum)
+              oUnreachables.Push(&fun);
           } // for each fun
 
           while (!oUnreachables.IsEmpty()) {
@@ -208,14 +206,13 @@ class VarStorageTask : public Tasklet {
 
   // [R]
   public: void Run(Module& module) {
-      foreach (Module::EnumFunction, oEnum, module) {
-          auto const pFun = oEnum.Get();
-          foreach (Function::EnumVar, oEnum, pFun) {
+      for (auto& fun: module.functions()) {
+          foreach (Function::EnumVar, oEnum, fun) {
               auto const pVar = oEnum.Get()->Extend<VarEx>();
               RewriteSlots(pVar, oEnum.GetI());
           } // for each var
 
-          foreach (Function::EnumUpVar, oEnum, pFun) {
+          foreach (Function::EnumUpVar, oEnum, fun) {
               auto const pVar = oEnum.Get()->Extend<VarEx>();
               RewriteSlots(pVar, oEnum.GetI());
           } // for each upvar
@@ -277,17 +274,15 @@ class VarUsageTask : public Tasklet {
 
   // [R]
   public: void Run(Module& module) {
-      foreach (Module::EnumFunction, oEnum, module) {
-          auto const pFun = oEnum.Get();
-          foreach (Function::EnumVar, oEnum, pFun) {
+      for (auto& fun: module.functions()) {
+          foreach (Function::EnumVar, oEnum, fun) {
               auto const pVar = oEnum.Get()->Extend<VarEx>();
               pVar->ResetUsage();
           } // for eah var
       } // for each fun
 
-      foreach (Module::EnumFunction, oEnum, module) {
-          auto const pFun = oEnum.Get();
-          ProcessFun(pFun);
+      for (auto& fun: module.functions()) {
+        ProcessFun(&fun);
       } // for each fun
   } // run
 

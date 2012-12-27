@@ -58,8 +58,7 @@ class DisasmCommand : public Command {
       return;
     }
 
-    foreach (Module::EnumFunction, en, *module) {
-      auto& fun = *en.Get();
+    for (auto& fun: module->functions()) {
       if (auto code_desc = fun.code_desc()) {
         auto& fun = code_desc->function();
         if (auto const method = fun.GetMethod()) {

@@ -145,9 +145,8 @@ void FastWriter::Finish() {
   foreach (ArrayList_<const Method*>::Enum, methods, method_list) {
     const auto& method = **methods;
     if (method.GetFunction()) {
-      foreach (Module::EnumFunction, funs, method.module()) {
-        WriteFunctionBody(*funs);
-      }
+      for (const auto& fun: method.module().functions())
+        WriteFunctionBody(fun);
     }
   }
 
@@ -502,8 +501,7 @@ void FastWriter::WriteMethod(const Method& method) {
   }
 
   const auto& method_function = *method.GetFunction();
-  foreach (Module::EnumFunction, funs, method.module()) {
-    const auto& fun = *funs;
+  for (const auto& fun: method.module().functions()) {
     if (&method_function == &fun) {
       // To reduce size of FASL file, writer doesn't emit method function.
       Remember(fun);

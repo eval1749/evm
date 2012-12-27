@@ -38,16 +38,27 @@ class Module
   public: virtual ~Module();
 
   // properties
+  public: LayoutList& functions() {
+    return static_cast<LayoutList&>(*this);
+  }
+
+  public: const LayoutList& functions() const {
+    return static_cast<const LayoutList&>(*this);
+  }
+
+  public: PostorderList& functions_in_postorder() {
+    return static_cast<PostorderList&>(*this);
+  }
+
+  public: PreorderList& functions_in_preorder() {
+    return static_cast<PreorderList&>(*this);
+  }
+
   public: MemoryZone& zone() const { return zone_; }
 
   // [C]
   public: Module& Clone(const TypeArgs&) const;
   public: Module& Clone() const;
-
-  // [E]
-  class_Enum_(Module, Function,          LayoutList);
-  class_Enum_(Module, FunctionPreorder,  PostorderList)
-  class_Enum_(Module, FunctionPostorder, PostorderList)
 
   // [N]
   public: BBlock& NewBBlock() const;

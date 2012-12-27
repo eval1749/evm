@@ -169,8 +169,7 @@ class Static {
       return 2;
     }
 
-    Module::EnumFunction funs(*module);
-    if (funs.AtEnd()) {
+    if (module->functions().begin() == module->functions().end()) {
       context.session().AddErrorInfo(
           ExecuteErrorInfo(
               SourceInfo(),
@@ -179,7 +178,8 @@ class Static {
       return 2;
     }
 
-    auto const code_desc = funs.Get()->code_desc();
+    auto& fun = *module->functions().begin();
+    auto const code_desc = fun.code_desc();
     if (!code_desc) {
       context.session().AddErrorInfo(
           ExecuteErrorInfo(

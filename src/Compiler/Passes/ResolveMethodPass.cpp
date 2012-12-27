@@ -248,8 +248,7 @@ void ResolveMethodPass::Process(MethodDef* const method_def_ptr) {
     }
   }
 
-  foreach (Module::EnumFunction, funs, method_def.module()) {
-    auto& fun = *funs.Get();
+  for (auto& fun: method_def.module().functions()) {
     foreach (Function::EnumUpVar, upvars, fun) {
       auto const upvar = upvars.Get();
       auto const upvarI = upvars.GetI();

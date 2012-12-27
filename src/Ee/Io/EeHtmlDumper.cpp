@@ -269,10 +269,8 @@ void EeHtmlDumper::DumpMethod(const Method& method) {
     return;
   }
 
-  foreach (Module::EnumFunction, funs, method.module()) {
-    auto& fun = *funs.Get();
+  for (auto& fun: method.module().functions())
     DumpFunction(fun);
-  }
 }
 
 void EeHtmlDumper::DumpMethodGroup(const MethodGroup& mtg) {

@@ -245,10 +245,8 @@ void EeTextDumper::DumpMethod(const Method& method) {
 
   writer_.WriteLine(" {");
 
-  foreach (Module::EnumFunction, funs, method.module()) {
-    auto& fun = *funs.Get();
+  for (auto& fun: method.module().functions())
     DumpFunction(fun);
-  }
 
   writer_.WriteLine('}');
 }

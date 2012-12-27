@@ -142,10 +142,8 @@ void FinalizeMethodPass::Process(MethodDef* const pMethodDef) {
       method_def.namespace_body(),
       method_def.owner_class_def().GetClass());
 
-  foreach (Module::EnumFunction, oEnum, method_def.module()) {
-    auto& fun = *oEnum.Get();
+  for (auto& fun: method_def.module().functions())
     FixFunction(method_def, fun);
-  }
 }
 
 } // Compiler

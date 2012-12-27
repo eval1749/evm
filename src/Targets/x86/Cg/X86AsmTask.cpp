@@ -622,17 +622,14 @@ class X86AsmTasklet :
 
   public: void Run() {
     DEBUG_FORMAT("Assemble %s", module_);
-    foreach (Module::EnumFunction, oEnum, module_) {
-      auto const pFun = oEnum.Get();
-      ProcessFun(pFun);
-      ConstructFun(pFun);
+    for (auto& fun: module_.functions()) {
+      ProcessFun(&fun);
+      ConstructFun(&fun);
     }
 
     DEBUG_FORMAT("Anootate %s", module_);
-    foreach (Module::EnumFunction, oEnum, module_) {
-      auto& fun = *oEnum.Get();
+    for (auto& fun: module_.functions())
       AnnoteFun(fun);
-    }
   }
 
   // [A]

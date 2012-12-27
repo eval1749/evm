@@ -142,12 +142,11 @@ bool OperandEvaluator::IsSsaVariable(const Variable& var) {
   }
 
   auto& module = var.GetOwner()->module();
-  foreach (Module::EnumFunction, oEnum, module) {
-      auto const pFun = oEnum.Get();
-      if (var.GetOwner() != pFun) {
-          if (auto const pQd = pFun->FindUpVar(&var)) {
+  for (auto& fun: module.functions()) {
+      if (var.GetOwner() != &fun) {
+          if (auto const pQd = fun.FindUpVar(&var)) {
               if (Local::HasStore(pQd)) {
-                  DEBUG_FORMAT("%s is modified in %s", var, pFun);
+                  DEBUG_FORMAT("%s is modified in %s", var, fun);
                   return false;
               }
           }

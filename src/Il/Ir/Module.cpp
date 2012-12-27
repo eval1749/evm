@@ -33,8 +33,7 @@ Module& Module::Clone(const TypeArgs& type_args) const {
 
   HashMap_<const Function*, Function*> fn_map;
 
-  foreach (Module::EnumFunction, fns, *this) {
-    auto& templ_fn = *fns.Get();
+  for (auto& templ_fn: functions()) {
     auto& fn = module->NewFunction(
         nullptr,
         templ_fn.flavor(),
@@ -45,10 +44,8 @@ Module& Module::Clone(const TypeArgs& type_args) const {
     }
   }
 
-  foreach (Module::EnumFunction, fns, *this) {
-    auto& templ_fn = *fns.Get();
+  for (auto& templ_fn: functions()) {
     auto& fn = *fn_map.Get(&templ_fn);
-
     HashMap_<const BBlock*, BBlock*> bb_map;
     foreach (Function::EnumBBlock, bblocks, templ_fn) {
       auto& templ_bb = *bblocks.Get();

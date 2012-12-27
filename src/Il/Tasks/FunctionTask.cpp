@@ -37,10 +37,8 @@ void FunctionTask::ProcessFunctionDefault(Function& fun, Functor& functor) {
 
 // [S]
 void FunctionTask::Start() {
-  foreach (Module::EnumFunction, oEnum, module()) {
-    auto& fn = *oEnum.Get();
+  for (auto& fn: module().functions())
     ProcessFunction(fn);
-  } // for
 } // Start
 
 } // Tasks
