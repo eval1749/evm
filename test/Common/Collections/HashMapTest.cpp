@@ -17,6 +17,14 @@ class HashMapTest : public ::testing::Test {
   protected: typedef HashMap_<String, String> HashMap;
   protected: HashMap map_;
 
+  protected: bool HasValue(const String& value) {
+    for (auto const entry: map_) {
+      if (entry.value() == value)
+        return true;
+    }
+    return false;
+  }
+
   protected: virtual void SetUp() override {
     map_.Add("1", "a");
     map_.Add("2", "b");
@@ -83,10 +91,28 @@ TEST_F(HashMapTest, ForEach) {
   EXPECT_EQ(1, flagv['c']);
 }
 
+TEST_F(HashMapTest, Keys) {
+  HashSet_<String> results;
+  for (auto const key: map_.keys()) {
+    results.Add(key);
+    EXPECT_TRUE(map_.Contains(key));
+  }
+  EXPECT_EQ(map_.Count(), results.Count());
+}
+
 TEST_F(HashMapTest, Remove) {
   EXPECT_TRUE(map_.Remove("1"));
   EXPECT_EQ(2, map_.Count());
   EXPECT_EQ(String(), map_.Get("1"));
   EXPECT_FALSE(map_.Remove("a"));
   EXPECT_EQ(2, map_.Count());
+}
+
+TEST_F(HashMapTest, Values) {
+  ArrayList_<String> results;
+  for (auto const value : map_.values())
+    results.Add(value);
+  EXPECT_EQ(map_.Count(), results.Count());
+  for (auto const value: results)
+    EXPECT_TRUE(HasValue(value));
 }

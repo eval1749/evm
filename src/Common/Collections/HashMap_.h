@@ -124,6 +124,10 @@ class HashMap_  : public TAllocable {
       return *runner_;
     }
 
+    public: const Entry* operator->() const {
+      return runner_;
+    }
+
     public: bool operator==(const ConstIterator& another) const {
       DCHECK_EQ(hash_map_, another.hash_map_);
       return count_ == another.count_;
@@ -164,6 +168,10 @@ class HashMap_  : public TAllocable {
       return *runner_;
     }
 
+    public: const Entry* operator->() const {
+      return runner_;
+    }
+
     public: bool operator==(const Iterator& another) const {
       DCHECK_EQ(hash_map_, another.hash_map_);
       return count_ == another.count_;
@@ -182,6 +190,74 @@ class HashMap_  : public TAllocable {
         ++runner_;
       } while(!runner_->HasEntry());
       return *this;
+    }
+  };
+
+  public: class Keys {
+    public: class Iterator {
+      private: ConstIterator iterator_;
+
+      public: Iterator(const ConstIterator& iterator)
+        : iterator_(iterator) {}
+
+      public: Key operator*() const {
+        return iterator_->key();
+      }
+
+      public: bool operator==(const Iterator& another) const {
+        return iterator_ == another.iterator_;
+      }
+
+      public: bool operator!=(const Iterator& another) const {
+        return iterator_ != another.iterator_;
+      }
+
+      public: Iterator& operator++() {
+        ++iterator_;
+        return *this;
+      }
+    };
+    private: const HashMap_* map_;
+    public: Keys(const HashMap_* map) : map_(map) {}
+    public: Iterator begin() const {
+      return Iterator(map_->begin());
+    }
+    public: Iterator end() const {
+      return Iterator(map_->end());
+    }
+  };
+
+  public: class Values {
+    public: class Iterator {
+      private: ConstIterator iterator_;
+
+      public: Iterator(const ConstIterator& iterator)
+        : iterator_(iterator) {}
+
+      public: Value operator*() const {
+        return iterator_->value();
+      }
+
+      public: bool operator==(const Iterator& another) const {
+        return iterator_ == another.iterator_;
+      }
+
+      public: bool operator!=(const Iterator& another) const {
+        return iterator_ != another.iterator_;
+      }
+
+      public: Iterator& operator++() {
+        ++iterator_;
+        return *this;
+      }
+    };
+    private: const HashMap_* map_;
+    public: Values(const HashMap_* map) : map_(map) {}
+    public: Iterator begin() const {
+      return Iterator(map_->begin());
+    }
+    public: Iterator end() const {
+      return Iterator(map_->end());
     }
   };
 
@@ -223,6 +299,8 @@ class HashMap_  : public TAllocable {
   public: ConstIterator begin() const { return ConstIterator(*this, count_); }
   public: Iterator end() { return Iterator(*this, 0); }
   public: ConstIterator end() const { return ConstIterator(*this, 0); }
+  public: Keys keys() const { return Keys(this); }
+  public: Values values() const { return Values(this); }
 
   // [A]
   public: void Add(Key const key, Value const value) {
