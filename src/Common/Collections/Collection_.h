@@ -118,48 +118,48 @@ class Collection_ : public Object_<Collection_<T>> {
     DISALLOW_COPY_AND_ASSIGN(Enum);
   };
 
-  public: class ConstForwardIterator {
+  public: class ConstIterator {
     private: const Data* data_;
     private: size_t index_;
 
-    public: ConstForwardIterator(const Data* data, size_t index)
+    public: ConstIterator(const Data* data, size_t index)
         : data_(data), index_(index) {}
     public: T operator*() const { return data_->elements()[index_]; }
 
-    public: bool operator==(const ConstForwardIterator& another) const {
+    public: bool operator==(const ConstIterator& another) const {
       ASSERT(data_ == another.data_);
       return index_ == another.index_;
     }
 
-    public: bool operator!=(const ConstForwardIterator& another) const {
+    public: bool operator!=(const ConstIterator& another) const {
       return !operator==(another);
     }
 
-    public: ConstForwardIterator& operator++() {
+    public: ConstIterator& operator++() {
       DCHECK_LT(index_, data_->length());
       ++index_;
       return *this;
     }
   };
 
-  public: class ForwardIterator {
+  public: class Iterator {
     private: Data* data_;
     private: size_t index_;
 
-    public: ForwardIterator(Data* data, size_t index)
+    public: Iterator(Data* data, size_t index)
         : data_(data), index_(index) {}
     public: T operator*() const { return data_->elements()[index_]; }
 
-    public: bool operator==(const ForwardIterator& another) const {
+    public: bool operator==(const Iterator& another) const {
       ASSERT(data_ == another.data_);
       return index_ == another.index_;
     }
 
-    public: bool operator!=(const ForwardIterator& another) const {
+    public: bool operator!=(const Iterator& another) const {
       return !operator==(another);
     }
 
-    public: ForwardIterator& operator++() {
+    public: Iterator& operator++() {
       DCHECK_LT(index_, data_->length());
       ++index_;
       return *this;
@@ -220,20 +220,20 @@ class Collection_ : public Object_<Collection_<T>> {
 
   public: virtual ~Collection_() { data_->Release(); }
 
-  public: ForwardIterator begin() {
-    return ForwardIterator(data_, 0);
+  public: Iterator begin() {
+    return Iterator(data_, 0);
   }
 
-  public: ConstForwardIterator begin() const {
-    return ConstForwardIterator(data_, 0);
+  public: ConstIterator begin() const {
+    return ConstIterator(data_, 0);
   }
 
-  public: ConstForwardIterator end() const {
-    return ConstForwardIterator(data_, data_->length());
+  public: ConstIterator end() const {
+    return ConstIterator(data_, data_->length());
   }
 
-  public: ForwardIterator end() {
-    return ForwardIterator(data_, data_->length());
+  public: Iterator end() {
+    return Iterator(data_, data_->length());
   }
 
   // operators
