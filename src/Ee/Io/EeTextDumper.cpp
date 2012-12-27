@@ -35,9 +35,8 @@ void EeTextDumper::DumpClass(const Class& clazz) {
       if (auto const gcl = cl->DynamicCast<GenericClass>()) {
         writer_.Write('<');
         const char* comma = "";
-        foreach (
-            Collection_<const TypeParam*>::Enum, en, gcl->GetTypeParams()) {
-          writer_.Write("%s%s", comma, en.Get()->name());
+        for (auto const typaram: gcl->GetTypeParams()) {
+          writer_.Write("%s%s", comma, typaram->name());
           comma = ", ";
         }
         writer_.Write('>');
@@ -69,23 +68,21 @@ void EeTextDumper::DumpClass(const Class& clazz) {
   }
 
   if (!fields.IsEmpty()) {
-    foreach (ArrayList_<const Field*>::Enum, en, fields) {
-      auto& field = *en.Get();
+    for (auto const field: fields) {
       writer_.WriteLine("field %s%s %s;",
-          ModifiersToString(field.modifiers()),
-          field.field_type(),
-          field.name());
+          ModifiersToString(field->modifiers()),
+          field->field_type(),
+          field->name());
     }
   }
 
   if (!properties.IsEmpty()) {
-    foreach (ArrayList_<const Property*>::Enum, en, properties) {
-      auto& property = *en.Get();
+    for (auto const property: properties) {
       writer_.WriteLine("property %s%s %s {",
-        ModifiersToString(property.modifiers()),
-        property.property_type(),
-        property.name());
-      foreach (Property::EnumMember, members, property) {
+        ModifiersToString(property->modifiers()),
+        property->property_type(),
+        property->name());
+      foreach (Property::EnumMember, members, *property) {
         auto entry = members.Get();
         auto& name = *entry.GetKey();
         auto& method = *entry.GetValue();

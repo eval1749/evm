@@ -89,8 +89,8 @@ bool TypeUnifier::Bindings::Equiv(const Type& lhs, const Type& rhs) {
         }
       }
 
-      foreach (ArrayList_<const Type*>::Enum, en, equivs) {
-        if (Lookup(binding_stack, seen_set, *en.Get(), rhs)) {
+      for (auto const equiv: equivs) {
+        if (Lookup(binding_stack, seen_set, *equiv, rhs)) {
           return true;
         }
       }
@@ -129,8 +129,8 @@ const Type* TypeUnifier::Bindings::Eval(const Type& tykey) const {
         }
       }
 
-      foreach (ArrayList_<const Type*>::Enum, en, equivs) {
-        if (auto const ty = Lookup(binding_stack, seen_set, *en.Get())) {
+      for (auto const equiv: equivs) {
+        if (auto const ty = Lookup(binding_stack, seen_set, *equiv)) {
           return ty;
         }
       }

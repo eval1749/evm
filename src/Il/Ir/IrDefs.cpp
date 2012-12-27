@@ -266,8 +266,8 @@ class Helper {
       const Collection_<const Class*>& base_specs) {
     DEBUG_FORMAT("%s", clazz);
     clazz.RealizeClass(base_specs);
-    foreach (Collection_<const Class*>::Enum, it, base_specs) {
-      if (auto const cclass = it.Get()->DynamicCast<ConstructedClass>()) {
+    for (auto const spec: base_specs) {
+      if (auto const cclass = spec->DynamicCast<ConstructedClass>()) {
         InstallKnownMethods(clazz, *cclass);
       }
     }

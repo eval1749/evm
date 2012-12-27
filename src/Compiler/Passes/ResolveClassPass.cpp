@@ -322,14 +322,13 @@ void ResolveClassPass::Start() {
     }
   }
 
-  foreach (ArrayList_<const ClassDef*>::Enum, it, class_defs_) {
-    auto& class_def = *it.Get();
-    CycleChecker checker(class_def.GetClass());
+  for (auto const class_def: class_defs_) {
+    CycleChecker checker(class_def->GetClass());
     if (checker.HasCycle()) {
       compile_session().AddError(
-          class_def.source_info(),
+          class_def->source_info(),
           CompileError_Resolve_Class_CyclicBase,
-          class_def);
+          *class_def);
     }
   }
 }

@@ -83,12 +83,11 @@ void EeHtmlDumper::DumpClass(const Class& clazz) {
   if (!fields.IsEmpty()) {
     writer_.WriteLine("Fields");
     writer_.WriteLine("<ol>");
-    foreach (ArrayList_<const Field*>::Enum, en, fields) {
-      auto& field = *en.Get();
+    for (auto const field: fields) {
       writer_.WriteLine("<li>%s%s %s</li>",
-          ModifiersToString(field.GetModifiers()),
-          field.GetTy(),
-          field.name());
+          ModifiersToString(field->GetModifiers()),
+          field->GetTy(),
+          field->name());
     }
     writer_.WriteLine("</ol>");
   }
@@ -96,11 +95,10 @@ void EeHtmlDumper::DumpClass(const Class& clazz) {
   if (!method_groups.IsEmpty()) {
     writer_.WriteLine("Method Groups");
     writer_.WriteLine("<ol>");
-    foreach (ArrayList_<const MethodGroup*>::Enum, en, method_groups) {
-      auto& method_group = *en.Get();
-      writer_.WriteLine("<li>%s", escape(method_group.name()));
+    for (auto const method_group: method_groups) {
+      writer_.WriteLine("<li>%s", escape(method_group->name()));
       writer_.WriteLine("<ol>");
-      for (auto& method: method_group.methods()) {
+      for (auto& method: method_group->methods()) {
         writer_.WriteLine("<li><a href='#m%p'>%s</a></li>",
             &method, 
             escape(method.ToString()));

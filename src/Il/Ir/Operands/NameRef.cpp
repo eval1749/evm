@@ -147,8 +147,8 @@ const NameRef& NameRef::qualifier() const {
 // [C]
 int NameRef::ComputeHashCode() const {
   auto hash_code = static_cast<int>('N');
-  foreach (Vector_<int>::Enum, it, ranks_) {
-    hash_code = Common::ComputeHashCode(*it, hash_code);
+  for (auto const rank: ranks_) {
+    hash_code = Common::ComputeHashCode(rank, hash_code);
   }
 
   foreach (Enum, it, *this) {
@@ -202,9 +202,8 @@ String NameRef::ToString() const {
     builder.Append(item.ToString());
   }
 
-  foreach (Vector_<int>::Enum, it, ranks_) {
+  for (auto const rank: ranks_) {
     builder.Append('[');
-    auto const rank = *it;
     for (auto i = 1; i < rank; ++i) {
       builder.Append(',');
     }

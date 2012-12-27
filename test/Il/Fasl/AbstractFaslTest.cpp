@@ -17,10 +17,10 @@ std::ostream& operator<<(
     const Common::Collections::Array_<uint8>& arr) {
   os << "{" << std::endl;
   char* comma = "";
-  foreach (Common::Collections::Array_<uint8>::Enum, bytes, arr) {
+  for (auto const value: arr) {
     os << comma;
     comma = ", ";
-    os << static_cast<int>(bytes.Get());
+    os << static_cast<int>(value);
   }
   os << std::endl << "}";
   return os;

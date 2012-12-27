@@ -105,12 +105,11 @@ void TypeVarResolver::Resolve() {
       changed = false;
       WorkList_<Instruction> pendings;
       WorkList_<Instruction> pending_calls;
-      foreach (ArrayList_<Instruction*>::Enum, insts, type_var_insts_) {
-        auto& inst = *insts.Get();
-        if (inst.Is<CallI>()) {
-          pending_calls.Push(&inst);
+      for (auto const inst: type_var_insts_) {
+        if (inst->Is<CallI>()) {
+          pending_calls.Push(inst);
         } else {
-          pendings.Push(&inst);
+          pendings.Push(inst);
         }
       }
 
@@ -162,10 +161,8 @@ void TypeVarResolver::Resolve() {
         return;
       }
 
-      foreach (ArrayList_<const TypeVar*>::Enum, tyvars, fixed_type_vars) {
-        auto const tyvar = tyvars.Get();
+      for (auto const tyvar: fixed_type_vars)
         type_var_set_.Remove(tyvar);
-      }
 
       if (type_var_set_.IsEmpty()) {
         break;
@@ -426,11 +423,10 @@ bool TypeVarResolver::UpdateTypeVarWithMethodGroup(const CallI& call_inst) {
       auto& args_inst = call_inst.args_inst();
       auto& argsty = *args_inst.output_type().StaticCast<ValuesType>();
 
-      foreach (ArrayList_<Method*>::Enum, methods, applicable_methods) {
-        auto& method = *methods.Get();
-        UpdateTypeVarWithMethod(call_inst, method);
+      for (auto const method: applicable_methods) {
+        UpdateTypeVarWithMethod(call_inst, *method);
         if (auto const tyvar = outy.DynamicCast<TypeVar>()) {
-          tyvar->Or(method.return_type());
+          tyvar->Or(method->return_type());
           type_var_set_.Add(tyvar);
         }
 

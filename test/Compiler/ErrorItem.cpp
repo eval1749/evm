@@ -112,8 +112,8 @@ String ErrorItem::ToString() const {
 }
 
 ErrorList::ErrorList(const ErrorList& r) {
-  foreach (ArrayList_<ErrorItem>::Enum, items, r.items_) {
-    items_.Add(*items);
+  for (auto& item: r.items_) {
+    items_.Add(item);
   }
 }
 
@@ -133,10 +133,10 @@ String ErrorList::ToString() const {
   StringBuilder builder;
   builder.Append("[");
   const char* space = "";
-  foreach (ArrayList_<ErrorItem>::Enum, items, items_) {
+  for (auto& item: items_) {
     builder.Append(space);
     space = " ";
-    builder.Append(items.Get().ToString());
+    builder.Append(item.ToString());
   }
   builder.Append("]");
   return builder.ToString();

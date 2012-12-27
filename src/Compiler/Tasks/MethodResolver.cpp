@@ -398,8 +398,8 @@ void MethodResolver::Init() {
       Ty_Int64,
       Ty_UInt32,
       Ty_UInt64);
-  foreach (CollectionV_<const Type*>::Enum, types, type_list) {
-    auto& clazz = *types.Get()->StaticCast<Class>();
+  for (auto const ty: type_list) {
+    auto& clazz = *ty->StaticCast<Class>();
     Local::AddUnary("operator +", clazz, Op_Add,
         PredefinedMethod::ZeroOpLhs);
     Local::AddUnary("operator ++", clazz, Op_Add,

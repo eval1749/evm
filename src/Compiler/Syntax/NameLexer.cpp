@@ -53,9 +53,8 @@ NameLexer::Builder::~Builder() {
 
   ReleaseTokens();
 
-  foreach (ArrayList_<Builder*>::Enum, it, builders_) {
-    delete *it;
-  }
+  for (auto const builder: builders_)
+    delete builder;
 }
 
 void NameLexer::Builder::Add(Builder& builder) {
@@ -100,9 +99,8 @@ void NameLexer::Builder::Process(TokenProcessor& processor) {
     processor.ProcessToken(*lookahead_token_);
   }
 
-  foreach (ArrayList_<Builder*>::Enum, it, builders_) {
-    it->Process(processor);
-  }
+  for (auto const builder: builders_)
+    builder->Process(processor);
 
   if (close_token_) {
     ASSERT(lookahead_token_ && lookahead_token_->Is(*Op__Lt));
@@ -141,9 +139,9 @@ void NameLexer::Builder::SetComposite() {
   ReleaseTokens();
 
   ArrayList_<const NameRef*> args(builders_.Count());
-  foreach (ArrayList_<Builder*>::Enum, it, builders_) {
-    args.Add(&it->MakeNameRef());
-    delete *it;
+  for (auto const builder: builders_) {
+    args.Add(&builder->MakeNameRef());
+    delete builder;
   }
 
   builders_.Clear();

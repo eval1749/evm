@@ -106,17 +106,15 @@ void Dumper::Dump() {
 
   writer_.WriteLine("<h2>Classes</h2>");
   writer_.WriteLine("<ol>");
-  foreach (ArrayList_<ClassDef*>::Enum, classes, class_list) {
-    auto& class_def = *classes.Get();
+  for (auto const class_def: class_list) {
     writer_.WriteLine("<li><a href='#c%p'>%s</a></li>",
-        class_def,
-        escape(class_def.ToString()));
+        *class_def,
+        escape(class_def->ToString()));
   }
   writer_.WriteLine("</ol>");
 
-  foreach (ArrayList_<ClassDef*>::Enum, classes, class_list) {
-    auto& class_def = *classes.Get();
-    DumpClass(class_def);
+  for (auto const class_def: class_list) {
+    DumpClass(*class_def);
   }
 
   writer_.WriteLine("</body>");
@@ -147,12 +145,11 @@ void Dumper::DumpClass(const ClassDef& class_def) {
   if (!fields.IsEmpty()) {
     writer_.WriteLine("<h3>Fields</h3>");
     writer_.WriteLine("<ol>");
-    foreach (ArrayList_<const FieldDef*>::Enum, en, fields) {
-      auto& field = *en.Get();
+    for (auto const field: fields) {
       writer_.WriteLine("<li>%s%s <b>%s</b></li>",
-          ModifiersToString(field.GetModifiers()),
-          escape(field.GetTy()->ToString()),
-          field.name());
+          ModifiersToString(field->GetModifiers()),
+          escape(field->GetTy()->ToString()),
+          field->name());
     }
     writer_.WriteLine("</ol>");
   }
@@ -161,14 +158,13 @@ void Dumper::DumpClass(const ClassDef& class_def) {
   if (!properties.IsEmpty()) {
     writer_.WriteLine("<h3>Properties</h3>");
     writer_.WriteLine("<ol>");
-    foreach (ArrayList_<const PropertyDef*>::Enum, en, properties) {
-      auto& prop = *en.Get();
+    for (auto const prop: properties) {
       writer_.WriteLine("<li>%s %s <b>%s</b>",
-          ModifiersToString(prop.modifiers()),
-          prop.property_type(),
-          prop.name());
+          ModifiersToString(prop->modifiers()),
+          prop->property_type(),
+          prop->name());
       writer_.WriteLine("<ol>");
-      foreach (PropertyDef::EnumMember, members, prop) {
+      foreach (PropertyDef::EnumMember, members, *prop) {
         auto entry = members.Get();
         auto& method = *entry.GetValue();
         auto& propty = *entry.GetKey();
@@ -184,11 +180,10 @@ void Dumper::DumpClass(const ClassDef& class_def) {
   if (!method_groups.IsEmpty()) {
     writer_.WriteLine("<h3>Method Groups</h3>");
     writer_.WriteLine("<ol>");
-    foreach (ArrayList_<const MethodGroupDef*>::Enum, en, method_groups) {
-      auto& method_group = *en.Get();
-      writer_.WriteLine("<li>%s", escape(method_group.name()));
+    for (auto const method_group: method_groups) {
+      writer_.WriteLine("<li>%s", escape(method_group->name()));
       writer_.WriteLine("<ol>");
-      foreach (MethodGroupDef::EnumMethodDef, methods, method_group) {
+      foreach (MethodGroupDef::EnumMethodDef, methods, *method_group) {
         auto& method = *methods.Get();
         writer_.Write("<li>");
         WriteMethodRef(method);
@@ -199,9 +194,8 @@ void Dumper::DumpClass(const ClassDef& class_def) {
     }
     writer_.WriteLine("</ol>");
 
-    foreach (ArrayList_<const MethodGroupDef*>::Enum, en, method_groups) {
-      auto& method_group = *en.Get();
-      foreach (MethodGroupDef::EnumMethodDef, methods, method_group) {
+    for (auto const method_group: method_groups) {
+      foreach (MethodGroupDef::EnumMethodDef, methods, *method_group) {
         auto& method = *methods.Get();
         if (method.function()) {
           DumpMethod(method);

@@ -141,10 +141,9 @@ void FastWriter::Finish() {
     }
   }
 
-  foreach (ArrayList_<const Method*>::Enum, methods, method_list) {
-    const auto& method = **methods;
-    if (method.GetFunction()) {
-      for (const auto& fun: method.module().functions())
+  for (auto const method: method_list) {
+    if (method->GetFunction()) {
+      for (const auto& fun: method->module().functions())
         WriteFunctionBody(fun);
     }
   }

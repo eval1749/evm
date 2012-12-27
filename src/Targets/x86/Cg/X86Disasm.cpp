@@ -943,18 +943,15 @@ class Decoder {
 
   // [R]
   private: void RemovePrefix(const String& pattern) {
-    ArrayList_<String> copy;
-    foreach (ArrayList_<String>::Enum, prefixes, prefixes_) {
-      auto prefix = prefixes.Get();
-      if (prefix != pattern) {
-        copy.Add(prefix);
-      }
+    ArrayList_<String> copies;
+    for (auto prefix: prefixes_) {
+      if (prefix != pattern)
+        copies.Add(prefix);
     }
 
     prefixes_.Clear();
-    foreach (ArrayList_<String>::Enum, prefixes, copy) {
-      prefixes_.Add(prefixes.Get());
-    }
+    for (auto prefix: copies)
+      prefixes_.Add(prefix);
   }
 
   DISALLOW_COPY_AND_ASSIGN(Decoder);

@@ -53,11 +53,10 @@ QualifiedNameToken::~QualifiedNameToken() {
 const NameRef& QualifiedNameToken::ToNameRef() const {
   Vector_<const NameRef::Item*> items(names_.Count());
   auto index = 0;
-  foreach (Collection_<const NameToken*>::Enum, names, names_) {
-    auto& name_token = *names.Get();
+  for (auto const name_token: names_) {
     items[index] = new NameRef::SimpleName(
-        name_token.name(),
-        name_token.source_info());
+        name_token->name(),
+        name_token->source_info());
     ++index;
   }
   return *new NameRef(items);
@@ -66,9 +65,9 @@ const NameRef& QualifiedNameToken::ToNameRef() const {
 String QualifiedNameToken::ToString() const {
   StringBuilder builder;
   auto dot = "";
-  foreach (Collection_<const NameToken*>::Enum, names, names_) {
+  for (auto const token: names_) {
     builder.Append(dot);
-    builder.Append(names.Get()->name());
+    builder.Append(token->name());
     dot = ".";
   }
   return builder.ToString();
@@ -304,10 +303,10 @@ String TypeListToken::ToString() const {
   StringBuilder builder;
   builder.Append('<');
   auto comma = "";
-  foreach (Type::Collection::Enum, en, types_) {
+  for (auto const type: types_) {
     builder.Append(comma);
     comma = ",";
-    builder.Append(en.Get()->ToString());
+    builder.Append(type->ToString());
   }
   builder.Append('>');
   return builder.ToString();
