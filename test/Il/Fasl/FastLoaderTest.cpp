@@ -144,19 +144,13 @@ TEST_F(FastLoaderTest, Method) {
 
   auto const method_group_Bar = class_Foo->Find(Name::Intern("Bar"))
     ->DynamicCast<MethodGroup>();
-  ASSERT_TRUE(method_group_Bar != nullptr);
+  ASSERT_TRUE(!!method_group_Bar);
   EXPECT_EQ(*class_Foo, method_group_Bar->owner_class());
-
-  MethodGroup::EnumMethod methods(method_group_Bar);
-  ASSERT_FALSE(methods.AtEnd());
-
-  const auto& method = *methods;
+  ASSERT_EQ(1, method_group_Bar->methods().Count());
+  const auto& method = *method_group_Bar->methods().GetFirst();
   EXPECT_EQ(*method_group_Bar, method.method_group());
   EXPECT_EQ(*Ty_Int32, method.return_type());
   EXPECT_EQ(Modifier_Extern | Modifier_Private, method.modifiers());
-
-  methods.Next();
-  EXPECT_TRUE(methods.AtEnd());
 }
 
 // class Foo { int Bar() { ... } }
@@ -171,20 +165,13 @@ TEST_F(FastLoaderTest, MethodBody) {
 
   auto const method_group_Bar = class_Foo->Find(Name::Intern("Bar"))
     ->DynamicCast<MethodGroup>();
-  ASSERT_TRUE(method_group_Bar != nullptr);
+  ASSERT_TRUE(!!method_group_Bar);
   EXPECT_EQ(*class_Foo, method_group_Bar->owner_class());
-
-  MethodGroup::EnumMethod methods(method_group_Bar);
-  ASSERT_FALSE(methods.AtEnd());
-
-  const auto& method = *methods;
+  ASSERT_EQ(1, method_group_Bar->methods().Count());
+  const auto& method = *method_group_Bar->methods().GetFirst();
   EXPECT_EQ(*method_group_Bar, method.method_group());
   EXPECT_EQ(*Ty_Int32, method.return_type());
   EXPECT_EQ(Modifier_Private, method.modifiers());
-
-  methods.Next();
-  EXPECT_TRUE(methods.AtEnd());
-
   ASSERT_TRUE(method.GetFunction() != nullptr);
   const auto& fun = *method.GetFunction();
 

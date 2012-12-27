@@ -125,8 +125,7 @@ void FastWriter::Finish() {
           WriteFaslOp(FaslOp_MethodGroup);
           Remember(*method_group);
 
-          foreach (MethodGroup::EnumMethod, methods, method_group) {
-            const auto& method = *methods;
+          for (const auto& method: method_group->methods()) {
             method_list.Add(&method);
             WriteMethod(method);
           }

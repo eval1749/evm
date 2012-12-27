@@ -96,12 +96,9 @@ void EeTextDumper::DumpClass(const Class& clazz) {
   }
 
   if (!method_groups.IsEmpty()) {
-    foreach (ArrayList_<const MethodGroup*>::Enum, en, method_groups) {
-      auto& method_group = *en.Get();
-      foreach (MethodGroup::EnumMethod, methods, method_group) {
-        auto& method = *methods.Get();
+    for (auto const method_group: method_groups) {
+      for (auto& method: method_group->methods())
         DumpMethod(method);
-      }
     }
   }
 
@@ -252,10 +249,8 @@ void EeTextDumper::DumpMethod(const Method& method) {
 }
 
 void EeTextDumper::DumpMethodGroup(const MethodGroup& mtg) {
-  foreach (MethodGroup::EnumMethod, methods, mtg) {
-    auto& method = *methods.Get();
+  for (auto& method: mtg.methods())
     DumpMethod(method);
-  }
 }
 
 } // Executor

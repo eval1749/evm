@@ -89,11 +89,9 @@ Module* CommandContext::EnsureModule() {
   auto& name = Name::Intern(name_);
   for (auto const clazz: class_list_) {
     if (auto const mtg = clazz->Find(name)->DynamicCast<MethodGroup>()) {
-      foreach (MethodGroup::EnumMethod, methods, *mtg) {
-        auto& mt = *methods.Get();
-        if (auto const fun = mt.GetFunction()) {
+      for (auto& method: mtg->methods()) {
+        if (auto const fun = method.GetFunction())
           return &fun->module();
-        }
       }
     }
   }

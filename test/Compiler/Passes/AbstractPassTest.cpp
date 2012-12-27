@@ -52,10 +52,8 @@ Method* AbstractPassTest::FindMethod(
     return nullptr;
   }
 
-  foreach (MethodGroup::EnumMethod, methods, method_group) {
-    auto const method = methods.Get();
-    auto& funty = method->function_type();
-
+  for (auto& method: method_group->methods()) {
+    auto& funty = method.function_type();
     if (funty.return_type() != rety) {
       continue;
     }
@@ -74,9 +72,8 @@ Method* AbstractPassTest::FindMethod(
       expecteds.Next();
     }
 
-    if (actuals.AtEnd() && expecteds.AtEnd()) {
-      return method;
-    }
+    if (actuals.AtEnd() && expecteds.AtEnd())
+      return &method;
   } // for method
   return nullptr;
 }

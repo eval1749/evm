@@ -73,8 +73,7 @@ Type& GenericClass::Construct(const TypeArgs& type_args) const {
       auto& cons_mtg = *new MethodGroup(cons_class, mtg->name());
       cons_class.Add(mtg->name(), cons_mtg);
 
-      foreach (MethodGroup::EnumMethod, methods, mtg) {
-        Method& method = *methods;
+      for (auto& method: mtg->methods()) {
         if (auto const gen_method = method.DynamicCast<GenericMethod>()) {
           cons_mtg.Add(gen_method->Construct(type_args));
         } else {

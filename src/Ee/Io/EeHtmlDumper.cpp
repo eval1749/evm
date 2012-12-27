@@ -100,8 +100,7 @@ void EeHtmlDumper::DumpClass(const Class& clazz) {
       auto& method_group = *en.Get();
       writer_.WriteLine("<li>%s", escape(method_group.name()));
       writer_.WriteLine("<ol>");
-      foreach (MethodGroup::EnumMethod, methods, method_group) {
-        auto& method = *methods.Get();
+      for (auto& method: method_group.methods()) {
         writer_.WriteLine("<li><a href='#m%p'>%s</a></li>",
             &method, 
             escape(method.ToString()));
@@ -111,12 +110,9 @@ void EeHtmlDumper::DumpClass(const Class& clazz) {
     }
     writer_.WriteLine("</ol>");
 
-    foreach (ArrayList_<const MethodGroup*>::Enum, en, method_groups) {
-      auto& method_group = *en.Get();
-      foreach (MethodGroup::EnumMethod, methods, method_group) {
-        auto& method = *methods.Get();
+    for (auto& method_group: method_groups) {
+      for (auto& method: method_group->methods())
         DumpMethod(method);
-      }
     }
   }
 }
@@ -275,10 +271,8 @@ void EeHtmlDumper::DumpMethod(const Method& method) {
 
 void EeHtmlDumper::DumpMethodGroup(const MethodGroup& mtg) {
   writer_.WriteLine("<h2 id='m%p'>%s</h2>", &mtg, mtg);
-  foreach (MethodGroup::EnumMethod, methods, mtg) {
-    auto& method = *methods.Get();
+  for (auto& method: mtg.methods())
     DumpMethod(method);
-  }
 }
 
 } // Executor

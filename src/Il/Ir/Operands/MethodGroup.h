@@ -24,13 +24,6 @@ class Name;
 class MethodGroup : public Operand_<MethodGroup> {
   CASTABLE_CLASS(MethodGroup);
 
-  public: class EnumMethod : public Method::List::Enum {
-    private: typedef Method::List::Enum Base;
-    public: EnumMethod(const MethodGroup& r) : Base(&r.methods_) {}
-    public: EnumMethod(const MethodGroup* p) : Base(&p->methods_) {}
-    public: Method& operator*() const { return *Get(); }
-  };
-
   private: Method::List methods_;
   private: Class& owner_class_;
   private: const Name& name_;
@@ -39,6 +32,7 @@ class MethodGroup : public Operand_<MethodGroup> {
 
   // properties
   public: Class& owner_class() const { return owner_class_; }
+  public: const Method::List& methods() const { return methods_; }
   public: const Name& name() const { return name_; }
 
   // [A]

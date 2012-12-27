@@ -240,8 +240,7 @@ ArrayList_<Method*> MethodResolver::ComputeApplicableMethods(
     const CallI& call_inst,
     const MethodGroup& method_group) const {
   ArrayList_<Method*> applicable_methods;
-  foreach (MethodGroup::EnumMethod, methods, method_group) {
-   auto& method = *methods.Get();
+  for (auto& method: method_group.methods()) {
    if (auto const gen_method = method.DynamicCast<GenericMethod>()) {
      TypeArgs type_args;
      if (IsApplicable(type_args, method, call_inst)) {

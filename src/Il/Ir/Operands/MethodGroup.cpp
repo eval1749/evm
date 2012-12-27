@@ -26,12 +26,10 @@ void MethodGroup::Add(Method& method) {
 
 // [F]
 Method* MethodGroup::Find(const FunctionType& type) const {
-  foreach (EnumMethod, methods, this) {
-    Method& method = *methods;
-    if (method.function_type() == type) {
+  for (auto& method: methods()) {
+    if (method.function_type() == type)
       return &method;
-    } // if
-  } // for method
+  }
   return nullptr;
 } // Find
 

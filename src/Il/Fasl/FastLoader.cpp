@@ -132,11 +132,10 @@ const GenericMethod& FastLoader::ExpectGenericMethod(
 
   Error(FaslError_Expect_GenericMethod, object);
 
-  MethodGroup::EnumMethod
-    methods(
-        Ty_Array->Find(Name::Intern("Create"))
-            ->StaticCast<MethodGroup>());
-  return *methods.Get()->StaticCast<GenericMethod>();
+  return *Ty_Array->Find(Name::Intern("Create"))
+            ->StaticCast<MethodGroup>()
+                ->methods().GetFirst()
+                    ->StaticCast<GenericMethod>();
 }
 
 int FastLoader::ExpectInt32(const Object* const object) {
