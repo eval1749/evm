@@ -90,6 +90,9 @@
     <ClCompile Include="precomp.cpp">
       <Filter>support</Filter>
     </ClCompile>
+    <ClCompile Include="Collections\IteratorTest.cpp">
+      <Filter>Collections</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonTest.h" />

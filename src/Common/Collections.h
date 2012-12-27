@@ -19,6 +19,7 @@
 #include "./Collections/HashMap_.h"
 #include "./Collections/HashSet_.h"
 #include "./Collections/Hashtable_.h"
+#include "./Collections/Iterator_.h"
 #include "./Collections/PtrKey_.h"
 #include "./Collections/Queue_.h"
 #include "./Collections/Stack_.h"

@@ -63,6 +63,29 @@ class ReverseIterator_ : public BaseIterator {
   }
 };
 
+
+template<typename T> class ReverseRange_ {
+  private: T* range_;
+  public: ReverseRange_(T& range) : range_(&range) {}
+  public: typename T::ReverseIterator begin() { return range_->rbegin(); }
+  public: typename T::ReverseIterator end() { return range_->rend(); }
+};
+
+template<typename T> class ConstReverseRange_ {
+  private: const T* range_;
+  public: ConstReverseRange_(const T& range) : range_(&range) {}
+  public: typename T::ConstReverseIterator begin() { return range_->rbegin(); }
+  public: typename T::ConstReverseIterator end() { return range_->rend(); }
+};
+
+template<typename T> ReverseRange_<T> ReverseRange(T& range) {
+  return ReverseRange_<T>(range);
+}
+
+template<typename T> ReverseRange_<T> ReverseRange(const T& range) {
+  return ConstReverseRange_<T>(range);
+}
+
 } // Collections
 } // Common
 

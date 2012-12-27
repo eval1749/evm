@@ -116,6 +116,7 @@
     <ClCompile Include="Collections\CollectionTest.cpp" />
     <ClCompile Include="Collections\HashMapTest.cpp" />
     <ClCompile Include="Collections\HashSetTest.cpp" />
+    <ClCompile Include="Collections\IteratorTest.cpp" />
     <ClCompile Include="Collections\QueueTest.cpp" />
     <ClCompile Include="Collections\StackTest.cpp" />
     <ClCompile Include="Collections\VectorTest.cpp" />

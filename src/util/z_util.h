@@ -79,15 +79,15 @@ class DoubleLinkedList_ {
 
     public: Item_& operator*() const { return *item_; }
 
-    public: bool operator ==(const Iterator& another) const {
+    public: bool operator ==(const ReverseIterator& another) const {
       return item_ == another.item_;
     }
 
-    public: bool operator !=(const Iterator& another) const {
+    public: bool operator !=(const ReverseIterator& another) const {
       return !operator==(another);
     }
 
-    public: Iterator& operator++() {
+    public: ReverseIterator& operator++() {
       ASSERT(!!item_);
       item_= static_cast<Cons_*>(item_)->m_pPrev;
       return *this;
