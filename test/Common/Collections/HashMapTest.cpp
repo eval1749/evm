@@ -64,6 +64,25 @@ TEST_F(HashMapTest, Enum) {
   EXPECT_EQ(1, flagv['c']);
 }
 
+TEST_F(HashMapTest, ForEach) {
+  int flagv[256];
+  ::ZeroMemory(flagv, sizeof(flagv));
+
+  auto n = 0;
+  for (auto const entry: map_) {
+    flagv[*entry.GetKey().GetString()]++;
+    flagv[*entry.GetValue().GetString()]++;
+    ++n;
+  }
+  EXPECT_EQ(3, n);
+  EXPECT_EQ(1, flagv['1']);
+  EXPECT_EQ(1, flagv['2']);
+  EXPECT_EQ(1, flagv['3']);
+  EXPECT_EQ(1, flagv['a']);
+  EXPECT_EQ(1, flagv['b']);
+  EXPECT_EQ(1, flagv['c']);
+}
+
 TEST_F(HashMapTest, Remove) {
   EXPECT_TRUE(map_.Remove("1"));
   EXPECT_EQ(2, map_.Count());

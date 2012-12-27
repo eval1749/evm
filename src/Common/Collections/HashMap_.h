@@ -102,6 +102,86 @@ class HashMap_  : public TAllocable {
 
   DEFINE_ENUMERATOR(HashMap_, Entry);
 
+  public: class ConstIterator {
+    private: size_t count_;
+    private: const HashMap_* hash_map_;
+    private: const Slot* runner_;
+
+    public: ConstIterator(const HashMap_& hash_map, size_t count)
+        : count_(count), hash_map_(&hash_map), runner_(hash_map.slots_) {
+      if (count_) {
+        ++count_;
+        --runner_;
+        operator++();
+      }
+    }
+
+    public: Entry operator*() const {
+      DCHECK_GT(count_, 0u);
+      return *runner_;
+    }
+
+    public: bool operator==(const ConstIterator& another) const {
+      DCHECK_EQ(hash_map_, another.hash_map_);
+      return count_ == another.count_;
+    }
+
+    public: bool operator!=(const ConstIterator& another) const {
+      return !operator==(another);
+    }
+
+    public: ConstIterator& operator++() {
+      DCHECK_GT(count_, 0u);
+      --count_;
+      if (!count_)
+        return *this;
+      do {
+        ++runner_;
+      } while(!runner_->HasEntry());
+      return *this;
+    }
+  };
+
+  public: class Iterator {
+    private: size_t count_;
+    private: HashMap_* hash_map_;
+    private: const Slot* runner_;
+
+    public: Iterator(HashMap_& hash_map, size_t count)
+        : count_(count), hash_map_(&hash_map), runner_(hash_map.slots_) {
+      if (count_) {
+        ++count_;
+        --runner_;
+        operator++();
+      }
+    }
+
+    public: Entry operator*() const {
+      DCHECK_GT(count_, 0u);
+      return *runner_;
+    }
+
+    public: bool operator==(const Iterator& another) const {
+      DCHECK_EQ(hash_map_, another.hash_map_);
+      return count_ == another.count_;
+    }
+
+    public: bool operator!=(const Iterator& another) const {
+      return !operator==(another);
+    }
+
+    public: Iterator& operator++() {
+      DCHECK_GT(count_, 0u);
+      --count_;
+      if (!count_)
+        return *this;
+      do {
+        ++runner_;
+      } while(!runner_->HasEntry());
+      return *this;
+    }
+  };
+
   // zone_ should be the first member variable for initialization.
   private: MemoryZone& zone_;
 
@@ -135,6 +215,11 @@ class HashMap_  : public TAllocable {
   public: ~HashMap_() {
     delete[] slots_;
   }
+
+  public: Iterator begin() { return Iterator(*this, count_); }
+  public: ConstIterator begin() const { return ConstIterator(*this, count_); }
+  public: Iterator end() { return Iterator(*this, 0); }
+  public: ConstIterator end() const { return ConstIterator(*this, 0); }
 
   // [A]
   public: void Add(Key const key, Value const value) {

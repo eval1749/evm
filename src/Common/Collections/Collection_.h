@@ -203,9 +203,8 @@ class Collection_ : public Object_<Collection_<T>> {
       : data_(new Data(map.Count())) {
     typedef HashMap_<T, V, A> HashMap;
     T* p = data_->elements();
-    foreach (HashMap::Enum, elems, map) {
-      *p++ = elems.Get().GetKey();
-    }
+    for (auto const entry: map)
+      *p++ = entry.GetKey();
   }
 
   public: template<class A> Collection_(
