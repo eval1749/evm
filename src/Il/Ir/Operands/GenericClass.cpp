@@ -67,9 +67,8 @@ Type& GenericClass::Construct(const TypeArgs& type_args) const {
 
   cons_class.RealizeClass(base_list);
 
-  for (auto const entry: entries()) {
-    Operand& member = *entry.value();
-    if (auto const mtg = member.DynamicCast<MethodGroup>()) {
+  for (auto const member: members()) {
+    if (auto const mtg = member->DynamicCast<MethodGroup>()) {
       auto& cons_mtg = *new MethodGroup(cons_class, mtg->name());
       cons_class.Add(mtg->name(), cons_mtg);
 
@@ -84,9 +83,8 @@ Type& GenericClass::Construct(const TypeArgs& type_args) const {
   } // for member
 
   // Construct properties
-  for (auto const entry: entries()) {
-    auto& member = *entry.value();
-    if (auto const gen_prop = member.DynamicCast<Property>()) {
+  for (auto const member: members()) {
+    if (auto const gen_prop = member->DynamicCast<Property>()) {
       auto& cons_prop = *new Property(
           cons_class,
           gen_prop->modifiers(),

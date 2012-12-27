@@ -56,8 +56,7 @@ void EeTextDumper::DumpClass(const Class& clazz) {
   ArrayList_<const MethodGroup*> method_groups;
   ArrayList_<const Property*> properties;
 
-  for (auto const entry: clazz.entries()) {
-    auto const member = entry.value();
+  for (auto const member: clazz.members()) {
     if (auto const field = member->DynamicCast<Field>()) {
       fields.Add(field);
     } else if (auto const mg = member->DynamicCast<MethodGroup>()) {

@@ -71,8 +71,7 @@ void EeHtmlDumper::DumpClass(const Class& clazz) {
   ArrayList_<const Field*> fields;
   ArrayList_<const MethodGroup*> method_groups;
 
-  for (auto const entry: clazz.entries()) {
-    auto const member = entry.value();
+  for (auto const member: clazz.members()) {
     if (auto const field = member->DynamicCast<Field>()) {
       fields.Add(field);
     } else if (auto const mg = member->DynamicCast<MethodGroup>()) {

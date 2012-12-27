@@ -115,9 +115,8 @@ void FastWriter::Finish() {
 
       // All methods must be emitted before properties for using property
       // reference in property member registation.
-      for (auto const entry: clazz->entries()) {
-        auto& member = *entry.value();
-        if (auto const method_group = member.DynamicCast<MethodGroup>()) {
+      for (auto const member: clazz->members()) {
+        if (auto const method_group = member->DynamicCast<MethodGroup>()) {
           WriteName(method_group->name());
           WriteFaslOp(FaslOp_MethodGroup);
           Remember(*method_group);
@@ -129,9 +128,8 @@ void FastWriter::Finish() {
         }
       }
 
-      for (auto const entry: clazz->entries()) {
-        auto& member = *entry.value();
-        if (auto const property = member.DynamicCast<Property>()) {
+      for (auto const member: clazz->members()) {
+        if (auto const property = member->DynamicCast<Property>()) {
           WriteProperty(*property);
         }
       }

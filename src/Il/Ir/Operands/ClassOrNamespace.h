@@ -55,6 +55,9 @@ class ClassOrNamespace : public Type_<ClassOrNamespace> {
 
   // properties
   public: const NameTable& entries() const { return name_table_; }
+  public: const NameTable::Values members() const {
+    return name_table_.values();
+  }
   public: const Name& name() const { return name_; }
   public: ClassOrNamespace& outer() const { return outer_; }
 
