@@ -372,10 +372,10 @@ static int CompilerMain() {
   CompileSession session(output_file);
 
   // Compile source files
-  foreach (ArrayList_<String>::Enum, files, &source_files) {
+  for (auto const source_file: source_files) {
     FileCompiler compiler(session);
     TimeReporter timing("compile");
-    compiler.CompileFile(*files);
+    compiler.CompileFile(source_file);
   }
 
   if (dump_set.Contains("Parse")) {
@@ -387,20 +387,15 @@ static int CompilerMain() {
   }
 
   // Load reference files
-  foreach (ArrayList_<String>::Enum, files, &ref_files) {
-    auto const file = files.Get();
-    TimeReporter timing(String::Format("load %s", file));
-    Static::LoadFasl(session, file);
+  for (auto const ref_file: ref_files) {
+    TimeReporter timing(String::Format("load %s", ref_file));
+    Static::LoadFasl(session, ref_file);
     if (!Static::IsSucceeded(session)) {
       return 1;
     }
   }
 
-  foreach (
-      Collection_<CompilePass::NewFunction>::Enum,
-      pass_ctors, 
-      CompilePass::GetPasses()) {
-    auto const ctor = pass_ctors.Get();
+  for (auto const ctor: CompilePass::GetPasses()) {
     ScopedPtr_<CompilePass> pass(ctor(&session));
     TimeReporter timing(pass->name());
     pass->Start();
