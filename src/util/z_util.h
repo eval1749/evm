@@ -84,7 +84,7 @@ class DoubleLinkedList_ {
   }
 
   public: ForwardIterator begin() const { return ForwardIterator(m_pFirst); }
-  public: ForwardIterator end() const { return ForwardIterator(m_pLast); }
+  public: ForwardIterator end() const { return ForwardIterator(nullptr); }
 
   // [A]
   public: Item_* Append(Item_* const pItem) {
