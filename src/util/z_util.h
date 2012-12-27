@@ -67,7 +67,29 @@ class DoubleLinkedList_ {
     }
 
     public: Iterator& operator++() {
+      ASSERT(!!item_);
       item_= static_cast<Cons_*>(item_)->m_pNext;
+      return *this;
+    }
+  };
+
+  public: class ReverseIterator {
+    private: Item_* item_;
+    public: ReverseIterator(Item_* item) : item_(item) {}
+
+    public: Item_& operator*() const { return *item_; }
+
+    public: bool operator ==(const Iterator& another) const {
+      return item_ == another.item_;
+    }
+
+    public: bool operator !=(const Iterator& another) const {
+      return !operator==(another);
+    }
+
+    public: Iterator& operator++() {
+      ASSERT(!!item_);
+      item_= static_cast<Cons_*>(item_)->m_pPrev;
       return *this;
     }
   };
@@ -85,6 +107,8 @@ class DoubleLinkedList_ {
 
   public: Iterator begin() const { return Iterator(m_pFirst); }
   public: Iterator end() const { return Iterator(nullptr); }
+  public: ReverseIterator rbegin() const { return ReverseIterator(m_pLast); }
+  public: ReverseIterator rend() const { return ReverseIterator(nullptr); }
 
   // [A]
   public: Item_* Append(Item_* const pItem) {
