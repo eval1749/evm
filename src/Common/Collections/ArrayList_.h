@@ -69,6 +69,62 @@ class ArrayList_
 
   DEFINE_ENUMERATOR(ArrayList_, T);
 
+  public: class ConstIterator {
+    private: const ArrayList_* array_;
+    private: size_t index_;
+
+    public: ConstIterator(const ArrayList_* array, size_t index = 0)
+        : array_(array), index_(index) {
+      DCHECK(!!array_);
+      DCHECK_LE(index_, array_->length());
+    }
+
+    public: const T& operator*() const { return (*array_)[index_]; }
+
+    public: bool operator==(const ConstIterator& another) const {
+      DCHECK_EQ(array_, another.array_);
+      return index_ == another.index_;
+    }
+
+    public: bool operator!=(const ConstIterator& another) const {
+      return !operator==(another);
+    }
+
+    public: ConstIterator& operator++() {
+      DCHECK_LT(index_, array_->length());
+      ++index_;
+      return *this;
+    }
+  };
+
+  public: class Iterator {
+    private: ArrayList_* array_;
+    private: size_t index_;
+
+    public: Iterator(ArrayList_* array, size_t index)
+        : array_(array), index_(index) {
+      DCHECK(!!array_);
+      DCHECK_LE(index_, array_->length());
+    }
+
+    public: T& operator*() const { return (*array_)[index_]; }
+
+    public: bool operator==(const Iterator& another) const {
+      DCHECK_EQ(array_, another.array_);
+      return index_ == another.index_;
+    }
+
+    public: bool operator!=(const Iterator& another) const {
+      return !operator==(another);
+    }
+
+    public: Iterator& operator++() {
+      DCHECK_LT(index_, array_->length());
+      ++index_;
+      return *this;
+    }
+  };
+
   private: Array* elements_;
   private: int length_;
 
@@ -81,10 +137,9 @@ class ArrayList_
   public: explicit ArrayList_(const ArrayList_<T>& list)
       : elements_(new Array(list.length_)),
         length_(0) {
-    ASSERT(elements_ != nullptr);
-    foreach (ArrayList::Enum, elements, list) {
-      Add(*elements);
-    }
+    ASSERT(!!elements_);
+    for (auto const value: list)
+      Add(value);
   }
 
   public: template<class C> explicit ArrayList_(const C& collection)
@@ -137,6 +192,16 @@ class ArrayList_
 
   public: bool operator!=(const ArrayList& r) const { return !(*this == r); }
 
+  public: Iterator begin() { return Iterator(this, 0); }
+  public: ConstIterator begin() const {
+    return ConstIterator(this, 0);
+  }
+  public: Iterator end() { return Iterator(this, length()); }
+  public: ConstIterator end() const {
+    return ConstIterator(this, length());
+  }
+  public: size_t length() const { return length_; }
+
   // [A]
   public: void Add(T value) {
     auto const capacity = elements_->Count();
@@ -161,17 +226,18 @@ class ArrayList_
   public: void Clear() { length_ = 0; }
 
   public: bool Contains(const T value) {
-    foreach (Enum, elements, this) {
-      if (*elements == value) {
+    for (auto const this_value: *this) {
+      if (this_value == value)
         return true;
-      }
     }
     return false;
   }
 
   public: void CopyTo(T* elements) const {
-    for (auto i = 0; i < length_; i++) {
-      elements[i] = elements_->Get(i);
+    auto index = 0;
+    for (auto const value: *this) {
+      elements[index] = value;
+      ++index;
     }
   }
 
@@ -239,20 +305,20 @@ class ArrayList_
 
   // [T]
   public: Array* ToArray() const {
-    auto const array = new Array_<T>(Count());
+    auto& array = *new Array_<T>(Count());
     auto index = 0;
-    foreach (Enum, elems, this) {
-      array->Set(index, *elems);
-      index++;
+    for (auto const value: *this) {
+      array[index] = value;
+      ++index;
     }
-    return array;
+    return &array;
   }
 
   public: Vector_<T> ToVector() const {
     Vector_<T> vector(Count());
     auto index = 0;
-    foreach (Enum, elems, this) {
-      vector[index] = *elems;
+    for (auto const value: *this) {
+      vector[index] = value;
       ++index;
     }
     return vector;

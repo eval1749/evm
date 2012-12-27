@@ -194,9 +194,8 @@ class Collection_ : public Object_<Collection_<T>> {
       : data_(new Data(list.Count())) {
     typedef ArrayList_<T, A> ArrayList;
     T* p = data_->elements();
-    foreach (ArrayList::Enum, elems, list) {
-      *p++ = elems.Get();
-    }
+    for (auto const value: list)
+      *p++ = value;
   }
 
   public: template<class V, class A> Collection_(

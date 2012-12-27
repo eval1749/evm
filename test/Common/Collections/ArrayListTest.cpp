@@ -115,6 +115,14 @@ TEST_F(ArrayListTest, Equals) {
   EXPECT_FALSE(a.Equals(c));
 }
 
+TEST_F(ArrayListTest, ForEach) {
+  auto index = 0;
+  for (auto const value: list_) {
+    ++index;
+    EXPECT_EQ(index, value);
+  }
+}
+
 TEST_F(ArrayListTest, ToString) {
   EXPECT_EQ(String("[1, 2, 3]"), list_.ToString());
 }
