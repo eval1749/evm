@@ -235,12 +235,9 @@ class Static {
 
   // [D]
   public: static void Dump(CompileSession& session, const String& name) {
-    foreach (CompileSession::EnumCompilationUnit, units, session) {
-      auto& unit = *units.Get();
-
+    for (auto& unit: session.compilation_units()) {
       StreamWriter file(
         String::Format("%s.%s.log.html", unit.source_path(), name));
-
       Dumper dumper(file, unit);
       dumper.Dump();
     }

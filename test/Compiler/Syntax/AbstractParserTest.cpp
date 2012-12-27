@@ -26,8 +26,8 @@ AbstractParserTest::~AbstractParserTest() {}
 // [F]
 ClassDef* AbstractParserTest::FindClassDef(const String& name1) const {
   auto& name = Name::Intern(name1);
-  foreach (CompileSession::EnumCompilationUnit, units, session()) {
-    if (auto const present = units->namespace_body().Find(name)) {
+  for (auto& unit: session().compilation_units()) {
+    if (auto const present = unit.namespace_body().Find(name)) {
       return present->DynamicCast<ClassDef>();
     }
   }

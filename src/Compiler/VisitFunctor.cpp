@@ -34,9 +34,8 @@ void VisitFunctor::Process(CompilationUnit* const pCompilationUnit) {
 
 void VisitFunctor::Process(CompileSession* const pCompileSession) {
     ASSERT(pCompileSession != nullptr);
-    foreach (CompileSession::EnumCompilationUnit, oEnum, *pCompileSession) {
-        oEnum.Get()->Apply(this);
-    } // for
+    for (auto& unit: pCompileSession->compilation_units())
+      unit.Apply(this);
 } // Process CompileSession
 
 void VisitFunctor::Process(FieldDef* const) {}

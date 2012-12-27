@@ -23,13 +23,6 @@ class NamespaceDef;
 
 // TODO(yosi) 2012-01-07 Unintern ArrayType, FunctionType, PointerType.
 class CompileSession : public Il::Tasks::Session {
-  public: class EnumCompilationUnit :
-          public CompilationUnit::List::Enum {
-      private: typedef CompilationUnit::List::Enum Base;
-      public: EnumCompilationUnit(const CompileSession& r) :
-          Base(&const_cast<CompileSession&>(r).compilation_units_) {}
-  };
-
   private: HashSet_<HashKey_<const ErrorInfo>> error_set_;
   private: ErrorInfo::List errors_;
   private: LocalMemoryZone memory_zone_;
@@ -42,6 +35,9 @@ class CompileSession : public Il::Tasks::Session {
   public: CompileSession(const String&);
   public: virtual ~CompileSession();
 
+  public: CompilationUnit::List& compilation_units() {
+    return compilation_units_;
+  }
   public: ErrorInfo::List& errors() { return errors_; }
   public: Namespace& global_namespace() const;
   public: NamespaceDef& global_namespace_def() const;
