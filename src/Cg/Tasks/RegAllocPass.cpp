@@ -692,10 +692,8 @@ class SubPassAllocate
 
         DEBUG_FORMAT("process succ %s", pSuccBB);
 
-        foreach (BBlock::EnumPhiI, oEnum, pSuccBB) {
-          auto const pPhiI = oEnum.Get();
-          AllocateIfPossible(pPhiI->GetOperandBox(pBB));
-        }
+        for (auto& phi_inst: pSuccBB->phi_instructions())
+          AllocateIfPossible(phi_inst.GetOperandBox(pBB));
       }
     }
 
@@ -757,10 +755,8 @@ class SubPassAllocate
     }
 
     // Allocates register for Phi outptus
-    foreach (BBlock::EnumPhiI, oEnum, pI->GetBBlock()) {
-      auto const pPhiI = oEnum.Get();
-      ProcessOutput(pPhiI);
-    }
+    for (auto& phi_inst: pI->bblock().phi_instructions())
+      ProcessOutput(&phi_inst);
   }
 
   /// <summary>
@@ -1734,9 +1730,8 @@ class SubPassInvertPhi : public Tasklet {
 
     auto fHasTask = false;
 
-    foreach (BBlock::EnumPhiI, oEnum, pSucc) {
-        auto const pPhiI = oEnum.Get();
-        auto const pRd = pPhiI->GetRd();
+    for (auto& phi_inst: pSucc->phi_instructions()) {
+        auto const pRd = phi_inst.GetRd();
       if (!pRd) {
         continue;
       }
@@ -1746,11 +1741,11 @@ class SubPassInvertPhi : public Tasklet {
       }
 
       DEBUG_FORMAT("%s pd=%s spill=%s",
-          pPhiI, pRd->m_pPhysical, pRd->m_pSpill);
+          phi_inst, pRd->m_pPhysical, pRd->m_pSpill);
 
-      auto& type = pPhiI->output_type();
+      auto& type = phi_inst.output_type();
 
-      auto const pBox = pPhiI->GetOperandBox(pCurr);
+      auto const pBox = phi_inst.GetOperandBox(pCurr);
 
       updatePhiOperand(pBox);
 
@@ -2067,11 +2062,9 @@ class SubPassRemovePhi : public Tasklet {
     for (auto& bblock: pFun->bblocks()) {
       DEBUG_FORMAT("Remove Phi in %s", bblock);
       WorkList_<Instruction> oPhiIs;
-      foreach (BBlock::EnumPhiI, oEnum, &bblock) {
-        auto const pPhiI = oEnum.Get();
-        if (!pPhiI->GetOutput()->Is<Values>()) {
-            oPhiIs.Push(pPhiI);
-        }
+      for (auto& phi_inst: bblock.phi_instructions()) {
+        if (!phi_inst.GetOutput()->Is<Values>())
+            oPhiIs.Push(&phi_inst);
       }
 
       while (!oPhiIs.IsEmpty()) {
@@ -2106,12 +2099,11 @@ void RegAllocPass::ProcessFunction(Function& fun) {
 
   // Put Phi-operands to LiveOut for easy checking of live range.
   for (auto& bblock: fun.bblocks()) {
-    foreach (BBlock::EnumPhiI, oEnum, &bblock) {
-      auto const pPhiI = oEnum.Get();
-      if (pPhiI->GetRd()) {
+    for (auto& phi_inst: bblock.phi_instructions()) {
+      if (phi_inst.GetRd()) {
         foreach (BBlock::EnumPred, oEnum, bblock) {
             auto const pPred = oEnum.Get();
-            if (auto const pRx = pPhiI->GetRx(pPred)) {
+            if (auto const pRx = phi_inst.GetRx(pPred)) {
                 pPred->SetLiveOut(pRx->GetIndex());
             }
         }

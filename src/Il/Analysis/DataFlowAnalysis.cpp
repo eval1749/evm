@@ -164,9 +164,8 @@ class RegLiveness {
     // Mark Phi operands in succs
     foreach (BBlock::EnumSucc, oEnum, &bblock) {
       auto const pSucc = oEnum.Get();
-      foreach (BBlock::EnumPhiI, oEnum, pSucc) {
-        auto const pPhiI = oEnum.Get();
-        if (auto const pRx = pPhiI->GetRx(&bblock)) {
+      for (auto& phi_inst: pSucc->phi_instructions()) {
+        if (auto const pRx = phi_inst.GetRx(&bblock)) {
           MarkUse(bblock, pRx);
         }
       }

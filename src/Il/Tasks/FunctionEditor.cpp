@@ -185,8 +185,8 @@ void FunctionEditor::Renumber(Function& fun) {
 void FunctionEditor::RemoveCriticalEdges(Function& fun) {
   class Local {
     public: static bool HasPhiI(const BBlock& bblock) {
-      BBlock::EnumPhiI phi_insts(&bblock);
-      return !phi_insts.AtEnd();
+      const auto insts = bblock.instructions();
+      return insts.begin() != insts.end() && insts.begin()->Is<PhiI>();
     }
   };
 

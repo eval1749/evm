@@ -57,6 +57,32 @@ class BBlock
 
   public: typedef ChildList_<Instruction, BBlock> Instructions;
 
+  public: class PhiInstructionRange {
+    public: class Iterator {
+      private: Instructions::Iterator iterator_;
+      public: Iterator(const Instructions::Iterator& iterator)
+          : iterator_(iterator) {}
+      public: PhiI& operator*();
+      public: bool operator==(const Iterator& another) const {
+        return iterator_ == another.iterator_;
+      }
+      public: bool operator!=(const Iterator& another) const {
+        return !operator==(another);
+      }
+      public: Iterator operator++() {
+        ++iterator_;
+        return* this;
+      }
+    };
+
+    private: const BBlock* bblock_;
+    public: PhiInstructionRange(const BBlock* bblock) : bblock_(bblock) {}
+    public: Iterator begin() const {
+      return Iterator(bblock_->instructions().begin());
+    }
+    public: Iterator end() const;
+  };
+
   private: int m_iName;
   private: Label::List m_oLabels;
   protected: DataFlowData* m_pDfData;
@@ -73,6 +99,10 @@ class BBlock
   public: Label& label() const { return *m_oLabels.GetFirst(); }
   public: int name() const { return m_iName; }
 
+  public: PhiInstructionRange phi_instructions() const {
+    return PhiInstructionRange(this);
+  }
+
   // [A]
   public: void AppendI(const Instruction&);
   private: void AddLabel(Label&);
@@ -85,15 +115,6 @@ class BBlock
 
   // [D]
   public: bool DoesDominate(const BBlock&) const;
-
-  // [E]
-  class_Enum_(BBlock, I, Instructions)
-
-  public: class EnumPhiI : public EnumI {
-      public: EnumPhiI(const BBlock* pBBlock) : EnumI(pBBlock) {}
-      public: bool AtEnd() const;
-      public: PhiI* Get() const;
-  }; // EnumPhiI
 
   // [G]
   public: Instruction* GetFirstI() const;

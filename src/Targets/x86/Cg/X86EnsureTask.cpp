@@ -277,15 +277,14 @@ class EnsureTasklet :
     }
 
     for (auto& bblock: pFun->bblocks()) {
-      BBlock::EnumI oEnumI(bblock);
-      while (!oEnumI.AtEnd()) {
-        auto const pI = oEnumI.Get();
-        oEnumI.Next();
-
-        if (auto const pVd = pI->GetVd()) {
-          HoisttSelects(pVd, pI);
-        }
-        pI->Apply(this);
+      const auto end = bblock.instructions().end();
+      auto it = bblock.instructions().begin();
+      while (it != end) {
+        auto& inst = *it;
+        ++it;
+        if (auto const pVd = inst.GetVd())
+          HoisttSelects(pVd, &inst);
+        inst.Apply(this);
       }
     }
 

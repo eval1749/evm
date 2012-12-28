@@ -49,12 +49,10 @@ void JumpI::Unrealize() {
   auto const pTargetBB = GetTargetBB();
   GetBB()->RemoveOutEdge(pTargetBB);
 
-  foreach (BBlock::EnumPhiI, oEnum, pTargetBB) {
-    auto const pPhiI = oEnum.Get();
-    if (auto pBox = pPhiI->FindOperandBox(GetBB())) {
-      pPhiI->RemoveOperand(pBox);
-    } // if
-  } // for
+  for (auto& phi_inst: pTargetBB->phi_instructions()) {
+    if (auto pBox = phi_inst.FindOperandBox(GetBB()))
+      phi_inst.RemoveOperand(pBox);
+  }
 
   Instruction::Unrealize();
 } // JumpI::Unrealize

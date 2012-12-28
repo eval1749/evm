@@ -255,8 +255,7 @@ void CleanTask::ProcessFunction(Function& fn) {
 
 // [R]
 void CleanTask::RemovePhis(const BBlock& block, const BBlock& target_block) {
-  foreach (BBlock::EnumPhiI, oEnum, &target_block) {
-    auto& phi_inst = *oEnum.Get();
+  for (auto& phi_inst: target_block.phi_instructions()) {
     auto& box = *phi_inst.GetOperandBox(&block);
     phi_inst.RemoveOperand(&box);
     normalizer_.Add(phi_inst);

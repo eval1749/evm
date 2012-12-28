@@ -362,11 +362,12 @@ class LowerTasklet :
 
   public: void Run(const Function& fun) {
     for (auto& bblock: fun.bblocks()) {
-      BBlock::EnumI oEnumI(bblock);
-      while (!oEnumI.AtEnd()) {
-        auto const pI = oEnumI.Get();
-        oEnumI.Next();
-        pI->Apply(this);
+      const auto end = bblock.instructions().end();
+      auto it = bblock.instructions().begin();
+      while (it != end) {
+        auto& inst = *it;
+        ++it;
+        inst.Apply(this);
       }
     }
     normalizer_.Start();

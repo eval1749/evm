@@ -272,10 +272,8 @@ class PrepareTasklet : public Tasklet {
     }
 
     for (auto& bblock: pFun->bblocks()) {
-      foreach (BBlock::EnumPhiI, oEnum, &bblock) {
-        auto const pPhiI = oEnum.Get();
-        pPhiI->SetWork(nullptr);
-      }
+      for (auto& phi_inst: bblock.phi_instructions())
+        phi_inst.SetWork(nullptr);
 
       foreach (BBlock::EnumInEdge, oEnum, bblock) {
         if (oEnum.Get()->GetEdgeKind() == CfgEdge::Kind_Nonlocal) {
@@ -398,11 +396,12 @@ class RenameTasklet :
     m_pKillList = &oKillList;
 
     {
-      BBlock::EnumI oEnumI(pBB);
-      while (!oEnumI.AtEnd()) {
-        auto const pI = oEnumI.Get();
-        oEnumI.Next();
-        pI->Apply(this);
+      const auto end = pBB->instructions().end();
+      auto it = pBB->instructions().begin();
+      while (it != end) {
+        auto& inst = *it;
+        ++it;
+        inst.Apply(this);
       }
     }
 
@@ -445,12 +444,10 @@ class RenameTasklet :
 
   // [U]
   private: void UpdatePhis(BBlock* const pCurr, BBlock* const pSucc) {
-    foreach (BBlock::EnumPhiI, oEnum, pSucc) {
-      auto const pPhiI = oEnum.Get();
-
-      auto const pVar = pPhiI->GetWork<Variable>();
+    for (auto& phi_inst: pSucc->phi_instructions()) {
+      auto const pVar = phi_inst.GetWork<Variable>();
       if (!pVar) {
-        DEBUG_FORMAT("Skip %s", pPhiI);
+        DEBUG_FORMAT("Skip %s", phi_inst);
         continue;
       }
 
@@ -465,8 +462,8 @@ class RenameTasklet :
       }
 
       auto const pSx = pRenameWork->GetTop();
-      DEBUG_FORMAT("Add (%s %s) to %s", pCurr, pSx, pPhiI);
-      pPhiI->AddOperand(pCurr, pSx);
+      DEBUG_FORMAT("Add (%s %s) to %s", pCurr, pSx, phi_inst);
+      phi_inst.AddOperand(pCurr, pSx);
     }
   }
   DISALLOW_COPY_AND_ASSIGN(RenameTasklet);
@@ -502,10 +499,8 @@ void Cfg2SsaTask::ProcessFunction(Function& fn) {
   }
 
   for (auto& bblock: pFun->bblocks()) {
-    foreach (BBlock::EnumPhiI, oEnum, &bblock) {
-      auto const pPhiI = oEnum.Get();
-      pPhiI->SetWork(nullptr);
-    }
+    for (auto& phi_inst: bblock.phi_instructions())
+      phi_inst.SetWork(nullptr);
   }
 
   for (auto& var: pFun->variables()) {

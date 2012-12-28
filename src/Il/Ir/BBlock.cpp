@@ -25,15 +25,23 @@
 namespace Il {
 namespace Ir {
 
-bool BBlock::EnumPhiI::AtEnd() const {
-  return EnumI::AtEnd() || !EnumI::Get()->Is<PhiI>();
-} // AtEnd
+// PhiInstructionRange::Iterator
+PhiI& BBlock::PhiInstructionRange::Iterator::operator*() {
+  return *iterator_->StaticCast<PhiI>();
+}
 
-PhiI* BBlock::EnumPhiI::Get() const {
-  ASSERT(!AtEnd());
-  return EnumI::Get()->StaticCast<PhiI>();
-} // AtEnd
+BBlock::PhiInstructionRange::Iterator BBlock::PhiInstructionRange::end() const {
+  auto it = bblock_->instructions().begin();
+  auto end = bblock_->instructions().end();
+  while (it != end) {
+    if (!it->Is<PhiI>())
+      break;
+    ++it;
+  }
+  return Iterator(it);
+}
 
+// BBlock
 BBlock::BBlock(int const name)
   : m_iName(name),
     m_pDfData(nullptr),
@@ -201,10 +209,8 @@ void BBlock::RedirectEdgeTo(
 
   pBBlock->ReplaceEdgeTo(pNewBB, pOldBB);
 
-  foreach (BBlock::EnumPhiI, oEnum, pOldBB) {
-      auto const pPhiI = oEnum.Get();
-      pPhiI->RemoveOperand(pPhiI->GetOperandBox(pBBlock));
-  } // for insn
+  for (auto& phi_inst: pOldBB->phi_instructions())
+    phi_inst.RemoveOperand(phi_inst.GetOperandBox(pBBlock));
 
   pBBlock->ReplaceLabels(pNewBB, pOldBB);
 } // RedirectEdgeTo
@@ -254,14 +260,12 @@ void BBlock::ReplacePhiOperands(
 
   auto const pBBlock = this;
 
-  foreach (BBlock::EnumPhiI, oEnum, pBBlock) {
-      auto const pPhiI = oEnum.Get();
-
-      // Operand must be found. If not, it is invalid IR.
-      auto pBox = pPhiI->GetOperandBox(pOldBB);
-      pBox->SetBB(pNewBB);
-  } // for each phi
-} // ReplacePhiOperands
+  for (auto& phi_inst: pBBlock->phi_instructions()) {
+    // Operand must be found. If not, it is invalid IR.
+    auto pBox = phi_inst.GetOperandBox(pOldBB);
+    pBox->SetBB(pNewBB);
+  }
+}
 
 void BBlock::Reset() {
   SetFlag(0);
