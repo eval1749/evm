@@ -30,8 +30,7 @@ void FinalizeMethodPass::FixFunction(MethodDef& method_def, Function& fun) {
 
   WorkList_<Instruction> name_refs;
   {
-    foreach (Function::EnumI, insts, fun) {
-      auto& inst = *insts.Get();
+    for (auto& inst: fun.instructions()) {
       if (auto const name_ref_inst = inst.DynamicCast<NameRefI>()) {
         name_refs.Push(name_ref_inst);
       } else {
@@ -79,10 +78,8 @@ void FinalizeMethodPass::FixFunction(MethodDef& method_def, Function& fun) {
   {
     DEBUG_FORMAT("=== Rewrite TypeVars in %s ===", fun);
     TypeVarRewriter rewriter(compile_session(), fun.module());
-    foreach (Function::EnumI, insts, fun) {
-      auto& inst = *insts.Get();
+    for (auto& inst: fun.instructions())
       rewriter.Rewrite(inst);
-    }
     rewriter.Finish();
   }
 

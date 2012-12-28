@@ -123,9 +123,8 @@ void ResolveMethodPass::InstallDefaultCtor(
   auto const pStartBB = fun.GetStartBB();
   pStartBB->AppendI(*new(module.zone()) RetI(*Void));
 
-  foreach (Function::EnumI, insts, fun) {
-    insts.Get()->set_source_info(source_info);
-  }
+  for (auto& inst: fun.instructions())
+    inst.set_source_info(source_info);
 
   method.SetFunction(fun);
 }

@@ -370,9 +370,8 @@ void Builder::SetUpMethodBody(Function& fun, MethodDef& method_def) {
           method_def.return_type(),
           *pPrologueI->output_type().StaticCast<ValuesType>()));
 
-  foreach (Function::EnumI, insts, fun) {
-    insts.Get()->set_source_info(source_info_);
-  }
+  for (auto& inst: fun.instructions())
+    inst.set_source_info(source_info_);
 }
 
 Builder& Builder::StartFunction(
@@ -381,9 +380,8 @@ Builder& Builder::StartFunction(
   const SourceInfo& source_info = outer->source_info();
   auto const builder = new Builder(outer, fun, source_info);
 
-  foreach (Function::EnumI, insts, fun) {
-    insts.Get()->set_source_info(source_info);
-  }
+  for (auto& inst: fun.instructions())
+    inst.set_source_info(source_info);
 
   return *builder;
 }

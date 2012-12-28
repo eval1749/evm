@@ -35,8 +35,7 @@ CallI* AbstractTaskTest::FindCall(const NameRefI& name_ref_inst) const {
 
 NameRefI* AbstractTaskTest::FindNameRef(
     const Method& method, const NameRef& name_ref) const {
-  foreach (Function::EnumI, insts, *method.GetFunction()) {
-    auto& inst = *insts.Get();
+  for (auto& inst: method.GetFunction()->instructions()) {
     if (auto const name_ref_inst = inst.DynamicCast<NameRefI>()) {
       if (name_ref_inst->op1() == name_ref) {
         return name_ref_inst;

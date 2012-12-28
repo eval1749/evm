@@ -1891,9 +1891,8 @@ class SubPassParallelCopy
   // [R]
   private: void Run(const Function& fun) {
     DEBUG_FORMAT("Process %s", fun);
-    foreach (Function::EnumI, oEnum, fun) {
-      oEnum.Get()->Apply(this);
-    }
+    for (auto& inst: fun.instructions())
+      inst.Apply(this);
   }
 
   // Instruction handlers
@@ -2149,13 +2148,12 @@ void RegAllocPass::ProcessFunction(Function& fun) {
   {
     DEBUG_FORMAT("Remove Useless %s", &fun);
     WorkList_<Instruction> useless_insts;
-    foreach (Function::EnumI, oEnum, &fun) {
-      auto const pI = oEnum.Get();
-      if (pI->IsUseless()) {
-        useless_insts.Push(pI);
+    for (auto& inst: fun.instructions()) {
+      if (inst.IsUseless()) {
+        useless_insts.Push(&inst);
 
-      } else if (pI->Is<CloseI>() || pI->Is<OpenInstruction>()) {
-        useless_insts.Push(pI);
+      } else if (inst.Is<CloseI>() || inst.Is<OpenInstruction>()) {
+        useless_insts.Push(&inst);
       }
     }
 

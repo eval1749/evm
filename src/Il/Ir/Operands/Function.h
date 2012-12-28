@@ -171,6 +171,47 @@ class Function :
   // InstructionRange is a wrapper class of OperandBox list range.
   public: class InstructionRange {
     public: class Iterator {
+      private: BBlock* bblock_;
+      private: Instruction* instruction_;
+      public: Iterator(BBlock* bblock, Instruction* instruction)
+          : bblock_(bblock), instruction_(instruction) {}
+      public: Instruction& operator*() const {
+        return *instruction_;
+      }
+      public: Instruction* operator->() const {
+        return instruction_;
+      }
+      public: bool operator==(const Iterator& another) const {
+        return bblock_ == another.bblock_
+               && instruction_ == another.instruction_;
+      }
+      public: bool operator!=(const Iterator& another) const {
+        return !operator==(another);
+      }
+      public: Iterator operator++() {
+        instruction_ = instruction_->GetNext();
+        while (!instruction_) {
+          bblock_ = bblock_->GetNext();
+          if (!bblock_)
+            break;
+          instruction_ = bblock_->GetFirstI();
+        }
+        return* this;
+      }
+    };
+    private: const Function* function_;
+    public: InstructionRange(const Function* function)
+        : function_(function) {}
+    public: Iterator begin() const {
+      return Iterator(function_->GetEntryBB(),
+                      function_->GetEntryBB()->GetFirstI());
+    }
+    public: Iterator end() const { return Iterator(nullptr, nullptr); }
+  };
+
+  // UserInstructionRange is a wrapper class of OperandBox list range.
+  public: class UserInstructionRange {
+    public: class Iterator {
       private: Users::Iterator iterator_;
       public: Iterator(const Users::Iterator& iterator)
           : iterator_(iterator) {}
@@ -189,7 +230,7 @@ class Function :
       }
     };
     private: const Users* users_;
-    public: InstructionRange(const Users& users) : users_(&users) {}
+    public: UserInstructionRange(const Users& users) : users_(&users) {}
     public: Iterator begin() const { return Iterator(users_->begin()); }
     public: Iterator end() const { return Iterator(users_->end()); }
   };
@@ -263,15 +304,19 @@ class Function :
     return *m_pFunctionType;
   }
 
+  public: InstructionRange instructions() const {
+    return InstructionRange(this);
+  }
+
   public: const Name& name() const { return name_; }
   public: void set_code_desc(Ee::CodeDesc&);
 
-  public: const InstructionRange upvardefs() const {
-    return InstructionRange(m_oUpVarDefs);
+  public: const UserInstructionRange upvardefs() const {
+    return UserInstructionRange(m_oUpVarDefs);
   }
 
-  public: const InstructionRange vardefs() const {
-    return InstructionRange(m_oVarDefs);
+  public: const UserInstructionRange vardefs() const {
+    return UserInstructionRange(m_oVarDefs);
   }
 
   public: VariableRange variables() const {

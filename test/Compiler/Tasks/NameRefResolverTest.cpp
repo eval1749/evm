@@ -22,8 +22,7 @@ class NameRefResolverTest : public AbstractTaskTest {
 
   protected: CallI* FindCallI(const Operand& operand) {
     auto const method_def = GetSampleMethodDef();
-    foreach (Function::EnumI, insts, method_def->function()) {
-      auto& inst = *insts.Get();
+    for (auto& inst: method_def->function()->instructions()) {
       if (auto const call_inst = inst.DynamicCast<CallI>()) {
         auto const args_inst = inst.op1().StaticCast<Values>()
             ->GetDefI()->DynamicCast<ValuesI>();
