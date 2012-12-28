@@ -90,8 +90,7 @@ void FinalizeMethodPass::FixFunction(MethodDef& method_def, Function& fun) {
     DEBUG_FORMAT("=== Update Variables in %s ===", fun);
 
     NormalizeTasklet normalizer(session(), fun.module());
-    foreach (Function::EnumVar, vars, fun) {
-      auto& var = *vars.Get();
+    for (auto& var: fun.variables()) {
       auto& origty = var.GetTy();
       auto& varty = origty.ComputeBoundType();
       DEBUG_FORMAT("var %s %s", var, origty);

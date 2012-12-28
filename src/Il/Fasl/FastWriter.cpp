@@ -503,8 +503,7 @@ void FastWriter::WriteMethod(const Method& method) {
     }
 
     // Varaibles for instruction operands
-    foreach (Function::EnumVar, vars, fun) {
-      const auto& var = *vars;
+    for (auto& var: fun.variables()) {
       WriteName(var.name());
       WriteFaslOp(FaslOp_Variable);
       Remember(var);

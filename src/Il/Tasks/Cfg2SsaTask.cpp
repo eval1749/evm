@@ -169,10 +169,9 @@ class InsertPhiTasklet : public Tasklet {
   public: void Run(Function* const pFun) {
     ASSERT(pFun != nullptr);
     DEBUG_FORMAT("Insert Phi to %s", pFun);
-    foreach (Function::EnumVar, oEnum, pFun) {
-      auto const pVar = oEnum.Get();
-      if (VarEx::Flag_None != pVar->GetFlag()) {
-        ProcessVar(pFun, pVar);
+    for (auto& var: pFun->variables()) {
+      if (VarEx::Flag_None != var.GetFlag()) {
+        ProcessVar(pFun, &var);
       }
     }
   }
@@ -199,13 +198,12 @@ class PrepareTasklet : public Tasklet {
 
     pFun->ComputeVarLiveness();
 
-    foreach (Function::EnumVar, oEnum, pFun) {
-      auto const pVar = oEnum.Get();
-      if (pVar->GetStorage() == Variable::Storage_Register) {
-        DEBUG_FORMAT("Live %s", pVar);
-        pVar->SetFlag(VarEx::Flag_Liveness);
+    for (auto& var: pFun->variables()) {
+      if (var.GetStorage() == Variable::Storage_Register) {
+        DEBUG_FORMAT("Live %s", var);
+        var.SetFlag(VarEx::Flag_Liveness);
       } else {
-        DEBUG_FORMAT("Skip %s", pVar);
+        DEBUG_FORMAT("Skip %s", var);
       }
     }
 
@@ -214,13 +212,12 @@ class PrepareTasklet : public Tasklet {
 
       DEBUG_FORMAT("Nonlocal %s", pBB);
 
-      foreach (Function::EnumVar, oEnum, pFun) {
-        auto const pVar = oEnum.Get();
-        if (pVar->GetFlag() == VarEx::Flag_Liveness) {
-          if (pBB->IsLiveIn(pVar->GetIndex())) {
-            pVar->SetStorage(Variable::Storage_Stack);
-            pVar->SetFlag(VarEx::Flag_None);
-            DEBUG_FORMAT("%s is nonlocal at %s", pVar, pBB);
+      for (auto& var: pFun->variables()) {
+        if (var.GetFlag() == VarEx::Flag_Liveness) {
+          if (pBB->IsLiveIn(var.GetIndex())) {
+            var.SetStorage(Variable::Storage_Stack);
+            var.SetFlag(VarEx::Flag_None);
+            DEBUG_FORMAT("%s is nonlocal at %s", var, pBB);
           }
         }
       }
@@ -230,26 +227,24 @@ class PrepareTasklet : public Tasklet {
   private: void ComputeSemiPrune(Function* const pFun) {
     DEBUG_FORMAT("Compute Semi-Prune Liveness %s", pFun);
 
-    foreach (Function::EnumVar, oEnum, pFun) {
-      auto const pVar = oEnum.Get();
-
-      if (pVar->GetStorage() != Variable::Storage_Register) {
-        DEBUG_FORMAT("Skip %s", pVar);
+    for (auto& var: pFun->variables()) {
+      if (var.GetStorage() != Variable::Storage_Register) {
+        DEBUG_FORMAT("Skip %s", var);
         continue;
       }
 
-      if (auto const pDefI = pVar->GetDefI()) {
+      if (auto const pDefI = var.GetDefI()) {
         auto const pDefBB = pDefI->GetBBlock();
-        foreach (Register::EnumUser, oEnum, pVar->GetRd()) {
+        foreach (Register::EnumUser, oEnum, var.GetRd()) {
           auto const pUseI = oEnum.GetI();
           if (pUseI->GetBBlock() != pDefBB) {
-            DEBUG_FORMAT("Global %s", pVar);
-            pVar->SetFlag(VarEx::Flag_Global);
+            DEBUG_FORMAT("Global %s", var);
+            var.SetFlag(VarEx::Flag_Global);
             break;
           }
         }
       } else {
-        DEBUG_FORMAT("Skip %s", pVar);
+        DEBUG_FORMAT("Skip %s", var);
       }
     }
   }
@@ -260,20 +255,18 @@ class PrepareTasklet : public Tasklet {
     DEBUG_FORMAT("Select SSA Flavor %s", pFun);
     auto nIndex = 0;
 
-    foreach (Function::EnumVar, oEnum, pFun) {
-      auto const pVar = oEnum.Get();
-
+    for (auto& var: pFun->variables()) {
       // Make sure later sub pass doesn't see Flag_Liveness.
-      pVar->SetFlag(VarEx::Flag_None);
-      pVar->SetWork(nullptr);
+      var.SetFlag(VarEx::Flag_None);
+      var.SetWork(nullptr);
 
-      if (!pVar->GetDefI()) {
+      if (!var.GetDefI()) {
         continue;
       }
 
-      if (pVar->GetStorage() == Variable::Storage_Register) {
-        pVar->SetFlag(VarEx::Flag_Local);
-        pVar->SetIndex(nIndex);
+      if (var.GetStorage() == Variable::Storage_Register) {
+        var.SetFlag(VarEx::Flag_Local);
+        var.SetIndex(nIndex);
         nIndex += 1;
       }
     }
@@ -516,10 +509,9 @@ void Cfg2SsaTask::ProcessFunction(Function& fn) {
     }
   }
 
-  foreach (Function::EnumVar, oEnum, pFun) {
-    auto const pVar = oEnum.Get();
-    pVar->SetFlag(0);
-    pVar->SetWork(nullptr);
+  for (auto& var: pFun->variables()) {
+    var.SetFlag(0);
+    var.SetWork(nullptr);
   }
 }
 

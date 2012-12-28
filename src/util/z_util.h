@@ -57,6 +57,7 @@ class DoubleLinkedList_ {
     public: Iterator(Item_* item) : item_(item) {}
 
     public: Item_& operator*() const { return *item_; }
+    public: Item_* operator->() const { return item_; }
 
     public: bool operator ==(const Iterator& another) const {
       return item_ == another.item_;
@@ -77,7 +78,8 @@ class DoubleLinkedList_ {
     private: Item_* item_;
     public: ReverseIterator(Item_* item) : item_(item) {}
 
-    public: Item_& operator*() const { return *item_; }
+    public: const Item_& operator*() const { return *item_; }
+    public: const Item_* operator->() const { return item_; }
 
     public: bool operator ==(const ReverseIterator& another) const {
       return item_ == another.item_;

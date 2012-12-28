@@ -207,9 +207,10 @@ class VarStorageTask : public Tasklet {
   // [R]
   public: void Run(Module& module) {
       for (auto& fun: module.functions()) {
-          foreach (Function::EnumVar, oEnum, fun) {
-              auto const pVar = oEnum.Get()->Extend<VarEx>();
-              RewriteSlots(pVar, oEnum.GetI());
+          for (auto& vardef: fun.vardefs()) {
+              auto const varex  = vardef.op0().StaticCast<Variable>()
+                  ->Extend<VarEx>();
+              RewriteSlots(varex, &vardef);
           } // for each var
 
           foreach (Function::EnumUpVar, oEnum, fun) {
@@ -244,8 +245,8 @@ class VarUsageTask : public Tasklet {
   private: void ProcessFun(Function* const pFun) {
       DEBUG_FORMAT("Process %s", pFun);
 
-      foreach (Function::EnumVar, oEnum, pFun) {
-          auto const pVar = oEnum.Get()->Extend<VarEx>();
+      for (auto& var: pFun->variables()) {
+          auto const pVar = var.Extend<VarEx>();
           ComputeUsage(pVar, pVar->GetRd());
       } // for each var
 
@@ -275,8 +276,8 @@ class VarUsageTask : public Tasklet {
   // [R]
   public: void Run(Module& module) {
       for (auto& fun: module.functions()) {
-          foreach (Function::EnumVar, oEnum, fun) {
-              auto const pVar = oEnum.Get()->Extend<VarEx>();
+          for (auto& var: fun.variables()) {
+              auto const pVar = var.Extend<VarEx>();
               pVar->ResetUsage();
           } // for eah var
       } // for each fun
@@ -298,10 +299,9 @@ ClosureTask::ClosureTask(Session& session, Module& module)
 // [P]
 void ClosureTask::ProcessFunction(Function& fn) {
   auto const pFun = &fn;
-  foreach (Function::EnumVar, oEnum, pFun) {
-      auto const pVar = oEnum.Get();
-      pVar->SetFlag(0);
-      pVar->SetWork(nullptr);
+  for (auto& var: pFun->variables()) {
+      var.SetFlag(0);
+      var.SetWork(nullptr);
   } // for var
 } // ProcessFunction
 

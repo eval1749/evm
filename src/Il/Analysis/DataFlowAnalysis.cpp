@@ -192,9 +192,8 @@ class VarLiveness {
   // Entry Point
   public: static void Run(Function& fun) {
     uint cVars = 0;
-    foreach (Function::EnumVar, oEnum, fun) {
-      auto const pVar = oEnum.Get();
-      pVar->SetIndex(cVars);
+    for (auto& var: fun.variables()) {
+      var.SetIndex(cVars);
       cVars += 1;
     }
 

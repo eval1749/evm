@@ -186,22 +186,6 @@ class Function :
     }
   };
 
-  public: class EnumVar : public Users::Enum {
-    public: EnumVar(const Function& r) : Users::Enum(&r.m_oVarDefs) {}
-    public: EnumVar(const Function* p) : Users::Enum(&p->m_oVarDefs) {}
-    public: Variable& operator*() const { return *Get(); }
-
-    public: Variable* Get() const {
-      ASSERT(!AtEnd());
-      return GetI()->GetSx()->StaticCast<Variable>();
-    }
-
-    public: Instruction* GetI() const {
-      ASSERT(!AtEnd());
-      return Users::Enum::Get()->GetI();
-    }
-  };
-
   // TODO(yosi) 2012-01-29 Do we still use Flag_DynamicExtent?
   public: enum Flag { 
     Flag_DynamicExtent  = 1 << 0,
@@ -213,6 +197,58 @@ class Function :
     Flavor_Named,
     Flavor_Template,
     Flavor_Toplevel,
+  };
+
+  // InstructionRange is a wrapper class of OperandBox list range.
+  public: class InstructionRange {
+    public: class Iterator {
+      private: Users::Iterator iterator_;
+      public: Iterator(const Users::Iterator& iterator)
+          : iterator_(iterator) {}
+      public: Instruction& operator*() const {
+        return iterator_->instruction();
+      }
+      public: bool operator==(const Iterator& another) const {
+        return iterator_ == another.iterator_;
+      }
+      public: bool operator!=(const Iterator& another) const {
+        return !operator==(another);
+      }
+      public: Iterator operator++() {
+        ++iterator_;
+        return* this;
+      }
+    };
+    private: const Users* users_;
+    public: InstructionRange(const Users& users) : users_(&users) {}
+    public: Iterator begin() const { return Iterator(users_->begin()); }
+    public: Iterator end() const { return Iterator(users_->end()); }
+  };
+
+  // VariableRange is a wrapper class of OperandBox list range.
+  public: class VariableRange {
+    public: class Iterator {
+      private: Users::Iterator iterator_;
+      public: Iterator(const Users::Iterator& iterator)
+          : iterator_(iterator) {}
+      public: Variable& operator*() const {
+        return *iterator_->instruction().op0().StaticCast<Variable>();
+      }
+      public: bool operator==(const Iterator& another) const {
+        return iterator_ == another.iterator_;
+      }
+      public: bool operator!=(const Iterator& another) const {
+        return !operator==(another);
+      }
+      public: Iterator operator++() {
+        ++iterator_;
+        return* this;
+      }
+    };
+    private: const Users* users_;
+    public: VariableRange(const Users& users) : users_(&users) {}
+    public: Iterator begin() const { return Iterator(users_->begin()); }
+    public: Iterator end() const { return Iterator(users_->end()); }
   };
 
   private: Flavor flavor_;
@@ -260,6 +296,14 @@ class Function :
 
   public: const Name& name() const { return name_; }
   public: void set_code_desc(Ee::CodeDesc&);
+
+  public: const InstructionRange vardefs() const {
+    return InstructionRange(m_oVarDefs);
+  }
+
+  public: VariableRange variables() const {
+    return VariableRange(m_oVarDefs);
+  }
 
   // [A]
   public: FrameReg* AddFrameReg(FrameReg*);
