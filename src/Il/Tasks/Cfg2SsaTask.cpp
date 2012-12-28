@@ -325,8 +325,7 @@ class RenameTasklet :
     auto const pVarDefI = pRcell->GetDefI()->DynamicCast<VarDefI>();
     if (!pVarDefI) return nullptr;
 
-    return pVarDefI->GetSx()->StaticCast<Variable>()
-        ->GetWork<RenameWork>();
+    return pVarDefI->variable().GetWork<RenameWork>();
   }
 
   // [P]
@@ -375,16 +374,16 @@ class RenameTasklet :
   }
 
   public: void Process(VarDefI* const pI) {
-    auto const pVar = pI->GetSx()->StaticCast<Variable>();
+    auto& var = pI->variable();
 
-    if (pVar->Extend<VarEx>()->GetFlag() == VarEx::Flag_None) {
+    if (var.Extend<VarEx>()->GetFlag() == VarEx::Flag_None) {
       return;
     }
 
     DEBUG_FORMAT("Process %s", pI);
 
     auto const pRenameWork = new(this) RenameWork;
-    pVar->SetWork(pRenameWork);
+    var.SetWork(pRenameWork);
 
     normalizer_.Add(pI);
     normalizer_.Add(pI->GetRd());

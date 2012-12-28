@@ -229,8 +229,7 @@ class VarLiveness {
           bblock.SetKill(pVar->GetIndex());
         }
       } else if (pI->Is<VarDefI>()) {
-        Variable* const pVar = pI->GetSx()->StaticCast<Variable>();
-        bblock.SetKill(pVar->GetIndex());
+        bblock.SetKill(pI->variable().GetIndex());
       }
     }
   }
@@ -252,7 +251,7 @@ class VarLiveness {
         return nullptr;
     }
 
-    return pVarDefI->GetSx()->StaticCast<Variable>();
+    return &pVarDefI->variable();
   }
 
   private: static void MarkUse(DataFlowBB& bblock, Variable* const pVar) {

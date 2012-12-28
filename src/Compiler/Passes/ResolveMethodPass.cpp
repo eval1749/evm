@@ -248,7 +248,7 @@ void ResolveMethodPass::Process(MethodDef* const method_def_ptr) {
 
   for (auto& fun: method_def.module().functions()) {
     for (auto& upvardef: fun.upvardefs()) {
-      auto& upvar = *upvardef.op0().StaticCast<Variable>();
+      auto& upvar = upvardef.variable();
       auto& outy = upvar.GetDefI()->output_type();
       DEBUG_FORMAT("Resolve %s => %s", upvardef, outy);
       upvardef.set_output_type(outy);

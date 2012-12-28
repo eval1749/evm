@@ -87,7 +87,7 @@ class FunUsageTask : public Tasklet {
       while (!oFuns.IsEmpty()) {
           auto const pFun = oFuns.Pop();
           for (auto& upvardef: pFun->upvardefs()) {
-              auto& var = *upvardef.op0().StaticCast<Variable>();
+              auto& var = upvardef.variable();
               if (!var.IsInList()) {
                   oUpVars.Push(&var);
               }
@@ -107,8 +107,7 @@ class FunUsageTask : public Tasklet {
           // Mark closed variable. from inner functions.
           if (pFun->IsClosure()) {
               for (auto& upvardef: pFun->upvardefs()) {
-                  auto& var = *upvardef.op0().StaticCast<Variable>()
-                      ->Extend<VarEx>();
+                  auto& var = *upvardef.variable().Extend<VarEx>();
                   if (VarEx::Storage_Stack == var.GetStorage()) {
                       if (var.GetUsage() & VarEx::Usage_Write) {
                           DEBUG_FORMAT("Closed %s", var);
@@ -209,14 +208,12 @@ class VarStorageTask : public Tasklet {
   public: void Run(Module& module) {
       for (auto& fun: module.functions()) {
           for (auto& vardef: fun.vardefs()) {
-              auto const varex  = vardef.op0().StaticCast<Variable>()
-                  ->Extend<VarEx>();
+              auto const varex  = vardef.variable().Extend<VarEx>();
               RewriteSlots(varex, &vardef);
           } // for each var
 
           for (auto& upvardef: fun.upvardefs()) {
-              auto& var = *upvardef.op0().StaticCast<Variable>()
-                  ->Extend<VarEx>();
+              auto& var = *upvardef.variable().Extend<VarEx>();
               RewriteSlots(&var, &upvardef);
           } // for each upvar
       } // for each fun
@@ -255,7 +252,7 @@ class VarUsageTask : public Tasklet {
       auto fClosure = pFun->IsClosure();
 
       for (auto& upvardef: pFun->upvardefs()) {
-          auto& var = *upvardef.op0().StaticCast<Variable>()->Extend<VarEx>();
+          auto& var = *upvardef.variable().Extend<VarEx>();
           ComputeUsage(&var, upvardef.GetQd());
 
           if (fClosure) {

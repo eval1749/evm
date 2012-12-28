@@ -42,6 +42,10 @@ void Instruction::set_output(const Output& out) {
   }
 }
 
+Variable& Instruction::variable() const {
+  return *op0().StaticCast<Variable>();
+}
+
 // [A]
 void Instruction::AppendOperand(const Operand& operand) {
   AppendOperand(new OperandBox(&operand));

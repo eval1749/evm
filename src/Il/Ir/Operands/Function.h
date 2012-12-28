@@ -218,7 +218,7 @@ class Function :
       public: Iterator(const Users::Iterator& iterator)
           : iterator_(iterator) {}
       public: Variable& operator*() const {
-        return *iterator_->instruction().op0().StaticCast<Variable>();
+        return iterator_->instruction().variable();
       }
       public: bool operator==(const Iterator& another) const {
         return iterator_ == another.iterator_;

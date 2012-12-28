@@ -503,22 +503,22 @@ class X86Assembler :
     #endif
 
     if (pI->Is<UpVarRefI>()) {
-      auto const pVar = pI->GetSy()->StaticCast<PseudoOutput>()->
-          GetDefI()->GetSx()->StaticCast<Variable>();
+      auto& var = pI->GetSy()->StaticCast<PseudoOutput>()->
+          GetDefI()->variable();
 
       auto const rb = mapGpr(pI->GetSx());
       if (rb == $sp) {
         auto const ofs = ComputeFixedPathOffset(
             pI->GetBB()->GetFunction(),
-            pVar);
+            &var);
         return Ea($sp, ofs);
       }
 
       if (static_cast<Reg>(0) != rb) {
-        if (!pVar->HasLocation()) {
-          INTERNAL_ERROR("%s should be allocated.", *pVar);
+        if (!var.HasLocation()) {
+          INTERNAL_ERROR("%s should be allocated.", var);
         }
-        return Ea(rb, pVar->GetLocation());
+        return Ea(rb, var.GetLocation());
       }
 
       INTERNAL_ERROR("GetEa: UpVarRef base access: %s", *pI);
@@ -1636,15 +1636,15 @@ DefProcI_(UpVarBase) {
 }
 
 DefProcI_(VarDef) {
-  auto const pVar = pI->GetSx()->StaticCast<Variable>();
+  auto& var = pI->variable();
 
-  switch (pVar->GetStorage()) {
+  switch (var.GetStorage()) {
   case Variable::Storage_Closed:
   case Variable::Storage_Literal:
       break;
 
   case Variable::Storage_Stack:
-      if (!pVar->HasLocation()) {
+      if (!var.HasLocation()) {
           INTERNAL_ERROR("VarDef: Variable isn't allocated: %s", *pI);
       }
       break;
@@ -1658,16 +1658,16 @@ DefProcI_(VarDef) {
 
 DefProcI_(VarRef) {
   VarDefI const* pVarDefI = pI->GetQx()->GetDefI()->StaticCast<VarDefI>();
-  Variable* const pVar = pVarDefI->GetSx()->StaticCast<Variable>();
-  ASSERT(Variable::Storage_Stack == pVar->GetStorage());
+  auto& var = pVarDefI->variable();
+  ASSERT(Variable::Storage_Stack == var.GetStorage());
 
-  if (!pVar->HasLocation()) {
+  if (!var.HasLocation()) {
       COMPILER_INTERNAL_ERROR();
       return;
   }
 
   emitOp(op_LEA_Gv_M);
-  Ea oEa($sp, pVar->GetLocation());
+  Ea oEa($sp, var.GetLocation());
   emitEa(&oEa, mapGpr(pI->GetOutput()));
 }
 

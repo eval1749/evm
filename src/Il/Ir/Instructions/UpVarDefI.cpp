@@ -28,7 +28,7 @@ bool UpVarDefI::IsUseless() const {
         return true;
     }
 
-    if (this->GetSx()->StaticCast<Variable>()->m_cUpRefs) {
+    if (variable().m_cUpRefs) {
         return false;
     }
 

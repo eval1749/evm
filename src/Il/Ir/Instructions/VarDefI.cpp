@@ -30,7 +30,7 @@ VarDefI::VarDefI(
 }
 
 bool VarDefI::IsUseless() const {
- if (op0().StaticCast<Variable>()->m_cUpRefs) {
+ if (variable().m_cUpRefs) {
    return false;
  }
 

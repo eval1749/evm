@@ -109,6 +109,7 @@ class Instruction
   public: Operand& op0() const { return *GetSx(); }
   public: Operand& op1() const { return *GetSy(); }
   public: Operand& op2() const { return *GetSz(); }
+  public: Variable& variable() const;
 
   // [A]
   public: void AppendOperand(const Operand&);
