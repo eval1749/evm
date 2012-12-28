@@ -70,33 +70,30 @@ TypeVar::TypeVar() :
 const Type& TypeVar::And(const Type& type) {
   Type::Set tyset;
   if (auto const tyvar = type.DynamicCast<TypeVar>()) {
-    foreach (Type::List::Enum, as, types_) {
-      auto& a = *as.Get();
-      ASSERT(!a.Is<TypeVar>());
-      foreach (Type::List::Enum, bs, tyvar->types_) {
-        auto& b = *bs.Get();
-        ASSERT(!b.Is<TypeVar>());
-        auto& c = TypeAnd(a, b);
+    for (auto const a: types_) {
+      ASSERT(!a->Is<TypeVar>());
+      for (auto& b: tyvar->types_) {
+        ASSERT(!b->Is<TypeVar>());
+        auto& c = TypeAnd(*a, *b);
         if (c == *Ty_Object) {
-          tyset.Add(&a);
-          tyset.Add(&b);
+          tyset.Add(a);
+          tyset.Add(b);
         } else if (c != *Ty_Void) {
           tyset.Add(&c);
         }
       }
     }
   } else {
-    foreach (Type::List::Enum, types, types_) {
-      auto& a = *types.Get();
-      ASSERT(!a.Is<TypeVar>());
-      auto& b = type;
-      ASSERT(!b.Is<TypeVar>());
-      auto& c = TypeAnd(a, b);
-        if (c == *Ty_Object) {
-          tyset.Add(&a);
-          tyset.Add(&b);
-        } else if (c != *Ty_Void) {
-          tyset.Add(&c);
+    for (auto const a: types_) {
+      ASSERT(!a->Is<TypeVar>());
+      auto const b = &type;
+      ASSERT(!b->Is<TypeVar>());
+      auto const c = &TypeAnd(*a, *b);
+        if (c == Ty_Object) {
+          tyset.Add(a);
+          tyset.Add(b);
+        } else if (c != Ty_Void) {
+          tyset.Add(c);
         }
     }
   }
@@ -166,10 +163,9 @@ const Type& TypeVar::Or(const Type& type) {
   }
 
   if (auto const tyvar = type.DynamicCast<TypeVar>()) {
-    foreach (Type::List::Enum, types, tyvar->types_) {
-      auto& ty = *types.Get();
-      ASSERT(!ty.Is<TypeVar>());
-      Or(ty);
+    for (auto const ty: tyvar->types_) {
+      ASSERT(!ty->Is<TypeVar>());
+      Or(*ty);
     }
     return *this;
   }
@@ -177,23 +173,22 @@ const Type& TypeVar::Or(const Type& type) {
   Type::List cur_types(types_);
   types_.Clear();
   Type::Set tyset;
-  foreach (Type::List::Enum, types, cur_types) {
-    auto& curty = *types.Get();
-    auto& orty = TypeOr(curty, type);
-    if (orty == *Ty_Void) {
+  for (auto const curty: cur_types) {
+    auto const orty = &TypeOr(*curty, type);
+    if (orty == Ty_Void) {
       if (!tyset.Contains(&type)) {
         tyset.Add(&type);
         types_.Add(&type);
       }
 
-      if (!tyset.Contains(&curty)) {
-        tyset.Add(&curty);
-        types_.Add(&curty);
+      if (!tyset.Contains(curty)) {
+        tyset.Add(curty);
+        types_.Add(curty);
       }
-    
-    } else if (!tyset.Contains(&orty)) {
-      tyset.Add(&orty);
-      types_.Add(&orty);
+
+    } else if (!tyset.Contains(orty)) {
+      tyset.Add(orty);
+      types_.Add(orty);
     }
   }
   return *this;
