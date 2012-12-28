@@ -62,14 +62,6 @@ class Function :
     }
   };
 
-  public: class EnumFrameReg : public FrameReg::List::Enum {
-    public: EnumFrameReg(const Function& r)
-        : FrameReg::List::Enum(&r.m_oFrameRegs) {}
-
-    public: EnumFrameReg(const Function* p)
-        : FrameReg::List::Enum(&p->m_oFrameRegs) {}
-  };
-
   public: class EnumI {
     private: BBlock* bblock_;
     private: Instruction* instruction_;
@@ -245,7 +237,7 @@ class Function :
   private: Function* const m_pOuter;
 
   private: Users m_oCalls;
-  private: FrameReg::List m_oFrameRegs;
+  private: FrameReg::List frame_regs_;
   private: Users users_;
   private: Users m_oUpVarDefs;
   private: Users m_oVarDefs;
@@ -339,7 +331,7 @@ class Function :
   // [R]
   public: virtual void Realize(OperandBox* const) override;
   public: void RemoveBBlock(BBlock&);
-  public: void RemoveFrameReg(FrameReg* p) { m_oFrameRegs.Delete(p); }
+  public: void RemoveFrameReg(FrameReg* p) { frame_regs_.Delete(p); }
 
   // [S]
   public: Flavor SetFlavor(Flavor const e)  { return flavor_ = e; }

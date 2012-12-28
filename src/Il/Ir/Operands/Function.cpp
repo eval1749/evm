@@ -39,7 +39,7 @@ void Function::set_code_desc(Ee::CodeDesc& r) {
 
 // [A]
 FrameReg* Function::AddFrameReg(FrameReg* const p) {
-  return m_oFrameRegs.Append(p);
+  return frame_regs_.Append(p);
 }
 
 void Function::AppendBBlock(BBlock* const pBBlock) {
@@ -103,23 +103,17 @@ BBlock* Function::GetStartBB() const {
 ///   Returns true if this function has nonlocal exit point
 /// </summary>
 bool Function::HasNonLocalExitPoint() const {
-  foreach (EnumFrameReg, oEnum, this) {
-      auto const pFd = oEnum.Get();
-
-      auto const pOpenI = pFd->GetDefI();
-      if (pOpenI == nullptr) {
-          continue;
-      }
-
-      if (pOpenI->Is<OpenExitPointInstruction>()) {
-          if (!pOpenI->IsUseless()) {
-              return true;
-          }
-      }
-  } // for each frame
-
+  for (auto& frame_reg: frame_regs_) {
+    auto const pOpenI = frame_reg.GetDefI();
+    if (!pOpenI)
+      continue;
+    if (pOpenI->Is<OpenExitPointInstruction>()) {
+      if (!pOpenI->IsUseless())
+        return true;
+    }
+  }
   return false;
-} // HasNonLocalExitPoint
+}
 
 bool Function::HasUpVar() const {
   return !m_oUpVarDefs.IsEmpty();
