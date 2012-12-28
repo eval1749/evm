@@ -121,11 +121,9 @@ bool Function::HasNonLocalExitPoint() const {
   return false;
 } // HasNonLocalExitPoint
 
-bool Function::HasUpVar() const
-{
-  EnumUpVar oEnumUpVar(this);
-  return !oEnumUpVar.AtEnd();
-} // HasUpvar
+bool Function::HasUpVar() const {
+  return !m_oUpVarDefs.IsEmpty();
+}
 
 bool Function::HasUseSite() const {
   foreach (EnumUser, oEnum, this) {

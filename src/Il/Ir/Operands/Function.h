@@ -172,20 +172,6 @@ class Function :
     }
   };
 
-  public: class EnumUpVar : public Users::Enum {
-    public: EnumUpVar(const Function& r) : Users::Enum(&r.m_oUpVarDefs) {}
-    public: EnumUpVar(const Function* p) : Users::Enum(&p->m_oUpVarDefs) {}
-
-    public: Variable* Get() const {
-      ASSERT(!AtEnd());
-      return GetI()->GetSx()->StaticCast<Variable>();
-    }
-
-    public: Instruction* GetI() const {
-      ASSERT(!AtEnd()); return Users::Enum::Get()->GetI();
-    }
-  };
-
   // TODO(yosi) 2012-01-29 Do we still use Flag_DynamicExtent?
   public: enum Flag { 
     Flag_DynamicExtent  = 1 << 0,
@@ -296,6 +282,10 @@ class Function :
 
   public: const Name& name() const { return name_; }
   public: void set_code_desc(Ee::CodeDesc&);
+
+  public: const InstructionRange upvardefs() const {
+    return InstructionRange(m_oUpVarDefs);
+  }
 
   public: const InstructionRange vardefs() const {
     return InstructionRange(m_oVarDefs);

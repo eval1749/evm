@@ -247,12 +247,11 @@ void ResolveMethodPass::Process(MethodDef* const method_def_ptr) {
   }
 
   for (auto& fun: method_def.module().functions()) {
-    foreach (Function::EnumUpVar, upvars, fun) {
-      auto const upvar = upvars.Get();
-      auto const upvarI = upvars.GetI();
-      auto& outy = upvar->GetDefI()->output_type();
-      DEBUG_FORMAT("Resolve %s => %s", upvarI, outy);
-      upvarI->set_output_type(outy);
+    for (auto& upvardef: fun.upvardefs()) {
+      auto& upvar = *upvardef.op0().StaticCast<Variable>();
+      auto& outy = upvar.GetDefI()->output_type();
+      DEBUG_FORMAT("Resolve %s => %s", upvardef, outy);
+      upvardef.set_output_type(outy);
     }
   }
 

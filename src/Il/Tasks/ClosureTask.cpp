@@ -86,10 +86,10 @@ class FunUsageTask : public Tasklet {
       WorkList_<Variable> oUpVars;
       while (!oFuns.IsEmpty()) {
           auto const pFun = oFuns.Pop();
-          foreach (Function::EnumUpVar, oEnum, pFun) {
-              auto const pVar = oEnum.Get();
-              if (!pVar->IsInList()) {
-                  oUpVars.Push(pVar);
+          for (auto& upvardef: pFun->upvardefs()) {
+              auto& var = *upvardef.op0().StaticCast<Variable>();
+              if (!var.IsInList()) {
+                  oUpVars.Push(&var);
               }
           } // for each upvar
       } // while
@@ -106,16 +106,17 @@ class FunUsageTask : public Tasklet {
 
           // Mark closed variable. from inner functions.
           if (pFun->IsClosure()) {
-              foreach (Function::EnumUpVar, oEnum, pFun) {
-                  auto const pVar = oEnum.Get()->Extend<VarEx>();
-                  if (VarEx::Storage_Stack == pVar->GetStorage()) {
-                      if (pVar->GetUsage() & VarEx::Usage_Write) {
-                          DEBUG_FORMAT("Closed %s", pVar);
-                          pVar->SetStorage(VarEx::Storage_Closed);
+              for (auto& upvardef: pFun->upvardefs()) {
+                  auto& var = *upvardef.op0().StaticCast<Variable>()
+                      ->Extend<VarEx>();
+                  if (VarEx::Storage_Stack == var.GetStorage()) {
+                      if (var.GetUsage() & VarEx::Usage_Write) {
+                          DEBUG_FORMAT("Closed %s", var);
+                          var.SetStorage(VarEx::Storage_Closed);
 
                       } else {
-                          DEBUG_FORMAT("Literal %s", pVar);
-                          pVar->SetStorage(VarEx::Storage_Literal);
+                          DEBUG_FORMAT("Literal %s", var);
+                          var.SetStorage(VarEx::Storage_Literal);
                       } // if
                   } // if
               } // for
@@ -213,9 +214,10 @@ class VarStorageTask : public Tasklet {
               RewriteSlots(varex, &vardef);
           } // for each var
 
-          foreach (Function::EnumUpVar, oEnum, fun) {
-              auto const pVar = oEnum.Get()->Extend<VarEx>();
-              RewriteSlots(pVar, oEnum.GetI());
+          for (auto& upvardef: fun.upvardefs()) {
+              auto& var = *upvardef.op0().StaticCast<Variable>()
+                  ->Extend<VarEx>();
+              RewriteSlots(&var, &upvardef);
           } // for each upvar
       } // for each fun
   } // Run
@@ -252,23 +254,23 @@ class VarUsageTask : public Tasklet {
 
       auto fClosure = pFun->IsClosure();
 
-      foreach (Function::EnumUpVar, oEnum, pFun) {
-          auto const pVar = oEnum.Get()->Extend<VarEx>();
-          ComputeUsage(pVar, oEnum.GetI()->GetQd());
+      for (auto& upvardef: pFun->upvardefs()) {
+          auto& var = *upvardef.op0().StaticCast<Variable>()->Extend<VarEx>();
+          ComputeUsage(&var, upvardef.GetQd());
 
           if (fClosure) {
-              if (pVar->GetUsage() & VarEx::Usage_Write) {
-                  DEBUG_FORMAT("Closed %s", pVar);
-                  pVar->SetStorage(VarEx::Storage_Closed);
+              if (var.GetUsage() & VarEx::Usage_Write) {
+                  DEBUG_FORMAT("Closed %s", var);
+                  var.SetStorage(VarEx::Storage_Closed);
 
               } else {
-                  DEBUG_FORMAT("Literal %s", pVar);
-                  pVar->SetStorage(VarEx::Storage_Literal);
+                  DEBUG_FORMAT("Literal %s", var);
+                  var.SetStorage(VarEx::Storage_Literal);
               }
 
-          } else if (VarEx::Storage_Register == pVar->GetStorage()) {
-              DEBUG_FORMAT("Stack %s", pVar);
-              pVar->SetStorage(VarEx::Storage_Stack);
+          } else if (VarEx::Storage_Register == var.GetStorage()) {
+              DEBUG_FORMAT("Stack %s", var);
+              var.SetStorage(VarEx::Storage_Stack);
           }
       } // for each var
   } // processFun
