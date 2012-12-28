@@ -30,10 +30,8 @@ class MockFunctor : public X86Functor {
   }
 
   private: virtual void Process(Instruction* inst) override {
-    foreach (Instruction::EnumOperand, operands, inst) {
-      auto const operand = operands.Get();
-      operand->Apply(this);
-    }
+    for (auto& operand: inst->operands())
+      operand.Apply(this);
 
     X86Functor::Process(inst);
   }

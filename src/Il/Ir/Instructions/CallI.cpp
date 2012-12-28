@@ -27,7 +27,7 @@ CallI::CallI(
   : Base(outy, output),
     m_pFrameReg(nullptr) {
   if (auto const fn = callee.DynamicCast<Function>()) {
-    AppendOperand(new FunctionOperandBox(fn));
+    AppendOperandBox(new FunctionOperandBox(fn));
   } else {
     AppendOperand(callee);
   }

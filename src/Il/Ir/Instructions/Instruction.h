@@ -71,23 +71,67 @@ class Instruction
 
   private: typedef ChildList_<OperandBox, Instruction> OperandBoxes;
 
-  public: class EnumOperand : public OperandBoxes::Enum {
-    private: typedef OperandBoxes::Enum Base;
-
-    public: EnumOperand(const Instruction&r )
-        : Base(static_cast<const OperandBoxes*>(&r)) {}
-
-    public: EnumOperand(const Instruction* p)
-        : Base(static_cast<const OperandBoxes*>(p)) {}
-
-    public: Operand& operator*() const { return *Get(); }
-    public: Operand* Get() const { return GetBox()->GetOperand(); }
-
-    public: Register* GetRx() const {
-      return Get()->DynamicCast<Register>();
+  // OperandRange is a wrapper class on OperandBoxes.
+  public: class OperandRange {
+    public: class Iterator {
+      private: OperandBoxes::Iterator iterator_;
+      public: Iterator(const OperandBoxes::Iterator& iterator)
+          : iterator_(iterator) {}
+      public: Operand& operator*() const {
+        return iterator_->operand();
+      }
+      public: Operand* operator->() const {
+        return &iterator_->operand();
+      }
+      public: bool operator==(const Iterator& another) const {
+        return iterator_ == another.iterator_;
+      }
+      public: bool operator!=(const Iterator& another) const {
+        return !operator==(another);
+      }
+      public: Iterator operator++() {
+        ++iterator_;
+        return* this;
+      }
+    };
+    private: const OperandBoxes* operand_boxes_;
+    public: OperandRange(const OperandBoxes& operand_boxes)
+        : operand_boxes_(&operand_boxes) {}
+    public: Iterator begin() const {
+      return Iterator(operand_boxes_->begin());
     }
+    public: Iterator end() const { return Iterator(operand_boxes_->end()); }
+  };
 
-    public: OperandBox* GetBox() const { return Base::Get(); }
+  public: template<class T> class OperandBoxRange_ {
+    public: class Iterator {
+      private: OperandBoxes::Iterator iterator_;
+      public: Iterator(const OperandBoxes::Iterator& iterator)
+          : iterator_(iterator) {}
+      public: T& operator*() const {
+        return *iterator_->StaticCast<T>();
+      }
+      public: T* operator->() const {
+        return iterator_->StaticCast<T>();
+      }
+      public: bool operator==(const Iterator& another) const {
+        return iterator_ == another.iterator_;
+      }
+      public: bool operator!=(const Iterator& another) const {
+        return !operator==(another);
+      }
+      public: Iterator operator++() {
+        ++iterator_;
+        return* this;
+      }
+    };
+    private: const OperandBoxes* operand_boxes_;
+    public: OperandBoxRange_(const OperandBoxes& operand_boxes)
+        : operand_boxes_(&operand_boxes) {}
+    public: Iterator begin() const {
+      return Iterator(operand_boxes_->begin());
+    }
+    public: Iterator end() const { return Iterator(operand_boxes_->end()); }
   };
 
   protected: Op const opcode_;
@@ -109,14 +153,18 @@ class Instruction
   public: Operand& op0() const { return *GetSx(); }
   public: Operand& op1() const { return *GetSy(); }
   public: Operand& op2() const { return *GetSz(); }
+
+  public: const OperandBoxes& operand_boxes() const {
+    return static_cast<const OperandBoxes&>(*this);
+  }
+
+  public: OperandRange operands() const { return OperandRange(*this); }
   public: Variable& variable() const;
 
   // [A]
   public: void AppendOperand(const Operand&);
-  public: void AppendOperand(OperandBox& r) { AppendOperand(&r); }
-
   public: void AppendOperand(const Operand* p) { AppendOperand(*p); }
-  public: void AppendOperand(OperandBox*);
+  public: void AppendOperandBox(OperandBox*);
 
   // [C]
   public: int CountOperands() const;

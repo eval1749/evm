@@ -175,11 +175,9 @@ void CleanTask::HandleSwitch(const SwitchI& switch_inst) {
 
   WorkList_<OperandBox> defaults;
 
-  foreach (SwitchI::EnumCase, oEnum, &switch_inst) {
-    auto& box = *oEnum.Get();
-    if (box.GetBB() == &default_block) {
-      defaults.Push(&box);
-    }
+  for (auto& case_box: switch_inst.case_boxes()) {
+    if (case_box.GetBB() == &default_block)
+      defaults.Push(&case_box);
   }
 
   while (!defaults.IsEmpty()) {

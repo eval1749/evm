@@ -374,10 +374,8 @@ void FastWriter::WriteInstruction(const Instruction& inst) {
   WriteTypeRef(inst.output_type());
 
   auto operand_count = 0;
-  foreach (Instruction::EnumOperand, operands, inst) {
-    auto const& operand = *operands;
-    auto const& box = *operands.GetBox();
-
+  for (auto const& box: inst.operand_boxes()) {
+    auto const& operand = box.operand();
     if (auto const phi_box = box.DynamicCast<PhiOperandBox>()) {
       if (auto const r1 = NeedPhiOperandPatch(*phi_box)) {
         phi_operand_set_.Add(r1);

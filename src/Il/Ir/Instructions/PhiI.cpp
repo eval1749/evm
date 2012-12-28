@@ -31,7 +31,7 @@ void PhiI::AddOperand(
   auto& box = *new PhiOperandBox(
       &const_cast<BBlock&>(bblock),
       &const_cast<Operand&>(operand));
-  AppendOperand(&box);
+  AppendOperandBox(&box);
 }
 
 void PhiI::AddOperand(const BBlock* const b, const Operand* const p) {
@@ -41,12 +41,10 @@ void PhiI::AddOperand(const BBlock* const b, const Operand* const p) {
 }
 
 // [F]
-PhiOperandBox* PhiI::FindOperandBox(const BBlock* const block) const {
-  foreach (EnumOperand, oEnum, this) {
-    auto const pBox = oEnum.GetBox()-> StaticCast<PhiOperandBox>();
-    if (pBox->GetBB() == block) {
-      return pBox;
-    }
+PhiOperandBox* PhiI::FindOperandBox(const BBlock* const bblock) const {
+  for (auto& phi_box: phi_operand_boxes()) {
+    if (&phi_box.bblock() == bblock)
+      return &phi_box;
   }
   return nullptr;
 }

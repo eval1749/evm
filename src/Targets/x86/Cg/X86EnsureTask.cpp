@@ -433,9 +433,8 @@ class EnsureTasklet :
       auto const pUserI = oEnum.Get()->GetI();
 
       if (pUserI->Is<StoreI>()) {
-        foreach (Instruction::EnumOperand, oEnum, pI) {
-          auto const pSx = oEnum.Get();
-          if (auto const pRx = pSx->DynamicCast<Register>()) {
+        for (auto& operand: pI->operands()) {
+          if (auto const pRx = operand.DynamicCast<Register>()) {
             if (pRx->GetRegClass() == RegClass_Gpr) {
               pUserI->GetBB()->InsertAfterI(
                   *new(module_.zone()) UseI(pRx),

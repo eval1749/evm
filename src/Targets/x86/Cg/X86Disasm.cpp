@@ -148,30 +148,37 @@ enum RegClass {
 };
 
 struct Format {
-  int  num_operands_;
+  int num_operands_;
   Extend extend_;
   int opcode_;
   const char* mnemonic_;
-  OpdFmt  operand_formats_[3];
+  OpdFmt operand_formats_[3];
 
-  class EnumOperand {
-    private: int cur_;
-    private: const Format& format_;
-    public: EnumOperand(const Format& r) : cur_(0), format_(r) {}
-    public: bool AtEnd() const { return cur_ == format_.num_operands_; }
-
+  public: class Iterator {
+    private: const Format* format_;
+    private: int index_;
+    public: Iterator(const Format* format, int index)
+        : format_(format), index_(index) {}
     public: OpdFmt operator*() const {
-      ASSERT(!AtEnd());
-      return format_.operand_formats_[cur_];
+      DCHECK_LT(index_, format_->num_operands_);
+      return format_->operand_formats_[index_];
     }
-
-    public: void Next() {
-      ASSERT(!AtEnd());
-      cur_++;
+    public: bool operator==(const Iterator& another) const {
+      DCHECK_EQ(format_, another.format_);
+      return index_ == another.index_;
     }
-
-    DISALLOW_COPY_AND_ASSIGN(EnumOperand);
+    public: bool operator!=(const Iterator& another) const {
+      return !operator==(another);
+    }
+    public: Iterator& operator++() {
+      DCHECK_LT(index_, format_->num_operands_);
+      ++index_;
+      return *this;
+    }
   };
+
+  public: Iterator begin() const { return Iterator(this, 0); }
+  public: Iterator end() const { return Iterator(this, num_operands_); }
 
   public: bool IsPrefix() const { return num_operands_ == -1; }
 }; // Format
@@ -334,12 +341,6 @@ class Instruction {
   private: Collection_<String> prefixes_;
   private: int start_offset_;
 
-  public: class EnumOperand : public Collection_<String>::Enum {
-    private: typedef Collection_<String>::Enum Base;
-    public: EnumOperand(const Instruction& r) : Base(r.operands_) {}
-    DISALLOW_COPY_AND_ASSIGN(EnumOperand);
-  };
-
   public: Instruction(
     int start_offset,
     int end_offset,
@@ -364,6 +365,7 @@ class Instruction {
   public: int end_offset() const { return end_offset_; }
   public: String mnemonic() const { return format_->mnemonic_; }
   public: int start_offset() const { return start_offset_; }
+  public: const Collection_<String> operands() const { return operands_; }
 };
 
 class Decoder {
@@ -731,8 +733,8 @@ class Decoder {
   }
 
   private: void DecodeOperands(const Format& format) {
-    foreach (Format::EnumOperand, operands, format) {
-      operands_.Add(DecodeOperand(*operands));
+    for (auto const operand: format) {
+      operands_.Add(DecodeOperand(operand));
     }
   }
 
@@ -985,8 +987,8 @@ class X86Disasm {
     writer_.Write(" %s", inst.mnemonic());
 
     const char* comma = " ";
-    foreach (Instruction::EnumOperand, operands, inst) {
-      writer_.Write("%s%s", comma, operands.Get());
+    for (const auto& operand: inst.operands()) {
+      writer_.Write("%s%s", comma, operand);
       comma = ", ";
     }
 

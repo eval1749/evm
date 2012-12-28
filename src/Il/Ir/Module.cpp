@@ -67,8 +67,7 @@ Module& Module::Clone(const TypeArgs& type_args) const {
           out_map.Add(templ_inst.GetOutput(), &out);
         }
 
-        foreach (Instruction::EnumOperand, operands, templ_inst) {
-          auto& operand = *operands.Get();
+        for (auto& operand: templ_inst.operands()) {
           if (auto const templ = operand.DynamicCast<Function>()) {
             if (auto const present = fn_map.Get(templ)) {
               inst.AppendOperand(present);

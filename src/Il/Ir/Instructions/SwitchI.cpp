@@ -15,22 +15,6 @@
 namespace Il {
 namespace Ir {
 
-SwitchI::EnumCase::EnumCase(const SwitchI* const pSwitchI) :
-    Base(pSwitchI) {
-    if (!this->AtEnd()) {
-        this->Next();
-    } // if
-
-    if (!this->AtEnd()) {
-        this->Next();
-    } // if
-} // EnumCase
-
-SwitchOperandBox* SwitchI::EnumCase::Get() const {
-    ASSERT(!this->AtEnd());
-    return this->Base::GetBox()->StaticCast<SwitchOperandBox>();
-} // Get
-
 // ctor
 SwitchI::SwitchI() :
     Base(Ty_Void, Void) {}
@@ -53,7 +37,7 @@ void SwitchI::AddOperand(
     ASSERT(pTargetBB != nullptr);
 
     auto const pBox = new SwitchOperandBox(pTargetBB, pLx);
-    this->AppendOperand(pBox);
+    AppendOperandBox(pBox);
 
     if (this->IsRealized()) {
         this->GetBB()->AddEdge(pTargetBB);
@@ -69,15 +53,12 @@ void SwitchI::AddOperand(
 ///     </list>
 /// </summary>
 SwitchOperandBox* SwitchI::FindOperand(Operand* const pLx) const {
-    foreach (EnumCase, oEnum, this) {
-        auto const pBox = oEnum.Get();
-        if (*pBox->GetOperand() == *pLx) {
-            return pBox;
-        } // if
-    } // for
-
-    return nullptr;
-} // FindOperand
+  for (auto& case_box: case_boxes()) {
+    if (case_box.operand() == *pLx)
+      return &case_box;
+  }
+  return nullptr;
+}
 
 // [G]
 BBlock* SwitchI::GetDefaultBB() const {
@@ -90,9 +71,8 @@ void SwitchI::Realize() {
     this->Instruction::Realize();
     this->GetBB()->AddEdge(this->GetDefaultBB());
 
-    foreach (EnumCase, oEnum, this) {
-        auto const pBox = oEnum.Get();
-        auto const pTargetBB = pBox->GetBB();
+    for (const auto& case_box: case_boxes()) {
+        auto const pTargetBB = case_box.GetBB();
         this->GetBB()->AddEdge(pTargetBB);
     } // for
 } // Realize
@@ -100,9 +80,8 @@ void SwitchI::Realize() {
 void SwitchI::Unrealize() {
     this->GetBB()->RemoveOutEdge(this->GetDefaultBB());
 
-    foreach (EnumCase, oEnum, this) {
-        auto const pBox = oEnum.Get();
-        auto const pTargetBB = pBox->GetBB();
+    for (const auto& case_box: case_boxes()) {
+        auto const pTargetBB = case_box.GetBB();
         this->GetBB()->RemoveOutEdge(pTargetBB);
     } // for
 

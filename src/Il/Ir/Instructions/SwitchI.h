@@ -16,19 +16,30 @@ namespace Ir {
 class SwitchI :
     public Instruction_<SwitchI, Op_Switch, LastInstruction> {
 
-    public: class EnumCase : public EnumOperand {
-        private: typedef EnumOperand Base;
-        public: EnumCase(const SwitchI* const p);
-        public: SwitchOperandBox* Get() const;
-    }; // EnumCase
+    public: class CaseRange {
+      public: typedef OperandBoxRange_<SwitchOperandBox>::Iterator Iterator;
+      private: const SwitchI* switch_inst_;
+      public: CaseRange(const SwitchI* switch_inst)
+          : switch_inst_(switch_inst) {}
+      public: Iterator begin() {
+        auto iterator = switch_inst_->operand_boxes().begin();
+        ++iterator; // skip case value operand
+        ++iterator; // default label operand
+        return Iterator(iterator);
+      }
+      public: Iterator end() {
+        return Iterator(switch_inst_->operand_boxes().end());
+      }
+    };
 
-    // ctor
     // ctor
     public: SwitchI();
 
     public: SwitchI(
         Operand* const pSx,
         Label* const pLabel);
+
+    public: CaseRange case_boxes() const { return CaseRange(this); }
 
     // [A]
     public: void AddOperand(

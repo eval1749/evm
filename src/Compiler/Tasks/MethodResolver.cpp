@@ -265,14 +265,14 @@ void MethodResolver::FixMethodArgs(CallI& call_inst) {
   auto& args_inst = *call_inst.GetVy()->GetDefI();
   auto& method = *call_inst.GetSx()->StaticCast<Method>();
 
-  Instruction::EnumOperand args(args_inst);
+  auto args = args_inst.operand_boxes().begin();
+  const auto args_end = args_inst.operand_boxes().end();
   Method::ParamTypeScanner params(method);
 
   // Boxing
   while (params.IsRequired()) {
-    ASSERT(!args.AtEnd());
-    BoxingIfNeeded(*args.GetBox(), params.Get());
-    args.Next();
+    BoxingIfNeeded(*args, params.Get());
+    ++args;
     params.Next();
   }
 
@@ -292,11 +292,11 @@ void MethodResolver::FixMethodArgs(CallI& call_inst) {
 
   // New argument list
   {
-    Instruction::EnumOperand args(args_inst);
+    auto args = args_inst.operand_boxes().begin();
     Method::ParamTypeScanner params(method);
     while (params.IsRequired()) {
-      new_args_inst.AppendOperand(args.Get());
-      args.Next();
+      new_args_inst.AppendOperand(args->operand());
+      ++args;
       params.Next();
     }
   }
@@ -319,12 +319,12 @@ void MethodResolver::FixMethodArgs(CallI& call_inst) {
     auto& array = emitter.NewArray(elemty, num_elems);
     new_args_inst.AppendOperand(array);
     auto index = 0;
-    while (!args.AtEnd()) {
-      auto& arg = BoxingIfNeeded(*args.GetBox(), elemty);
+    while (args != args_end) {
+      auto& arg = BoxingIfNeeded(*args, elemty);
       auto& pointer = emitter.EltRef(array, index);
       emitter.Store(pointer, arg);
       ++index;
-      args.Next();
+      ++args;
     }
   }
 

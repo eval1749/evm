@@ -48,10 +48,10 @@ Variable& Instruction::variable() const {
 
 // [A]
 void Instruction::AppendOperand(const Operand& operand) {
-  AppendOperand(new OperandBox(&operand));
+  AppendOperandBox(new OperandBox(&operand));
 }
 
-void Instruction::AppendOperand(OperandBox* const pBox) {
+void Instruction::AppendOperandBox(OperandBox* const pBox) {
   static_cast<OperandBoxes*>(this)->Append(pBox);
   if (IsRealized()) {
       pBox->GetOperand()->Realize(pBox);
@@ -60,11 +60,7 @@ void Instruction::AppendOperand(OperandBox* const pBox) {
 
 // [C]
 int Instruction::CountOperands() const {
-  auto cOperands = 0;
-  foreach (EnumOperand, oEnum, this) {
-      cOperands += 1;
-  }
-  return cOperands;
+  return operand_boxes().Count();
 }
 
 // [E]
@@ -79,20 +75,15 @@ bool Instruction::Equals(const Instruction* const that) const {
       return false;
   }
 
-  EnumOperand oEnumThat(that);
-  foreach (EnumOperand, oEnumThis, this) {
-      if (oEnumThat.AtEnd()) {
-          return false;
-      }
-
-      if (*oEnumThis.Get() != *oEnumThat.Get()) {
-          return false;
-      }
-
-      oEnumThat.Next();
+  auto that_iterator = that->operands().begin();
+  for (auto& operand: operands()) {
+    if (that_iterator == that->operands().end())
+      return false;
+    if (operand != *that_iterator)
+      return false;
+    ++that_iterator;
   }
-
-  return oEnumThat.AtEnd();
+  return that_iterator == that->operands().end();
 }
 
 // [G]
@@ -149,17 +140,14 @@ Operand* Instruction::GetOperand(int const iNth) const {
   return box->GetOperand();
 }
 
-OperandBox* Instruction::GetOperandBox(int const iNthIn) const {
-  auto iNth = iNthIn;
-  ASSERT(iNth >= 0);
-  foreach (EnumOperand, oEnum, this) {
-      if (iNth == 0) {
-          return oEnum.GetBox();
-      }
-
-      iNth -= 1;
+OperandBox* Instruction::GetOperandBox(int const nth) const {
+  DCHECK_GE(nth, 0);
+  auto rest = nth;
+  for (auto& box: operand_boxes()) {
+    if (!rest)
+      return &box;
+    --rest;
   }
-
   return nullptr;
 }
 
@@ -220,7 +208,7 @@ OperandBox* Instruction::InsertOperandBefore(
   ASSERT(pBox != nullptr);
 
   if (pRef == nullptr) {
-      AppendOperand(pBox);
+      AppendOperandBox(pBox);
       return pBox;
   }
 
@@ -262,10 +250,8 @@ Instruction& Instruction::New(MemoryZone&, Op const opcode) {
 void Instruction::Realize() {
   output_->SetDefI(this);
 
-  foreach (EnumOperand, oEnum, this) {
-      auto const pBox = oEnum.GetBox();
-      pBox->GetOperand()->Realize(pBox);
-  }
+  for (auto& box: operand_boxes())
+    box.operand().Realize(&box);
 }
 
 void Instruction::RemoveOperand(OperandBox* const pBox) {
@@ -289,10 +275,10 @@ String Instruction::ToString() const {
   }
 
   const char* comma = "";
-  foreach (EnumOperand, operands, *this) {
+  for (const auto&  operand: operands()) {
     builder.Append(comma);
     comma = " ";
-    builder.Append(operands.Get()->ToString());
+    builder.Append(operand.ToString());
   }
   builder.Append(')');
   return builder.ToString();
@@ -300,14 +286,11 @@ String Instruction::ToString() const {
 
 // [U]
 void Instruction::Unrealize() {
-  foreach (EnumOperand, oEnum, this) {
-    auto pBox = oEnum.GetBox();
-    pBox->GetOperand()->Unrealize(pBox);
-  }
+  for (auto& box: operand_boxes())
+    box.operand().Unrealize(&box);
 
-  if (output_->GetDefI() == this) {
+  if (output_->GetDefI() == this)
     output_->SetDefI(nullptr);
-  }
 }
 
 } // Ir

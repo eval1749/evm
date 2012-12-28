@@ -331,8 +331,7 @@ class LowerTasklet :
         num_params_lit);
 
     auto offset = sizeof(Om::FinallyFrame);
-    foreach (Instruction::EnumOperand, operands, args_inst) {
-      auto& operand = *operands.Get();
+    for (auto& operand: args_inst.operands()) {
       auto const size = Static::ComputeAllocSizeInStack(operand.type());
       offset += offset % size;
       emitter.FrameStore(frame_reg, offset, operand);

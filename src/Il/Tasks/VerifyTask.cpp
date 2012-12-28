@@ -77,13 +77,12 @@ void VerifyTask::Process(ArithmeticInstruction* const pI) {
   Process(static_cast<ArithmeticInstruction::Base*>(pI));
   auto& outy = pI->output_type();
 
-  foreach (Instruction::EnumOperand, oEnum, pI) {
-      auto const pSx = oEnum.Get();
-      auto& opty = pSx->GetTy();
+  for (const auto& operand: pI->operands()) {
+      auto& opty = operand.GetTy();
 
       if (outy != opty) {
           Add(*pI, "Operand[%s] type %s must be %s",
-              pSx,
+              operand,
               opty,
               outy);
       }
@@ -364,12 +363,12 @@ void VerifyTask::Process(PhiI* const pI) {
 
   {
       auto& outy = pI->output_type();
-      foreach (PhiI::EnumOperand, oEnum, pI) {
-          auto const pSx = oEnum.Get();
-          if (pSx->GetTy().IsSubtypeOf(outy) != Subtype_Yes) {
+      for (const auto& operand: pI->operands()) {
+          auto& operand_ty = operand.type();
+          if (operand_ty.IsSubtypeOf(outy) != Subtype_Yes) {
               Add(*pI, "Type of %s(%s) must be subtype of %s.",
-                  pSx,
-                  pSx->GetTy(),
+                  operand,
+                  operand_ty,
                   outy);
           }
       }
@@ -385,11 +384,10 @@ void VerifyTask::Process(PhiI* const pI) {
       }
   }
 
-  foreach (PhiI::EnumOperand, oEnum, pI) {
-      auto const pBox = oEnum.GetBox()->StaticCast<PhiOperandBox>();
-      auto const pBBlock = pBox->GetBBlock();
-      if (!oBBlockSet.Contains(pBBlock)) {
-          Add(*pI, "Extra operand for %s", pBBlock);
+  for (const auto& phi_box: pI->phi_operand_boxes()) {
+      auto& bblock = phi_box.bblock();
+      if (!oBBlockSet.Contains(&bblock)) {
+          Add(*pI, "Extra operand for %s", bblock);
       }
   }
 }
@@ -568,9 +566,8 @@ bool VerifyTask::Verify(const Instruction& inst) {
     }
   }
 
-  foreach (Instruction::EnumOperand, oEnum, inst) {
-    auto const pSx = oEnum.Get();
-    if (auto const pRx = pSx->DynamicCast<SsaOutput>()) {
+  for (const auto& operand: inst.operands()) {
+    if (auto const pRx = operand.DynamicCast<SsaOutput>()) {
       if (pRx == False || pRx == True) {
         continue;
       }

@@ -153,9 +153,8 @@ class RegLiveness {
       auto const pI = oEnumI.Get();
       oEnumI.Next();
 
-      foreach (Instruction::EnumOperand, oEnumI, pI) {
-        MarkUse(bblock, oEnumI.GetRx());
-      }
+      for (auto& operand: pI->operands())
+        MarkUse(bblock, operand.DynamicCast<Register>());
 
       if (auto const pRd = pI->GetRd()) {
         bblock.SetKill(pRd->GetIndex());

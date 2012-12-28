@@ -135,8 +135,8 @@ case State_Expr_Assign_Expr_Compound_Expr: {
     auto& args = builder_->EmitValuesI();
     auto& args_inst = *args.def_inst()->StaticCast<ValuesI>();
     args_inst.AppendOperand(*expression_);
-    foreach (Instruction::EnumOperand, operands, getter_args_inst) {
-      args_inst.AppendOperand(*operands.Get());
+    for (auto& operand: getter_args_inst.operands()) {
+      args_inst.AppendOperand(operand);
     }
     args_inst.UpdateOutputType();
 
@@ -170,8 +170,8 @@ case State_Expr_Assign_Expr_Simple_Expr: {
     auto& args = builder_->EmitValuesI();
     auto& args_inst = *args.def_inst()->StaticCast<ValuesI>();
     args_inst.AppendOperand(*expression_);
-    foreach (Instruction::EnumOperand, operands, getter_args_inst) {
-      args_inst.AppendOperand(*operands.Get());
+    for (auto& operand: getter_args_inst.operands()) {
+      args_inst.AppendOperand(operand);
     }
     args_inst.UpdateOutputType();
 

@@ -729,13 +729,11 @@ class SubPassAllocate
   }
 
   public: virtual void Process(Instruction* const pI) override {
-    foreach (Instruction::EnumOperand, oEnum, pI) {
-      UpdateOperand(oEnum.GetBox());
-    }
+    for (auto& box: pI->operand_boxes())
+      UpdateOperand(&box);
 
-    foreach (Instruction::EnumOperand, oEnum, pI) {
-      ReleaseIfNotUsed(oEnum.GetBox());
-    }
+    for (auto& box: pI->operand_boxes())
+      ReleaseIfNotUsed(&box);
 
     ProcessOutput(pI);
   }
@@ -779,14 +777,11 @@ class SubPassAllocate
   ///   </list>
   /// </summary>
   public: virtual void Process(ValuesI* const pI) override {
-    foreach (Instruction::EnumOperand, oEnum, pI) {
-      AllocateIfPossible(oEnum.GetBox());
-    }
+    for (auto& box: pI->operand_boxes())
+      AllocateIfPossible(&box);
 
-    foreach (Instruction::EnumOperand, oEnum, pI) {
-      auto const pBox = oEnum.GetBox();
-      ReleaseIfNotUsed(pBox, pI);
-    }
+    for (auto& box: pI->operand_boxes())
+      ReleaseIfNotUsed(&box, pI);
   }
 
   private: void ProcessOutput(Instruction* const pI) {
@@ -1076,12 +1071,11 @@ class SubPassAssign :
   private: void processOperands(Instruction* const pI) {
     auto const pBB = pI->GetBBlock();
 
-    foreach (Instruction::EnumOperand, oEnum, pI) {
-      Register* const pRx = oEnum.GetRx();
-      if (!pRx) continue;
-
-      auto const pBox = oEnum.GetBox();
-      if (auto const pPx = pBox->m_pPhysical) {
+    for (auto& box: pI->operand_boxes()) {
+      Register* const pRx = box.operand().DynamicCast<Register>();
+      if (!pRx)
+        continue;
+      if (auto const pPx = box.m_pPhysical) {
         if (auto const pSpill = pRx->m_pSpill) {
           if (m_oLiveMap.Get(pPx) != pRx) {
             pBB->InsertBeforeI(
@@ -1091,7 +1085,7 @@ class SubPassAssign :
             m_oLiveMap.Set(pPx, pRx);
           }
         }
-        pBox->Replace(*pPx);
+        box.Replace(*pPx);
       }
     }
   }
@@ -1940,7 +1934,7 @@ class SubPassParallelCopy
           pI->output_type().StaticCast<ValuesType>());
 
       auto nNth = 0;
-      foreach (Instruction::EnumOperand, oEnum, pI) {
+      for (auto& box: pI->operand_boxes()) {
         auto const pOd = m_pTarget->GetArgReg(nNth);
         nNth += 1;
 
@@ -1948,10 +1942,10 @@ class SubPassParallelCopy
         oEnumType.Next();
 
         if (auto const pRd = pOd->DynamicCast<Physical>()) {
-          m_oParallelCopy.AddTask(type, pRd, oEnum.GetBox());
+          m_oParallelCopy.AddTask(type, pRd, &box);
 
         } else if (auto const pMd = pOd->DynamicCast<ThreadSlot>()) {
-          m_oParallelCopy.AddTask(type, pMd, oEnum.GetBox());
+          m_oParallelCopy.AddTask(type, pMd, &box);
 
         } else {
           COMPILER_INTERNAL_ERROR();

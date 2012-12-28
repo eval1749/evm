@@ -33,6 +33,7 @@ class OperandBox :
       m_pPhysical(nullptr) {}
 
   public: Instruction& instruction() const { return *m_pParent; }
+  public: Operand& operand() const { return *m_pOperand; }
 
   // [G]
   public: Instruction* GetI() const { return m_pParent; }

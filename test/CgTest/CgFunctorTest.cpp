@@ -31,10 +31,8 @@ class MockFunctor : public CgFunctor {
   }
 
   private: virtual void Process(Instruction* inst) override {
-    foreach (Instruction::EnumOperand, operands, inst) {
-      auto const operand = operands.Get();
-      operand->Apply(this);
-    }
+    for (auto& operand: inst->operands())
+      operand.Apply(this);
 
     CgFunctor::Process(inst);
   }

@@ -330,9 +330,8 @@ void TypeVarRewriter::RewriteOperator(
         auto& store_ptr_inst = Instruction::New(
             emitter.zone(),
             load_ptr_inst.opcode());
-        foreach (Instruction::EnumOperand, operands, load_ptr_inst) {
-          store_ptr_inst.AppendOperand(*operands);
-        }
+        for (auto& operand: load_ptr_inst.operands())
+          store_ptr_inst.AppendOperand(operand);
         store_ptr_inst.set_output_type(load_ptr_inst.output_type());
         store_ptr_inst.set_output(emitter.NewRegister());
         emitter.Emit(store_ptr_inst);
@@ -355,16 +354,18 @@ void TypeVarRewriter::RewriteOperator(
 
         auto& setter_args = emitter.NewValues();
         auto& setter_args_inst = *new(emitter.zone()) ValuesI(setter_args);
-        Instruction::EnumOperand getter_args(getter_inst->op1().def_inst());
+        auto getter_args_operands = getter_inst->op1().def_inst()->operands();
+        auto getter_args = getter_args_operands.begin();
+        const auto getter_args_end = getter_args_operands.end();
 
-        setter_args_inst.AppendOperand(getter_args.Get());
-        getter_args.Next();
+        setter_args_inst.AppendOperand(*getter_args);
+        ++getter_args;
 
         setter_args_inst.AppendOperand(op_inst.output());
 
-        while (!getter_args.AtEnd()) {
-          setter_args_inst.AppendOperand(getter_args.Get());
-          getter_args.Next();
+        while (getter_args != getter_args_end) {
+          setter_args_inst.AppendOperand(*getter_args);
+          ++getter_args;
         }
 
         setter_args_inst.UpdateOutputType();

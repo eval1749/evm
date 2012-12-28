@@ -20,6 +20,8 @@ class PhiOperandBox :
 
     private: BBlock* m_pBB;
 
+    public: BBlock& bblock() const { return *m_pBB; }
+
     // ctor
     public: PhiOperandBox(BBlock* const pBB, Operand* const pSx);
 

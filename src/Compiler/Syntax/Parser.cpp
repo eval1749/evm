@@ -98,20 +98,18 @@ static const Operand& NormalizeCaseLabel(const Operand& operand) {
 SwitchOperandBox* Parser::SwitchControl::FindCase(
     const Operand& operand) const {
   const Operand& label = NormalizeCaseLabel(operand);
-  foreach (SwitchI::EnumCase, operands, m_pSwitchI) {
-    auto& box = *operands.Get();
-    auto& present = NormalizeCaseLabel(*box.GetOperand());
+  for (auto& case_box: m_pSwitchI->case_boxes()) {
+    auto& present = NormalizeCaseLabel(case_box.operand());
     DEBUG_FORMAT("%s %s", label, present);
-    if (present == label) {
-      return &box;
-    }
+    if (present == label)
+      return &case_box;
 
     auto const present_name_ref = present.DynamicCast<NameRef>();
     auto const label_name_ref = label.DynamicCast<NameRef>();
     if (present_name_ref
         && label_name_ref
         && *present_name_ref == *label_name_ref) {
-      return &box;
+      return &case_box;
     }
   }
   DEBUG_FORMAT("not found %s(%s)", label, operand);

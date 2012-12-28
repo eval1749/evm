@@ -22,7 +22,7 @@ ClosureI::ClosureI(
     Function*           const pFun,
     Values*             const pVy ) :
         Base(pFunty, pRd) {
-    this->AppendOperand(new FunctionOperandBox(pFun));
+    this->AppendOperandBox(new FunctionOperandBox(pFun));
     this->AppendOperand(pVy);
 } // ClosureI
 

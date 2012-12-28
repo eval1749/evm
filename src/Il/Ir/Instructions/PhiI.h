@@ -21,6 +21,10 @@ class PhiI : public Instruction_<PhiI, Op_Phi> {
   public: PhiI();
   public: PhiI(const Type&, const Output&);
 
+  public: OperandBoxRange_<PhiOperandBox> phi_operand_boxes() const {
+    return OperandBoxRange_<PhiOperandBox>(operand_boxes());
+  }
+
   // [A]
   public: void AddOperand(const BBlock&, const Operand&);
   public: void AddOperand(const BBlock*, const Operand*);

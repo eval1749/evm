@@ -237,13 +237,11 @@ bool TypeVarResolver::UpdateTypeVar(const Instruction& inst) {
   if (inst.Is<PhiI>()) {
     bool has_tyvar = false;
     auto& outy = inst.output_type();
-    foreach (Instruction::EnumOperand, operands, inst) {
-      if (UnifyTypes(inst, outy, operands.Get()->type())) {
+    for (const auto& operand: inst.operands()) {
+      if (UnifyTypes(inst, outy, operand.type()))
         has_tyvar = true;
-      }
-      if (compile_session_.HasError()) {
+      if (compile_session_.HasError())
         return false;
-      }
     }
     return has_tyvar;
   }

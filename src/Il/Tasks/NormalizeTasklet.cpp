@@ -53,24 +53,20 @@ NormalizeTasklet::NormalizeTasklet(Session& session, const Module& module)
 void NormalizeTasklet::EditInstruction(Instruction* const pI) {
   bool fChanged = false;
 
-  foreach (Instruction::EnumOperand, oEnum, pI) {
-    auto const pBox = oEnum.GetBox();
-    auto const pSx = pBox->GetOperand();
-
-    auto const pSy = &m_oEvaluator.Eval(*pSx);
-    ASSERT(pSy != nullptr);
-
-    if (pSx != pSy) {
+  for (auto& box: pI->operand_boxes()) {
+    auto& operand = box.operand();
+    auto& new_operand = m_oEvaluator.Eval(operand);
+    if (operand != new_operand) {
       if (!fChanged) {
         DEBUG_FORMAT("Update %s", pI);
         fChanged = true;
       }
 
-      DEBUG_FORMAT("Replace %s to %s", pSx, pSy);
-      pBox->Replace(*pSy);
+      DEBUG_FORMAT("Replace %s to %s", operand, new_operand);
+      box.Replace(new_operand);
       Add(pI);
 
-      if (auto const pRx = pSx->DynamicCast<SsaOutput>()) {
+      if (auto const pRx = operand.DynamicCast<SsaOutput>()) {
         if (auto const pDefI = pRx->GetDefI()) {
           Add(pDefI);
         }
@@ -91,9 +87,8 @@ void NormalizeTasklet::EditInstruction(Instruction* const pI) {
   if (pI->IsUseless()) {
     DEBUG_FORMAT("Remove useless instruction %s", pI);
 
-    foreach (Instruction::EnumOperand, oEnum, pI) {
-      auto const pSx = oEnum.Get();
-      if (auto const pRx = pSx->DynamicCast<SsaOutput>()) {
+    for (auto& operand: pI->operands()) {
+      if (auto const pRx = operand.DynamicCast<SsaOutput>()) {
         if (auto const pDefI = pRx->GetDefI()) {
           Add(pDefI);
         }
@@ -368,10 +363,9 @@ void NormalizeTasklet::Process(PhiI* const pI) {
   ASSERT(pI != nullptr);
 
   const Type* pType = Ty_Void;
-  foreach (PhiI::EnumOperand, oEnum, pI) {
-    auto const pSx = oEnum.Get();
-    auto& or_type = Type::Or(*pType, pSx->GetTy());
-    DEBUG_FORMAT("or %s %s => %s", pType, pSx->GetTy(), &or_type);
+  for (auto& operand: pI->operands()) {
+    auto& or_type = Type::Or(*pType, operand.GetTy());
+    DEBUG_FORMAT("or %s %s => %s", pType, operand.GetTy(), &or_type);
     pType = &or_type;
   }
 
@@ -449,14 +443,13 @@ void NormalizeTasklet::Process(ValuesI* const pI) {
 
   ValuesTypeBuilder builder(*pI->output_type().StaticCast<ValuesType>());
 
-  ValuesI::EnumOperand oEnumOperand(pI);
+  auto iterator = pI->operands().begin();
 
   foreach (ValuesTypeBuilder::Enum, oEnum, builder) {
-    if (oEnumOperand.AtEnd()) {
+    if (iterator == pI->operands().end())
       break;
-    }
 
-    auto const pExpected = &oEnumOperand.Get()->GetTy().ComputeBoundType();
+    auto const pExpected = &iterator->GetTy().ComputeBoundType();
     auto const pPresent = oEnum.Get();
     if (pPresent != pExpected) {
       DEBUG_FORMAT("Update operand %s to %s", pPresent, pExpected);
@@ -464,7 +457,7 @@ void NormalizeTasklet::Process(ValuesI* const pI) {
       fChanged = true;
     }
 
-    oEnumOperand.Next();
+    ++iterator;
   }
 
   if (fChanged) {

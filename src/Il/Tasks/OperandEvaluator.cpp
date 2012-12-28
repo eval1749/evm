@@ -457,16 +457,16 @@ void OperandEvaluator::Process(NeI* const pI) {
 }
 
 // [P][P]
-void OperandEvaluator::Process(PhiI* const pI) {
-  ASSERT(pI != nullptr);
-  auto const pSx = pI->GetSx();
-  foreach (PhiI::EnumOperand, oEnum, pI) {
-      if (*pSx != *oEnum.Get()) {
-          return;
-      }
+// If all operands of PHI instruction are same, a value of PHI instruction is
+// it.
+void OperandEvaluator::Process(PhiI* const inst) {
+  ASSERT(!!inst);
+  const auto& first_operand = inst->op0();
+  for (const auto& operand: inst->operands()) {
+    if (first_operand != operand)
+      return;
   }
-
-  SetValue(*pSx);
+  SetValue(first_operand);
 }
 
 // [P][S]

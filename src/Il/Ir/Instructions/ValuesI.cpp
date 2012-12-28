@@ -45,8 +45,8 @@ ValuesI::ValuesI(const Values& out, const Operand& src0, const Operand& src1)
 
 ValuesI::ValuesI(const Values& out, const ValuesI& vals_inst)
     : Base(vals_inst.output_type(), out) {
-  foreach (ValuesI::EnumOperand, operands, vals_inst) {
-    AppendOperand(operands.Get());
+  for (auto& operand: vals_inst.operands()) {
+    AppendOperand(operand);
   }
 }
 
@@ -58,9 +58,8 @@ const ValuesType& ValuesI::GetValuesTy() const {
 // [U]
 void ValuesI::UpdateOutputType() {
   ValuesTypeBuilder builder(CountOperands());
-  foreach (EnumOperand, operands, *this) {
-    builder.Append(operands.Get()->type());
-  }
+  for (auto& operand: operands())
+    builder.Append(operand.type());
   set_output_type(builder.GetValuesType());
 }
 

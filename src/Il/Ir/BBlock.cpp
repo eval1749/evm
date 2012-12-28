@@ -232,23 +232,18 @@ void BBlock::ReplaceI(
 }
 
 void BBlock::ReplaceLabels(
-  BBlock* const pNewBB,
-  BBlock* const pOldBB) {
-
+    BBlock* const pNewBB,
+    BBlock* const pOldBB) {
   ASSERT(nullptr != pNewBB);
   ASSERT(nullptr != pOldBB);
-
   auto const pBBlock = this;
-
-  foreach (Instruction::EnumOperand, oEnum, pBBlock->GetLastI()) {
-      auto const pBox = oEnum.GetBox();
-      if (auto const pLabel = pBox->GetOperand()->DynamicCast<Label>()) {
-          if (pLabel->GetBB() == pOldBB) {
-              pBox->SetOperand(&pNewBB->label());
-          } // if
-      } // if
-  } // for each box
-} // ReplaceLabels
+  for (auto& box: pBBlock->GetLastI()->operand_boxes()) {
+    if (auto const label = box.operand().DynamicCast<Label>()) {
+      if (label->GetBB() == pOldBB)
+        box.SetOperand(&pNewBB->label());
+    }
+  }
+}
 
 void BBlock::ReplacePhiOperands(
   BBlock* const pNewBB, 

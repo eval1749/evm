@@ -144,20 +144,18 @@ void EeHtmlDumper::DumpInstruction(const Instruction& inst) {
         inst.GetOutput());
   }
 
-  foreach (Instruction::EnumOperand, operands, inst) {
+  for (const auto& box: inst.operand_boxes()) {
     const char* close_paren = "";
-    if (auto const phi_box =
-            operands.GetBox()->DynamicCast<PhiOperandBox>()) {
+    if (auto const phi_box = box.DynamicCast<PhiOperandBox>()) {
       writer_.Write(" (%s", phi_box->GetBB());
       close_paren = ")";
 
-    } else if (auto const sw_box =
-            operands.GetBox()->DynamicCast<SwitchOperandBox>()) {
+    } else if (auto const sw_box = box.DynamicCast<SwitchOperandBox>()) {
       writer_.Write(" (%s", sw_box->GetBB());
       close_paren = ")";
     }
 
-    auto& operand = *operands.Get();
+    auto& operand = box.operand();
     if (auto const label = operand.DynamicCast<Label>()) {
       writer_.Write(" <a href='#b%p'>%s</a>", label->GetBB(), operand);
     } else if (auto const literal = operand.DynamicCast<Literal>()) {
