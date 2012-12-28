@@ -119,7 +119,8 @@ class CicsAssembler : public Assembler {
 
         public: void Reserve(int n)
             { m_cb += n; }
-    }; // CodeBuf
+        DISALLOW_COPY_AND_ASSIGN(CodeBuf);
+    };
 
     protected: CodeBuf  m_oCodeBuf;
 

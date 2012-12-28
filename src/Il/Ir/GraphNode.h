@@ -55,6 +55,9 @@ class GraphNode_
     delete m_pPostDomInfo;
   }
 
+  public: const InEdges& in_edges() const { return m_oInEdges; }
+  public: const OutEdges& out_edges() const { return m_oOutEdges; }
+
   // [A]
   public: Edge_* AddEdge(Node_* const pTo) {
     auto const pEdge = new Edge_(static_cast<Node_*>(this), pTo);
@@ -64,21 +67,8 @@ class GraphNode_
   }
 
   // [C]
-  public: int CountInEdges() const {
-    auto nCount = 0;
-    foreach (EnumInEdge, oEnum, this) {
-      nCount += 1;
-    }
-    return nCount;
-  }
-
-  public: int CountOutEdges() const {
-    auto nCount = 0;
-    foreach (EnumOutEdge, oEnum, this) {
-      nCount += 1;
-    }
-    return nCount;
-  }
+  public: int CountInEdges() const { return m_oInEdges.Count(); }
+  public: int CountOutEdges() const { return m_oOutEdges.Count(); }
 
   // [E]
   public: class EnumChild : public DomInfo::EnumChild {
@@ -173,21 +163,17 @@ class GraphNode_
 
   // [F]
   public: Edge_* FindEdgeFrom(Node_* const pFrom) const {
-    foreach (EnumInEdge, oEnum, this) {
-      auto const pEdge = oEnum.Get(); 
-      if (pEdge->GetFrom() == pFrom) {
-        return pEdge;
-      }
+    for (auto& edge: m_oInEdges) {
+      if (edge.GetFrom() == pFrom)
+        return &edge;
     }
     return nullptr;
   }
 
   public: Edge_* FindEdgeTo(Node_* const pTo) const {
-    foreach (EnumOutEdge, oEnum, this) {
-      auto const pEdge = oEnum.Get();
-      if (pEdge->GetTo() == pTo) {
-        return pEdge;
-      }
+    for (auto& edge: m_oOutEdges) {
+      if (edge.GetTo() == pTo)
+        return &edge;
     }
     return nullptr;
   }
@@ -303,6 +289,8 @@ class GraphNode_
   protected: TParent* setParent(TParent* const p) { return m_pParent = p; }
   public: uint SetPreorder(uint n) { return preorder_ = n; }
   public: uint SetPostorder(uint n) { return postorder_ = n; }
+
+  DISALLOW_COPY_AND_ASSIGN(GraphNode_);
 };
 
 }  // Ir

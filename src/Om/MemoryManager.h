@@ -252,6 +252,8 @@ class Mm {
 
         // [S]
         public: void SetReadOnly();         // arch
+
+        DISALLOW_COPY_AND_ASSIGN(Area);
     }; // Area
 
     public: typedef DoubleLinkedList_<Area> Areas;

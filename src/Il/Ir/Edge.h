@@ -52,6 +52,8 @@ class Edge_
   public: Node_* SetFrom(Node_* p) { return m_pFrom = p; }
   public: Kind SetEdgeKind(Kind e) { return m_eKind = e; }
   public: Node_* SetTo(Node_* p) { return m_pTo = p; }
+
+  DISALLOW_COPY_AND_ASSIGN(Edge_);
 }; // Edge_
 
 } // Ir

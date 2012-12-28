@@ -93,7 +93,7 @@ class BBlock
   public: virtual ~BBlock();
 
   // For DataFlowBB
-  protected: BBlock() {}
+  //protected: BBlock() {}
 
   public: const Instructions& instructions() const { return *this; }
   public: Label& label() const { return *m_oLabels.GetFirst(); }
@@ -181,7 +181,7 @@ class BBlock
   public: virtual String ToString() const override;
 
   DISALLOW_COPY_AND_ASSIGN(BBlock);
-}; // BBlock
+};
 
 inline int ComputeHashCode(const BBlock* const p) {
   ASSERT(p != nullptr);

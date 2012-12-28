@@ -10,8 +10,9 @@
 
 namespace Compiler {
 
-class Attribute :
-        public DoubleLinkedItem_<Attribute> {
+class Attribute 
+    :  public DoubleLinkedItem_<Attribute> {
+  DISALLOW_COPY_AND_ASSIGN(Attribute);
 }; // Attribute
 
 typedef DoubleLinkedList_<Attribute> Attributes;

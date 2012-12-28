@@ -75,9 +75,8 @@ bool FunctionEditor::EliminateInfiniteLoop(Function& fun) {
         return;
       }
 
-      foreach (BBlock::EnumInEdge, oEnum, &bblock) {
-        Apply(*oEnum.GetNode());
-      }
+      for (const auto& edge: bblock.in_edges())
+        Apply(*edge.GetFrom());
     }
 
     DISALLOW_COPY_AND_ASSIGN(BackwardDfs);
@@ -185,7 +184,7 @@ void FunctionEditor::Renumber(Function& fun) {
 void FunctionEditor::RemoveCriticalEdges(Function& fun) {
   class Local {
     public: static bool HasPhiI(const BBlock& bblock) {
-      const auto insts = bblock.instructions();
+      const auto& insts = bblock.instructions();
       return insts.begin() != insts.end() && insts.begin()->Is<PhiI>();
     }
   };

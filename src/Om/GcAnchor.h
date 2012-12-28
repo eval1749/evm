@@ -51,6 +51,8 @@ class GcAnchor :
 
     // [U]
     public: void Unlock();
+
+    DISALLOW_COPY_AND_ASSIGN(GcAnchor);
 }; // GcAnchor
 
 } // Om

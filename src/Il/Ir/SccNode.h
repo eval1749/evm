@@ -56,6 +56,8 @@ class SccNode_ :
         m_pSccId   = pSccId;
         m_pSccNext = nullptr;
     } // ResetScc
+
+    DISALLOW_COPY_AND_ASSIGN(SccNode_);
 }; // SccNode_
 
 } // Ir

@@ -28,6 +28,7 @@ class Item : public DoubleLinkedItem_<Item> {
   public: bool operator!=(const Item& another) const {
     return !operator==(another);
   }
+  DISALLOW_COPY_AND_ASSIGN(Item);
 };
 
 TEST_F(IteratorTest, ForEachReverse) {
@@ -39,8 +40,8 @@ TEST_F(IteratorTest, ForEachReverse) {
   list.Append(&item2);
   list.Append(&item3);
   auto it = list.rbegin();
-  for (auto const value: ReverseRange(list)) {
-    EXPECT_EQ(*it, value);
+  for (const auto& item: ReverseRange(list)) {
+    EXPECT_EQ(*it, item);
     ++it;
   }
 }

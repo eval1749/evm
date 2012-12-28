@@ -32,59 +32,56 @@ class DomTreeBuilder_ {
 
     private: DfsTreeBuilder() : dfs_name_(0), dfs_prev_(nullptr) {}
 
-    public: static void Build(DomBBlock& entry) {
+    public: static void Build(DomBBlock* entry) {
       DfsTreeBuilder builder;
       builder.Process(entry);
     }
 
-    private: void Process(DomBBlock& curr) {
-      curr.SetDfsName(1);
-      foreach (DomBBlock::EnumOutEdge, edges, &curr) {
-        auto& succ = *edges.GetNode();
-        if (succ.GetDfsName() == 0) {
+    private: void Process(DomBBlock* curr) {
+      curr->SetDfsName(1);
+      for (const auto& edge: curr->GetOutEdges()) {
+        auto const succ = DomBBlock::GetEdgeTo(edge);
+        if (!succ->GetDfsName())
           Process(succ);
-        }
       }
 
       dfs_name_ += 1;
-      curr.SetDfsName(dfs_name_);
-      curr.SetDfsNext(dfs_prev_);
-      dfs_prev_ = &curr;
+      curr->SetDfsName(dfs_name_);
+      curr->SetDfsNext(dfs_prev_);
+      dfs_prev_ = curr;
       //pBB->WriteLog("visit %p dfs=%d", pBB, dfs_name_);
     }
   };
 
   private: DomCFG& cfg_;
-  private: DomBBlock& entry_;
+  private: DomBBlock* const entry_;
 
   public: DomTreeBuilder_(DomCFG& cfg) 
-      : cfg_(cfg), entry_(*cfg.GetEntry()) {}
+      : cfg_(cfg), entry_(cfg.GetEntry()) {}
 
   public: void Build() {
     Init();
     DfsTreeBuilder::Build(entry_);
     RemoveUnrechable();
     ComputeParent();
-    entry_.SetParent(nullptr);
+    entry_->SetDomParent(nullptr);
     ComputeChildren();
     ComputeFrontiers();
     Uninit();
   }
 
-  private: void AddFrontier(DomBBlock& node, DomBBlock& frontier) {
-    if (!node.GetFrontiers().Contains(&frontier)) {
-      node.GetFrontiers().Add(&frontier);
-    }
+  private: void AddFrontier(DomBBlock* node, DomBBlock* frontier) {
+    if (node->GetDomFrontiers().Contains(frontier))
+      return;
+    node->GetDomFrontiers().Add(frontier);
   }
 
   //  Make children list in reverse postorder.
   private: void ComputeChildren() {
-    for (
-        auto pBB = entry_.GetDfsNext();
-        nullptr != pBB;
-        pBB = pBB->GetDfsNext()) {
-      auto const parent = pBB->GetParent();
-      parent->GetChildren().Append(pBB->GetDomInfo());
+    for (auto bblock = entry_->GetDfsNext(); bblock;
+         bblock = bblock->GetDfsNext()) {
+      auto const parent = bblock->GetDomParent();
+      parent->GetDomChildren().Append(bblock->GetDomInfo());
     }
   }
 
@@ -92,29 +89,27 @@ class DomTreeBuilder_ {
   private: void ComputeFrontiers() {
     for (auto& bblock: cfg_.function().bblocks()) {
       auto const node = bblock.Extend<DomBBlock>();
-      if (!HasMoreThanOnePred(node)) {
+      if (!HasMoreThanOnePred(node))
         continue;
-      }
 
-      foreach (DomBBlock::EnumInEdge, oEnum, node) {
-        auto const idom = node->GetParent();
-        for (auto runner = oEnum.GetNode(); 
-            runner != idom;
-            runner = runner->GetParent()) {
-          AddFrontier(*runner, *node);
-        }
+      for (const auto& edge: node->GetInEdges()) {
+        auto const idom = node->GetDomParent();
+        for (auto runner = DomBBlock::GetEdgeFrom(edge);
+             runner != idom;
+             runner = runner->GetDomParent())
+          AddFrontier(runner, node);
       }
     }
   }
 
   //  Computes parent (immediate dominator) for each bblock.
   private: void ComputeParent() {
-    entry_.SetParent(&entry_);
-    entry_.SetDepth(1);
+    entry_->SetDomParent(entry_);
+    entry_->SetDepth(1);
     auto changed = true;
     while (changed) {
       changed = false;
-      for (auto pBB = entry_.GetDfsNext(); pBB; pBB = pBB->GetDfsNext()) {
+      for (auto pBB = entry_->GetDfsNext(); pBB; pBB = pBB->GetDfsNext()) {
         if (ComputeParentAux(pBB)) {
           changed = true;
         }
@@ -124,39 +119,35 @@ class DomTreeBuilder_ {
 
   //  Computes new parent by processed predecessor.
   private: bool ComputeParentAux(DomBBlock* curr) {
-    ASSERT(curr != nullptr);
-
-    foreach (DomBBlock::EnumInEdge, oEnum, curr) {
-      auto parent = oEnum.GetNode();
-
-      if (parent->GetParent() == nullptr) {
+    ASSERT(!!curr);
+    for (const auto& edge: curr->GetInEdges()) {
+      auto parent = DomBBlock::GetEdgeFrom(edge);
+      if (!parent->GetDomParent())
         continue;
+
+      for (const auto& edge: curr->GetInEdges()) {
+        auto const pred = DomBBlock::GetEdgeFrom(edge);
+        if (parent != pred && pred->GetDomParent())
+          parent = Intersect(pred, parent);
       }
 
-      foreach (DomBBlock::EnumInEdge, oEnum, curr) {
-        auto const pred = oEnum.GetNode();
-        if (parent != pred && pred->GetParent() != nullptr) {
-          parent = &Intersect(*pred, *parent);
-        }
-      }
-
-      if (curr->GetParent() != parent) {
-        curr->SetParent(parent);
+      if (curr->GetDomParent() != parent) {
+        curr->SetDomParent(parent);
         curr->SetDepth(parent->GetDepth() + 1);
         return true;
       }
     }
-
     return false;
   }
 
   private: static bool HasMoreThanOnePred(DomBBlock* node) {
-    DomBBlock::EnumInEdge oEnum(node);
-    if (oEnum.AtEnd()) {
-        return false;
-    }
-    oEnum.Next();
-    return !oEnum.AtEnd();
+    const auto end = node->GetInEdges().end();
+    auto it = node->GetInEdges().begin();
+    if (it == end)
+      return false;
+    ++it;
+    ASSERT(it != end || node->GetInEdges().GetFirst() == node->GetInEdges().GetLast());
+    return it != end;
   }
 
   //  Allocates dominfo for all bblocks
@@ -174,21 +165,15 @@ class DomTreeBuilder_ {
     }
   }
 
-  private: DomBBlock& Intersect(DomBBlock& finger1in, DomBBlock& finger2in) {
-    auto finger1 = &finger1in;
-    auto finger2 = &finger2in;
-
+  private: DomBBlock* Intersect(DomBBlock* finger1, DomBBlock* finger2) {
     while (finger1 != finger2) {
-      while (finger1->GetDfsName() < finger2->GetDfsName()) {
-        finger1 = finger1->GetParent();
-      }
+      while (finger1->GetDfsName() < finger2->GetDfsName())
+        finger1 = finger1->GetDomParent();
 
-      while (finger2->GetDfsName() < finger1->GetDfsName()) {
-        finger2 = finger2->GetParent();
-      }
+      while (finger2->GetDfsName() < finger1->GetDfsName())
+        finger2 = finger2->GetDomParent();
    }
-
-    return *finger1;
+    return finger1;
   }
 
   private: void RemoveUnrechable() {
@@ -253,14 +238,14 @@ class DomTreeDumper {
 
         pLogWriter->WriteElement("td", "%d", pDomInfo->GetDepth());
 
-        if (pDomInfo->GetParent() == nullptr) {
+        if (!pDomInfo->GetDomParent()) {
             pLogWriter->StartElement("td");
             pLogWriter->Write("-");
             pLogWriter->EndElement("td");
 
         } else {
             pLogWriter->StartElement("td");
-            pLogWriter->Write(pDomInfo->GetParent());
+            pLogWriter->Write(pDomInfo->GetDomParent());
             pLogWriter->EndElement("td");
         }
 
@@ -304,81 +289,81 @@ class DomTreeDumper {
 };
 #endif
 
-template<class Base_, class EnumInEdge_, class EnumOutEdge_>
+template<class Base_>
 class DomBBlock_ : public Base_ {
   private: typedef BBlock::DomInfo DomInfo;
-  private: typedef DomBBlock_<Base_, EnumInEdge_, EnumOutEdge_> BBlock_;
+  private: typedef DomBBlock_<Base_> BBlock_;
 
   public: uint GetDfsName() const { return static_cast<uint>(GetIndex()); }
   public: BBlock_* GetDfsNext() const { return GetWork<BBlock_>(); }
   public: void SetDfsName(uint nName) { SetIndex(nName); }
   public: void SetDfsNext(BBlock_* pNext) { SetWork(pNext); }
 
-  public: class EnumInEdge : public EnumInEdge_ {
-    public: EnumInEdge(BBlock* pBB) : EnumInEdge_(pBB) {}
-
-    public: BBlock_* GetNode() const { 
-      return EnumInEdge_::GetNode()->Extend<BBlock_>(); 
-    }
-
-    DISALLOW_COPY_AND_ASSIGN(EnumInEdge);
-  };
-
-  public: class EnumOutEdge : public EnumOutEdge_ {
-    public: EnumOutEdge(BBlock* pBB) :
-        EnumOutEdge_(pBB) {}
-
-    public: BBlock_* GetNode() const { 
-      return EnumOutEdge_::GetNode()->Extend<BBlock_>(); 
-    }
-
-    DISALLOW_COPY_AND_ASSIGN(EnumOutEdge);
-  };
-
-  public: DomInfo::ChildList& GetChildren() const {
-    return GetDomInfo()->GetChildren();
-  }
-
   public: uint GetDepth() const { return GetDomInfo()->GetDepth(); }
   public: uint SetDepth(uint n) { return GetDomInfo()->SetDepth(n); }
 
-  public: DomInfo::FrontierList& GetFrontiers() const {
+  public: DomInfo::ChildList& GetDomChildren() const {
+    return GetDomInfo()->GetChildren();
+  }
+
+  public: DomInfo::FrontierList& GetDomFrontiers() const {
     return GetDomInfo()->GetFrontiers();
   }
 
-  public: BBlock_* GetParent() const {
+  public: BBlock_* GetDomParent() const {
     return GetDomInfo()->GetParent()->Extend<BBlock_>();
   }
 
-  public: void SetParent(BBlock_* pBB) { GetDomInfo()->SetParent(pBB); }
+  public: void SetDomParent(BBlock_* pBB) { GetDomInfo()->SetParent(pBB); }
+
+  public: static BBlock_* GetEdgeFrom(const CfgEdge& edge) {
+    return GetEdgeFromInternal(edge)->Extend<BBlock_>();
+  }
+
+  public: static BBlock_* GetEdgeTo(const CfgEdge& edge) {
+    return GetEdgeToInternal(edge)->Extend<BBlock_>();
+  }
+
   DISALLOW_COPY_AND_ASSIGN(DomBBlock_);
 };
 
 class DomBBlockBase : public BBlock {
-  private: DomBBlockBase() {}
+  public: typedef InEdges InEdges;
+  public: typedef OutEdges OutEdges;
+  //private: DomBBlockBase() {}
   public: DomInfo* GetDomInfo() const { return m_pDomInfo; }
+  public: const InEdges& GetInEdges() const { return in_edges(); }
+  public: const OutEdges& GetOutEdges() const { return out_edges(); }
   public: void SetDomInfo(DomInfo* pDomInfo) { m_pDomInfo = pDomInfo; }
+
+  protected: static BBlock* GetEdgeFromInternal(const CfgEdge& edge) {
+    return edge.GetFrom();
+  }
+  protected: static BBlock* GetEdgeToInternal(const CfgEdge& edge) {
+    return edge.GetTo();
+  }
   DISALLOW_COPY_AND_ASSIGN(DomBBlockBase);
 };
 
 class PostDomBBlockBase : public BBlock {
-  private: PostDomBBlockBase() {}
+  public: typedef BBlock::InEdges OutEdges;
+  public: typedef BBlock::OutEdges InEdges;
+  //private: PostDomBBlockBase() {}
   public: DomInfo* GetDomInfo() const { return m_pPostDomInfo; }
+  public: const InEdges& GetInEdges() const { return out_edges(); }
+  public: const OutEdges& GetOutEdges() const { return in_edges(); }
   public: void SetDomInfo(DomInfo* pDomInfo) { m_pPostDomInfo = pDomInfo; }
+  protected: static BBlock* GetEdgeFromInternal(const CfgEdge& edge) {
+    return edge.GetTo();
+  }
+  protected: static BBlock* GetEdgeToInternal(const CfgEdge& edge) {
+    return edge.GetFrom();
+  }
   DISALLOW_COPY_AND_ASSIGN(PostDomBBlockBase);
 };
 
-typedef DomBBlock_<
-    DomBBlockBase,
-    BBlock::EnumInEdge,
-    BBlock::EnumOutEdge >
-DomBBlock;
-
-typedef DomBBlock_<
-    PostDomBBlockBase,
-    BBlock::EnumOutEdge,
-    BBlock::EnumInEdge >
-PostDomBBlock;
+typedef DomBBlock_<DomBBlockBase> DomBBlock;
+typedef DomBBlock_<PostDomBBlockBase> PostDomBBlock;
 
 class DomCFG {
   private: const Function& function_;

@@ -44,6 +44,8 @@ class DoubleLinkedItem_ {
 
   public: Item* GetNext() const { return m_pNext; }
   public: Item* GetPrev() const { return m_pPrev; }
+
+  DISALLOW_COPY_AND_ASSIGN(DoubleLinkedItem_);
 }; // DoubleLinkedItem
 
 template<class Item_, class TParent = DummyParent>
@@ -280,29 +282,29 @@ class DoubleLinkedList_ {
     Delete(pOld);
     return pNew;
   }
-};
 
+  DISALLOW_COPY_AND_ASSIGN(DoubleLinkedList_);
+};
 
 template<class Item_, class TParent>
 class ChildList_;
 
 template<class Item_, class TParent>
 class ChildItem_ : public DoubleLinkedItem_<Item_, TParent> {
-    friend class ChildList_<Item_, TParent>;
-
-    protected: TParent* m_pParent;
-
-    public: ChildItem_(TParent* const p = nullptr) : m_pParent(p) {}
-
-    public: TParent* GetParent() const { return m_pParnet; }
-}; // ChildItem_
-
+  friend class ChildList_<Item_, TParent>;
+  protected: TParent* m_pParent;
+  public: ChildItem_(TParent* const p = nullptr) : m_pParent(p) {}
+  public: TParent* GetParent() const { return m_pParnet; }
+  DISALLOW_COPY_AND_ASSIGN(ChildItem_);
+};
 
 template<class Item_, class TParent>
 class ChildList_ : public DoubleLinkedList_<Item_, TParent> {
     private: typedef DoubleLinkedList_<Item_, TParent> DoubleLinkedList;
     protected: typedef ChildList_<Item_, TParent> ChildList;
     protected: typedef ChildItem_<Item_, TParent> ChildItem;
+
+    protected: ChildList_() {}
 
     // [A]
     public: Item_* Append(Item_* const pItem) {
@@ -356,7 +358,9 @@ class ChildList_ : public DoubleLinkedList_<Item_, TParent> {
         Delete(pOld);
         return pNew;
     } // Replace
-};  // ChiildList_
+
+    DISALLOW_COPY_AND_ASSIGN(ChildList_);
+};
 
 /// <remark>
 ///   C-String enumerator.

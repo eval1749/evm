@@ -24,6 +24,8 @@ struct StaticBino {
     Om::Layout::Float64 m_zero64;
 
     Om::Layout::Char mv_char[Arch::CharCodeLimit];
+
+    DISALLOW_COPY_AND_ASSIGN(StaticBino);
 }; // StaticBino
 
 #define ROUNDUP(x, y) ( (x + y - 1) / y * y )

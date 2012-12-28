@@ -84,14 +84,13 @@ PrologueI* Function::GetPrologueI() const {
 
 Function* Function::GetSingleCaller() const {
   Function* pCaller = nullptr;
-  foreach (Function::EnumInEdge, oEnum, this)
-  {
-      if (pCaller != nullptr) return nullptr;
-      pCaller = oEnum.GetNode();
-  } // for each inedge
-
+  for (const auto& edge: in_edges()) {
+    if (pCaller)
+      return nullptr;
+    pCaller = edge.GetFrom();
+  }
   return pCaller;
-} // GetSingleCaller
+}
 
 BBlock* Function::GetStartBB() const {
   return GetEntryBB()->GetLastI()->StaticCast<JumpI>()->

@@ -63,6 +63,7 @@ class Assembler : protected LocalMemoryZone {
         int GetAddr()   const { return m_nAddr; }
         Kind GetKind()   const { return m_eKind; }
         int GetOffset() const { return m_ofs; }
+        DISALLOW_COPY_AND_ASSIGN(Annot);
     }; // Annot
 
     protected: typedef DoubleLinkedList_<Annot> Annots;
@@ -115,8 +116,10 @@ class Assembler : protected LocalMemoryZone {
     }; // Span_
 
     protected: struct FunExt : public LocalObject {
-        Annots m_oAnnots;
-    }; // FunExt
+      public: FunExt() {}
+      Annots m_oAnnots;
+      DISALLOW_COPY_AND_ASSIGN(FunExt);
+    };
 
     // Member variables
     protected: Il::Ir::Function* m_pFun;

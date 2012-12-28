@@ -61,6 +61,8 @@ class Thread :
 
   // [S]
   public: static void StaticInit();
+
+  DISALLOW_COPY_AND_ASSIGN(Thread);      
 }; // Thread
 
 } // Om

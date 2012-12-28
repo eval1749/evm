@@ -28,9 +28,9 @@ class ExecuteSession : public Il::Cg::CgSession {
   public: virtual ~ExecuteSession();
 
   // properties
-  public: const ExecuteErrorInfo::List errors() const { return errors_; }
+  public: const ExecuteErrorInfo::List& errors() const { return errors_; }
   public: const CgTarget& target() const override { return target_; }
-  public: const ExecuteErrorInfo::List warnings() const { return warnings_; }
+  public: const ExecuteErrorInfo::List& warnings() const { return warnings_; }
 
   // [A]
   public: virtual void AddErrorInfo(const ErrorInfo&) override;

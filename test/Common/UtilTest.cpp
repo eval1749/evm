@@ -46,14 +46,15 @@ TEST_F(UtilTest, Castable) {
 
 class Node;
 class Parent : public ChildList_<Node, Parent> {
+  public: Parent() {}
+  DISALLOW_COPY_AND_ASSIGN(Parent);
 };
 
 class Node : public ChildItem_<Node, Parent> {
   private: const char* name_;
-  public: Node(const char* name) : name_(name) {
-  }
-
+  public: Node(const char* name) : name_(name) {}
   public: const char* name() const { return name_; }
+  DISALLOW_COPY_AND_ASSIGN(Node);
 };
 
 TEST_F(UtilTest, ChildList) {

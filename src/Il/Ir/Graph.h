@@ -78,6 +78,8 @@ class Graph_ :
 
     // [S]
     public: void SetChanged() { m_rgfCache = 0; }
+
+    DISALLOW_COPY_AND_ASSIGN(Graph_);
 }; // Graph_
 
 } // Ir

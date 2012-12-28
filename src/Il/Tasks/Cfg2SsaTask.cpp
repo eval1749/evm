@@ -275,8 +275,8 @@ class PrepareTasklet : public Tasklet {
       for (auto& phi_inst: bblock.phi_instructions())
         phi_inst.SetWork(nullptr);
 
-      foreach (BBlock::EnumInEdge, oEnum, bblock) {
-        if (oEnum.Get()->GetEdgeKind() == CfgEdge::Kind_Nonlocal) {
+      for (const auto& edge: bblock.in_edges()) {
+        if (edge.GetEdgeKind() == CfgEdge::Kind_Nonlocal) {
           m_oNonlocalBBs.Push(&bblock);
           break;
         }

@@ -139,8 +139,10 @@ class RegPair
 typedef DoubleLinkedList_<RegPair> RegPairs;
 
 struct BBlockExt : LocalObject {
+  BBlockExt() : m_pRegMap(nullptr) {}
   RegMap*     m_pRegMap;
   RegPairs    m_oLiveIn;
+  DISALLOW_COPY_AND_ASSIGN(BBlockExt);
 };
 
 static void dumpLiveness(BBlock* pBB, RegList* pRegList) {
@@ -531,19 +533,17 @@ class SubPassAllocate
   // [P]
   private: void PrepareBBlock(BBlock* const pBB) {
     auto num_preds = 0;
-    foreach (BBlock::EnumInEdge,  oEnum, pBB) {
-      auto const pEdge = oEnum.Get();
+    for (const auto& edge: pBB->in_edges()) {
+      DEBUG_FORMAT("in edge %s", edge);
 
-      DEBUG_FORMAT("in edge %s", pEdge);
-
-      if (pEdge->GetEdgeKind() == CfgEdge::Kind_Nonlocal) {
+      if (edge.GetEdgeKind() == CfgEdge::Kind_Nonlocal) {
         foreach (RegMap::Enum, oEnum, m_pRegMap) {
           oEnum.Get()->m_pRx = nullptr;
         }
         break;
       }
 
-      BBlock* const pPredBB = pEdge->GetFrom();
+      BBlock* const pPredBB = edge.GetFrom();
 
       if (!num_preds) {
         m_pRegMap->Copy(pPredBB->GetWork<BBlockExt>()->m_pRegMap);
