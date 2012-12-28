@@ -126,14 +126,12 @@ bool Function::HasUpVar() const {
 }
 
 bool Function::HasUseSite() const {
-  foreach (EnumUser, oEnum, this) {
-      if (!oEnum.Get()->GetI()->Is<OpenFinallyI>()) {
-          return true;
-      }
-  } // for each user
-
+  for (auto& user: users_) {
+    if (!user.instruction().Is<OpenFinallyI>())
+      return true;
+  }
   return false;
-} // HasUseSite
+}
 
 // [I]
 
@@ -182,16 +180,12 @@ PseudoOutput* Function::InternUpVar(Variable* const pVar) {
 ///  Returns true if this function is closure.
 /// </summary>
 bool Function::IsClosure() const {
-  if (!HasUpVar()) {
-      return false;
+  if (!HasUpVar())
+    return false;
+  for (auto& user: users_) {
+    if (!user.instruction().Is<OpenFinallyI>())
+      return true;
   }
-
-  foreach (EnumUser, oEnum, this) {
-      if (!oEnum.Get()->GetI()->Is<OpenFinallyI>()) {
-          return true;
-      }
-  } // for each user
-
   return false;
 } // IsClosure
 
@@ -215,7 +209,7 @@ void Function::Realize(OperandBox* const pBox) {
       m_oCalls.Append(pBox);
 
   } else {
-      m_oUsers.Append(pBox);
+      users_.Append(pBox);
   }
 
   auto const pCaller = pBox->GetI()->GetBB()->GetFunction();
@@ -273,7 +267,7 @@ void Function::Unrealize(OperandBox* const pBox) {
       m_oCalls.Delete(pBox);
 
   } else {
-      m_oUsers.Delete(pBox);
+      users_.Delete(pBox);
   }
 
   auto const pCaller = pBox->GetI()->GetBB()->GetFunction();

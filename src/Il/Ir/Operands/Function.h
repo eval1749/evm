@@ -163,15 +163,6 @@ class Function :
     }
   };
 
-  public: class EnumUser : public Users::Enum {
-    public: EnumUser(const Function& r) : Users::Enum(&r.m_oUsers) {}
-    public: EnumUser(const Function* p) : Users::Enum(&p->m_oUsers) {}
-
-    public: Instruction* GetI() const {
-      ASSERT(!AtEnd()); return Users::Enum::Get()->GetI();
-    }
-  };
-
   // TODO(yosi) 2012-01-29 Do we still use Flag_DynamicExtent?
   public: enum Flag { 
     Flag_DynamicExtent  = 1 << 0,
@@ -255,7 +246,7 @@ class Function :
 
   private: Users m_oCalls;
   private: FrameReg::List m_oFrameRegs;
-  private: Users m_oUsers;
+  private: Users users_;
   private: Users m_oUpVarDefs;
   private: Users m_oVarDefs;
 
