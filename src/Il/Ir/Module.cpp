@@ -56,8 +56,7 @@ Module& Module::Clone(const TypeArgs& type_args) const {
     HashMap_<const Output*, const Output*> out_map;
     for (auto& templ_bb: templ_fn.bblocks()) {
       auto& bb = *bb_map.Get(&templ_bb);
-      foreach (BBlock::EnumI, insts, templ_bb) {
-        auto& templ_inst = *insts.Get();
+      for (const auto& templ_inst: templ_bb.instructions()) {
         auto& inst = Instruction::New(zone, templ_inst.GetOp());
         if (templ_inst.output_type() != *Ty_Void) {
           auto& outy = templ_inst.output_type().Construct(type_args);

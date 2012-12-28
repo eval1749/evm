@@ -54,8 +54,8 @@ PseudoOutput* Function::FindUpVar(const Variable* const pVar) const {
 
   BBlock* pEntryBB = GetEntryBB();
 
-  foreach (BBlock::EnumI, oEnum, pEntryBB) {
-      auto const pUpVarDefI = oEnum.Get()->DynamicCast<UpVarDefI>();
+  for (const auto& inst: pEntryBB->instructions()) {
+      auto const pUpVarDefI = inst.DynamicCast<UpVarDefI>();
 
       if (pUpVarDefI == nullptr) {
           continue;

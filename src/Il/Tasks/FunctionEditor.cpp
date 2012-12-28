@@ -173,8 +173,7 @@ void FunctionEditor::Renumber(Function& fun) {
   auto num_outputs = 0;
   for (auto& bblock: fun.bblocks()) {
     bblock.SetName(++num_bblocks);
-    foreach (BBlock::EnumI, insts, bblock) {
-      auto& inst = *insts.Get();
+    for (auto& inst: bblock.instructions()) {
       inst.SetIndex(++num_insts);
       if (auto const out = inst.output().DynamicCast<SsaOutput>()) {
         out->set_name(++num_outputs);

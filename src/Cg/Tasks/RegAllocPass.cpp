@@ -680,10 +680,9 @@ class SubPassAllocate
 
       PrepareBBlock(pBB);
 
-      foreach (BBlock::EnumI, oEnum, pBB) {
-        auto const pI = oEnum.Get();
-        DEBUG_FORMAT("process %d: %s", pI->GetIndex(), pI);
-        pI->Apply(this);
+      for (auto& inst: pBB->instructions()) {
+        DEBUG_FORMAT("process %d: %s", inst.GetIndex(), inst);
+        inst.Apply(this);
       }
 
       dumpMap();
@@ -1057,10 +1056,8 @@ class SubPassAssign :
       }
     }
 
-    foreach (BBlock::EnumI, oEnum, pBB) {
-      auto const pI = oEnum.Get();
-      pI->Apply(this);
-    }
+    for (auto& inst: pBB->instructions())
+      inst.Apply(this);
   }
 
   private: virtual void Process(Instruction* const pI) override {
@@ -1984,15 +1981,14 @@ class SubPassRa : public Tasklet, protected Mm {
       bblock.SetWork(pExt);
       bblock.SetFlag(HasNoCall);
 
-      foreach (BBlock::EnumI, oEnum, bblock) {
-        auto const pI = oEnum.Get();
-        if (auto const pRx = pI->GetRd()) {
+      for (auto& inst: bblock.instructions()) {
+        if (auto const pRx = inst.GetRd()) {
             DEBUG_FORMAT("Add %s to list", *pRx);
             reg_list_.Append(pRx);
             pRx->SetFlag(NotAcrossCall);
         }
 
-        if (pI->Is<CallI>()) {
+        if (inst.Is<CallI>()) {
           bblock.SetFlag(HasCall);
         }
       }

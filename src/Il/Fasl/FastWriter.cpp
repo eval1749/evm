@@ -221,10 +221,8 @@ void FastWriter::WriteBBlock(const BBlock& bblock) {
   ASSERT(bblock.GetLastI()->Is<LastInstruction>());
   ASSERT(bblock.GetLastI()->GetOutput() == Void);
   ASSERT(&bblock.GetLastI()->output_type() == Ty_Void);
-  foreach (BBlock::EnumI, insts, bblock) {
-    const auto& inst = *insts;
+  for (const auto& inst: bblock.instructions())
     WriteInstruction(inst);
-  }
 }
 
 // Class
@@ -303,8 +301,7 @@ void FastWriter::WriteFunctionBody(const Function& fun) {
       }
       ++num_bblocks;
       bblock.SetName(num_bblocks);
-      foreach (BBlock::EnumI, insts, bblock) {
-        auto& inst = *insts;
+      for (const auto& inst: bblock.instructions()) {
         if (auto const out = inst.GetOutput()) {
           if (out != Void) {
             ++num_outputs;

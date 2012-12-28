@@ -338,9 +338,8 @@ bool CleanTask::TryJumpPhiRet(const JumpI& jump_inst) {
   DEBUG_FORMAT("Fold Jump+Phi+Ret: %s", phi_inst);
 
   // Evaluate instructions in Succ block since we remove edge to succ.
-  foreach (BBlock::EnumI, insts, succ_block) {
-    normalizer_.Add(insts.Get());
-  }
+  for (auto& inst: succ_block.instructions())
+    normalizer_.Add(inst);
 
   auto& box = *phi_inst->GetOperandBox(&curr_block);
   auto& operand = *box.GetOperand();

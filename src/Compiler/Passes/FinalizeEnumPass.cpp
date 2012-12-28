@@ -49,20 +49,18 @@ bool FinalizeEnumPass::FixStaticConstFields(Class* const clazz) {
     NormalizeTasklet normalize_task(session(), fun->module());
 
     auto need_normalize = false;
-    foreach (BBlock::EnumI, insts, start_bb) {
-      auto const inst = insts.Get();
-
-      if (inst->Is<PrologueI>()) {
+    for (auto& inst: start_bb->instructions()) {
+      if (inst.Is<PrologueI>()) {
         continue;
       } // if
 
-      if (inst->Is<RetI>()) {
+      if (inst.Is<RetI>()) {
         continue;
       } // if
 
-      normalize_task.Add(inst);
+      normalize_task.Add(&inst);
 
-      if (inst->Is<FieldPtrI>()) {
+      if (inst.Is<FieldPtrI>()) {
         continue;
       } // if
 
@@ -92,14 +90,12 @@ bool FinalizeEnumPass::FixStaticConstFields(Class* const clazz) {
   {
     NormalizeTasklet normalize_task(session(), fun->module());
     WorkList_<Instruction> removes;
-    foreach (BBlock::EnumI, insts, start_bb) {
-        auto const inst = insts.Get();
-        if (inst->Is<StoreI>()) {
-            removes.Push(inst);
-        } else {
-            normalize_task.Add(inst);
-        } // if
-    } // for
+    for (auto& inst: start_bb->instructions()) {
+      if (inst.Is<StoreI>())
+        removes.Push(&inst);
+      else
+        normalize_task.Add(&inst);
+    }
 
     while (!removes.IsEmpty()) {
       start_bb->RemoveI(*removes.Pop());

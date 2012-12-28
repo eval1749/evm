@@ -119,11 +119,9 @@ void VerifyTask::Process(BBlock* const pBBlock) {
       }
   }
 
-  foreach (BBlock::EnumI, oEnum, pBBlock) {
-    auto const pI = oEnum.Get();
-    if (Verify(*pI)) {
-      pI->Apply(this);
-    }
+  for (auto& inst: pBBlock->instructions()) {
+    if (Verify(inst))
+      inst.Apply(this);
   }
 }
 

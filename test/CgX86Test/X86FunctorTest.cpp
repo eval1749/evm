@@ -23,10 +23,8 @@ class MockFunctor : public X86Functor {
   public: virtual ~MockFunctor() {}
 
   private: virtual void Process(BBlock* bblock) override {
-    foreach (BBlock::EnumI, insts, bblock) {
-      auto const inst = insts.Get();
-      inst->Apply(this);
-    }
+    for (auto& inst: bblock->instructions())
+      inst.Apply(this);
   }
 
   private: virtual void Process(Instruction* inst) override {

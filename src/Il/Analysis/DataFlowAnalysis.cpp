@@ -132,31 +132,31 @@ class RegLiveness {
   // [C]
   //  Computes VarKill[b] and UEVar[b] for specified bblock.
   private: static void ComputeLocal(DataFlowBB& bblock) {
-    BBlock::EnumI oEnumI(bblock);
+    auto it = bblock.instructions().begin();
+    const auto it_end = bblock.instructions().end();
 
     // Process Phi instruction.
-    while (!oEnumI.AtEnd()) {
-      auto const pPhiI = oEnumI.Get()->DynamicCast<PhiI>();
-      if (pPhiI == nullptr) {
+    while (it != it_end) {
+      auto const pPhiI = it->DynamicCast<PhiI>();
+      if (!pPhiI)
         break;
-      }
 
       if (auto const pRd = pPhiI->GetRd()) {
         bblock.SetKill(pRd->GetIndex());
       }
 
-      oEnumI.Next();
+      ++it;
     }
 
     // Process non-Phi instruction.
-    while (!oEnumI.AtEnd()) {
-      auto const pI = oEnumI.Get();
-      oEnumI.Next();
+    while (it != it_end) {
+      auto& inst = *it;
+      ++it;
 
-      for (auto& operand: pI->operands())
+      for (auto& operand: inst.operands())
         MarkUse(bblock, operand.DynamicCast<Register>());
 
-      if (auto const pRd = pI->GetRd()) {
+      if (auto const pRd = inst.GetRd()) {
         bblock.SetKill(pRd->GetIndex());
       }
     }
@@ -215,20 +215,19 @@ class VarLiveness {
   // ComputeLocal
   //  Computes VarKill[b] and UEVar[b] for specified bblock.
   private: static void ComputeLocal(DataFlowBB& bblock) {
-    foreach (BBlock::EnumI, oEnum, bblock) {
-      auto const pI = oEnum.Get();
-      if (pI->Is<LoadI>()) {
-        if (Variable* const pVar = mapRegToVar(pI->GetRx())) {
+    for (auto& inst: bblock.instructions()) {
+      if (inst.Is<LoadI>()) {
+        if (Variable* const pVar = mapRegToVar(inst.GetRx())) {
           if (!bblock.IsKill(pVar->GetIndex())) {
             bblock.SetIn(pVar->GetIndex());
           }
         }
-      } else if (pI->Is<StoreI>()) {
-        if (Variable* const pVar = mapRegToVar(pI->GetRx())) {
+      } else if (inst.Is<StoreI>()) {
+        if (Variable* const pVar = mapRegToVar(inst.GetRx())) {
           bblock.SetKill(pVar->GetIndex());
         }
-      } else if (pI->Is<VarDefI>()) {
-        bblock.SetKill(pI->variable().GetIndex());
+      } else if (inst.Is<VarDefI>()) {
+        bblock.SetKill(inst.variable().GetIndex());
       }
     }
   }

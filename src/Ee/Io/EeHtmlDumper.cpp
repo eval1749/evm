@@ -124,8 +124,7 @@ void EeHtmlDumper::DumpFunction(const Function& fun) {
   auto index = 0;
   for (auto& bb: fun.bblocks()) {
     writer_.WriteLine("<a id='b%p'>%s</a>:<br>", bb, bb);
-    foreach (BBlock::EnumI, insts, bb) {
-      auto& inst = *insts.Get();
+    for (const auto& inst: bb.instructions()) {
       writer_.Write("L%04d: ", index);
       DumpInstruction(inst);
       writer_.Write("<br>");

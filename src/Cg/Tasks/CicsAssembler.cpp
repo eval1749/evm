@@ -199,10 +199,8 @@ void CicsAssembler::FixSpans() {
             continue;
         }
 
-        foreach (BBlock::EnumI, oEnum, bblock) {
-            auto const pI = oEnum.Get();
-            pI->SetIndex(pI->GetIndex() + iDiff);
-        } // for each insn
+        for (auto& inst: bblock.instructions())
+            inst.SetIndex(inst.GetIndex() + iDiff);
     } // for each bblock
 } // FixSpans
 

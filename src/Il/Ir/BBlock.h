@@ -69,6 +69,7 @@ class BBlock
   // For DataFlowBB
   protected: BBlock() {}
 
+  public: const Instructions& instructions() const { return *this; }
   public: Label& label() const { return *m_oLabels.GetFirst(); }
   public: int name() const { return m_iName; }
 

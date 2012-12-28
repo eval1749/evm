@@ -1030,10 +1030,9 @@ class X86AsmTasklet :
       pExt->m_ofs   = m_oCodeBuf.GetOffset();
       pExt->m_nAddr = m_oCodeBuf.GetAddr();
 
-      foreach (BBlock::EnumI, oEnum, pBBlock) {
-          auto const pI = oEnum.Get();
-          pI->SetIndex(m_oCodeBuf.GetAddr());
-          pI->Apply(this);
+      for (auto& inst: pBBlock->instructions()) {
+          inst.SetIndex(m_oCodeBuf.GetAddr());
+          inst.Apply(this);
       }
   }
 

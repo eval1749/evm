@@ -213,9 +213,7 @@ void Dumper::DumpFunction(const Function& fun) {
   for (auto& bb: fun.bblocks()) {
     auto last_line = -1;
     writer_.WriteLine("<a id='b%p'>%s</a>:<br>", bb, bb);
-    foreach (BBlock::EnumI, insts, bb) {
-      auto& inst = *insts.Get();
-
+    for (const auto& inst: bb.instructions()) {
       auto& source_info = inst.source_info();
       if (source_info.HasInfo() && source_info.line() != last_line) {
         auto source = cm_unit_.GetLine(source_info.GetLine());
